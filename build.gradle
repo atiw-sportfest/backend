@@ -1,0 +1,20 @@
+plugins {
+    id "com.scuilion.syntastic" version "0.3.8"
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply from: 'gradle/gretty.plugin'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'javax.ws.rs:javax.ws.rs-api:2.1-m09'
+
+    compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.26-b03'
+    compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.26-b03'
+
+    providedCompile 'javax.servlet:servlet-api:2.5'
+}
