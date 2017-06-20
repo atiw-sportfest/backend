@@ -21,8 +21,9 @@ Method | URL
 **POST**|`/user`
 **DELETE**|`/user/{uid}`
 
-`{uid}: User ID`    
-`{kid}: Klassen ID`  
-`{did}: Disziplin ID`  
-`{id}:  Ergebnis ID`  
-
+&nbsp;|&nbsp;
+---|---
+`{uid}`| User ID   
+`{kid}`| Klassen ID
+`{did}`| Disziplin ID
+`{eid}`| Ergebnis ID 
