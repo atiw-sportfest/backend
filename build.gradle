@@ -1,9 +1,21 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.2.3'
+    }
+}
+
 plugins {
     id "com.scuilion.syntastic" version "0.3.8"
 }
 
 apply plugin: 'java'
 apply plugin: 'war'
+apply plugin: 'com.bmuschko.cargo'
+
 apply from: 'gradle/gretty.plugin'
 
 repositories {
@@ -17,4 +29,16 @@ dependencies {
     compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.26-b03'
 
     providedCompile 'javax.servlet:servlet-api:2.5'
+}
+
+def cargoHost = System.getenv('CARGO_HOST')
+
+cargo {
+    containerId = System.getenv('CARGO_CONTAINER')
+
+    remote {
+            hostname = cargoHost ? cargoHost : 'localhost'
+            username = System.getenv('CARGO_USER')
+            password = System.getenv('CARGO_PASS')
+    }
 }
