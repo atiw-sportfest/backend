@@ -3,21 +3,25 @@ Namespace: de.atiw.sportfest
 
 ## Endpoints
 
-REST call | URL
+Method | URL
 ----------|------------------------
-GET |/backend/klasse
-GET |/backend/klasse/{kid}
-PUT |/backend/klasse
-GET |/backend/ergebnis/{did}
-POST|/backend/ergebnis/{did}/{eid}
-PUT |/backend/ergebnis/{did}
-DELETE|/backend/ergebnis/{did}/{eid}
-GET|/backend/disziplin
-POST|/backend/disziplin/{did}
+GET |/klasse
+GET |/klasse/{kid}
+PUT |/klasse
+GET |/ergebnis/{did}
+POST|/ergebnis/{did}/{eid}
+PUT |/ergebnis/{did}
+DELETE|/ergebnis/{did}/{eid}
+GET|/disziplin
+POST|/disziplin/{did}
 PUT|/schueler
-GET|/backend/user/login
-GET|/backend/user/privileges
-GET|/backend/user
-POST|/backend/user
-DELETE|/backend/user/{uid}
+GET|/user/login
+GET|/user/privileges
+GET|/user
+POST|/user
+DELETE|/user/{uid}
 
+{uid}: User ID
+{kid}: Klassen ID
+{did}: Disziplin ID
+{eid}: Ergebnis ID
