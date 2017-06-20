@@ -21,7 +21,7 @@ GET|/user
 POST|/user
 DELETE|/user/{uid}
 
-{uid}: User ID
-{kid}: Klassen ID
-{did}: Disziplin ID
-{eid}: Ergebnis ID
+{uid}: User ID  
+{kid}: Klassen ID  
+{did}: Disziplin ID  
+{eid}: Ergebnis ID  
