@@ -2,7 +2,7 @@
 Namespace: de.atiw.sportfest
 
 ## Endpoints
-
+```
 Method | URL
 ----------|------------------------
 GET |/klasse
@@ -25,3 +25,4 @@ DELETE|/user/{uid}
 {kid}: Klassen ID  
 {did}: Disziplin ID  
 {eid}: Ergebnis ID  
+```
