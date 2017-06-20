@@ -6,7 +6,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 
-@Path("/ergebnisse")
+@Path("/ergebnis")
 public class ErgebnisResource {
 
 	@GET
