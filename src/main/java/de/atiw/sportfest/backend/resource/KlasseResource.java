@@ -10,18 +10,18 @@ public class KlasseResource {
 
 	@GET
 	@Path("/{kid}")
-    public String getKlasse(String klassenID){
-        return "Klasse";
+    public String getKlasse(String kid){
+        return "GET Klasse(kid)";
     }
 	
 	@GET
 	public String getKlasse(){
-		return "Klasse2";
+		return "GET Klasse";
 	}
 	
 	@PUT
-	public void putKlasse(){
-		
+	public String putKlasse(){
+		return "PUT Klasse";
 	}
 	
 }
