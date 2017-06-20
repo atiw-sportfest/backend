@@ -42,3 +42,7 @@ cargo {
             password = System.getenv('CARGO_PASS')
     }
 }
+
+task redeployWar(type: com.bmuschko.gradle.cargo.tasks.remote.CargoRedeployRemote){}
+
+redeployWar.dependsOn war
