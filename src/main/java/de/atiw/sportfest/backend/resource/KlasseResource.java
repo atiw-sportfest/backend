@@ -5,7 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 
-@Path("/klassen")
+@Path("/klasse")
 public class KlasseResource {
 
 	@GET
