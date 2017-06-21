@@ -4,24 +4,25 @@ package de.atiw.sportfest.backend.resource;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
-@Path("/klassen")
+@Path("/klasse")
 public class KlasseResource {
 
 	@GET
 	@Path("/{kid}")
-    public String getKlasse(String klassenID){
-        return "Klasse";
+    public String getKlasse(@PathParam("kid") String kid){
+		return "Die Klassenbezeichnung ist: "+kid;
     }
 	
 	@GET
 	public String getKlasse(){
-		return "Klasse2";
+		return "GET Klasse";
 	}
 	
 	@PUT
-	public void putKlasse(){
-		
+	public String putKlasse(){
+		return "PUT Klasse";
 	}
 	
 }
