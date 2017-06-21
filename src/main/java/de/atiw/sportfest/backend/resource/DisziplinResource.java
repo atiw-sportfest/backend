@@ -49,5 +49,6 @@ public class DisziplinResource {
     @Path("/{did}")
     public void postDiziplin(@PathParam("did") String did){
     	//Disziplin.setName(did);
+
     }
 }
