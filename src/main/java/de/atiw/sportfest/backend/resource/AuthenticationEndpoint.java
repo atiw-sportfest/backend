@@ -1,5 +1,13 @@
 package de.atiw.sportfest.backend.resource;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.crypto.MacProvider;
+
+import java.security.Key;
+import java.sql.Date;
+import java.util.Calendar;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -14,8 +22,8 @@ public class AuthenticationEndpoint {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response authenticateUser(@FormParam("username") String username, 
-                                     @FormParam("password") String password) {
+    public Response authenticateUser(@FormParam("username") String username,
+            @FormParam("password") String password) {
 
         try {
 
@@ -30,27 +38,33 @@ public class AuthenticationEndpoint {
 
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
-        }      
+        }
     }
 
     private void authenticate(String username, String password) throws Exception {
-    	// Authenticate against db
-       
-    	int a=1;
-    	if(a==1){
-    		
-    	}
-    	else{
-    		// Throw an Exception if the credentials are invalid
-    		throw new Exception();
-    	}
+        // Authenticate against db
+
+        int a=1;
+        if(a==1){
+
+        }
+        else{
+            // Throw an Exception if the credentials are invalid
+            throw new Exception();
+        }
     }
 
     private String issueToken(String username) {
-        // Issue a token (can be a random String persisted to a database or a JWT token)
-        // The issued token must be associated to a user
-        // Return the issued token
-    	// JWT ?!
-    	return "token";
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, 15);
+
+        return Jwts.builder()
+            .setAudience("You")
+            .setSubject("Joe")
+            .setIssuedAt(Calendar.getInstance().getTime())
+            .setExpiration(cal.getTime())
+            .signWith(SignatureAlgorithm.HS512, "secret".getBytes())
+            .compact();
     }
 }
