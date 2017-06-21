@@ -8,7 +8,7 @@ read -p "Tomcat Password: " CARGO_PASS
 cat >>$HOME/.bashrc <<EOF
 
 # Config for Cargo
-export CARGO_HOST=localhost CARGO_USER=$CARGO_USER CARGO_PASS=$CARGO_PASS
+export CARGO_HOST=localhost CARGO_USER=$CARGO_USER CARGO_PASS=$CARGO_PASS CARGO_CONTAINER=tomcat8x
 EOF
 
 echo >&2 "Added config to your $HOME/.bashrc"
