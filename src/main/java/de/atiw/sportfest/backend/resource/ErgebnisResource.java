@@ -31,8 +31,8 @@ public class ErgebnisResource {
     }
 	
 	@DELETE
-	@Path("/{did}")
-	 public String deleteErgebnis(@PathParam("eid") String eid){
+	@Path("/{did}/{eid}")
+	 public String deleteErgebnis(@PathParam("did") String did, @PathParam("eid") String eid){
 		return "DELETE "+ eid;
     }
 }
