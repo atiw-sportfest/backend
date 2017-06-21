@@ -13,6 +13,7 @@ Method | URL
 **PUT**|`/ergebnis/{did}`
 **DELETE**|`/ergebnis/{did}/{eid}`
 **GET**|`/disziplin`
+**GET**|`/disziplin/{did}`
 **POST**|`/disziplin/{did}`
 **PUT**|`/schueler`
 **GET**|`/user/login`
