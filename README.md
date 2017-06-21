@@ -27,3 +27,16 @@ Method | URL
 `{kid}`| Klassen ID
 `{did}`| Disziplin ID
 `{eid}`| Ergebnis ID 
+
+## MySQL Database connection
+
+Download MySQL Driver and put into `$CATALINA_BASE/lib`: [MySQL Connector/J](https://dev.mysql.com/downloads/connector/j/).
+
+Add this to `$CATALINA_BASE/conf/context.xml` (replace `USER`, `PASSWORD`, `HOST` and `DATABASE`):
+
+    <Resource name="jdbc/sportfest" auth="Container" type="javax.sql.DataSource"
+        maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+        username="USER" password="PASSWORD" driverClassName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://HOST:3306/DATABASE"/>
+
+See also [Tomcat JNDI Resources How-To](https://tomcat.apache.org/tomcat-8.0-doc/jndi-resources-howto.html#JDBC_Data_Sources), [JNDI Resources Examples (MySQL)](https://tomcat.apache.org/tomcat-8.0-doc/jndi-datasource-examples-howto.html#MySQL_DBCP_Example).
