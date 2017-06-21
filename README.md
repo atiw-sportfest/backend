@@ -25,5 +25,5 @@ Method | URL
 `{uid}: User ID`    
 `{kid}: Klassen ID`  
 `{did}: Disziplin ID`  
-`{id}:  Ergebnis ID`  
+`{eid}:  Ergebnis ID`  
 
