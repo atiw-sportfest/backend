@@ -28,6 +28,21 @@ Method | URL
 `{did}`| Disziplin ID
 `{eid}`| Ergebnis ID 
 
+## Compile
+
+Git Bash: `./gradlew war`
+
+`backend.war` ist dann in `build/libs`.
+
+## Deploy local Tomcat
+
+git bash
+
+(User und Passwort ersetzen)
+
+    export CARGO_USER=user CARGO_PASS=pass CARGO_HOST=localhost CARGO_CONTAINER=tomcat8x
+    ./gradlew redeployWar
+
 ## MySQL Database connection
 
 Download MySQL Driver and put into `$CATALINA_BASE/lib`: [MySQL Connector/J](https://dev.mysql.com/downloads/connector/j/).
