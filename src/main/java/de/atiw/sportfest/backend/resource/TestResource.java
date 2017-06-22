@@ -13,7 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import de.atiw.sportfest.backend.resource.Secured;
+import de.atiw.sportfest.backend.auth.Secured;
 
 @Path("/test")
 public class TestResource {
