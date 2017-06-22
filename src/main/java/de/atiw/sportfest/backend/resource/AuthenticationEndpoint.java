@@ -45,7 +45,7 @@ public class AuthenticationEndpoint {
 			String token = issueToken(username, priv);
 
 			// Return the token on the response;
-			return Response.ok(token + ", " + priv).build();
+			return Response.ok(token).build();
 
 		} catch (Exception e) {
 			return Response.status(Response.Status.UNAUTHORIZED).build();
