@@ -35,6 +35,8 @@ public class DisziplinResource {
 			while(rs.next()){
 				returner.add(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6)));
 			}
+
+            connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
