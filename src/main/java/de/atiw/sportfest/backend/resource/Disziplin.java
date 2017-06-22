@@ -2,13 +2,30 @@ package de.atiw.sportfest.backend.resource;
 
 public class Disziplin {
 
-	
+	private int did;
 	private String name;
 	private String beschreibung;
 	private int minTeilnehmer;
 	private int maxTeilnehmer;
 	private boolean teamleistung;
 	
+	
+	public Disziplin(int did, String name, String beschreibung, int minTeilnehmer, int maxTeilnehmer, boolean temleistung){
+		this.did = did;
+		this.name = name;
+		this.beschreibung = beschreibung;
+		this.minTeilnehmer = minTeilnehmer;
+		this.maxTeilnehmer = maxTeilnehmer;
+		this.teamleistung = temleistung;
+	}
+	
+	
+	public int getDid() {
+		return did;
+	}
+	public void setDid(int did) {
+		this.did = did;
+	}
 	public String getName() {
 		return name;
 	}
