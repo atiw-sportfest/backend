@@ -7,19 +7,27 @@ public class Disziplin {
 	private String beschreibung;
 	private int minTeilnehmer;
 	private int maxTeilnehmer;
+	private boolean aktiviert;
+	private String regeln;
 	private boolean teamleistung;
 	
 	
-	public Disziplin(int did, String name, String beschreibung, int minTeilnehmer, int maxTeilnehmer, boolean temleistung){
+	public Disziplin(){
+		
+	}
+	
+	public Disziplin(int did, String name, String beschreibung, int minTeilnehmer, int maxTeilnehmer, boolean aktiviert, String regeln, boolean temleistung){
 		this.did = did;
 		this.name = name;
 		this.beschreibung = beschreibung;
 		this.minTeilnehmer = minTeilnehmer;
 		this.maxTeilnehmer = maxTeilnehmer;
+		this.aktiviert = aktiviert;
+		this.regeln = regeln;
 		this.teamleistung = temleistung;
 	}
 	
-	
+
 	public int getDid() {
 		return did;
 	}
@@ -49,6 +57,18 @@ public class Disziplin {
 	}
 	public void setMaxTeilnehmer(int maxTeilnehmer) {
 		this.maxTeilnehmer = maxTeilnehmer;
+	}
+	public boolean isAktiviert() {
+		return aktiviert;
+	}
+	public void setAktiviert(boolean aktiviert) {
+		this.aktiviert = aktiviert;
+	}
+	public String getRegeln() {
+		return regeln;
+	}
+	public void setRegeln(String regeln) {
+		this.regeln = regeln;
 	}
 	public boolean isTeamleistung() {
 		return teamleistung;
