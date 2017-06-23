@@ -79,7 +79,7 @@ public class Disziplin {
 		
 	}
 	public static ResultSet getRSgetOne(Connection conn, String did) throws SQLException{			 
-		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnzeigen(?)");
+		PreparedStatement ps = conn.prepareStatement("Call DisziplinenAnzeigen(?)");
 		ps.setString(1, did);
 		return ps.executeQuery();
 	}
