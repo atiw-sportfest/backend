@@ -1,10 +1,9 @@
 package de.atiw.sportfest.backend.resource;
 
 
-import java.sql.PreparedStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.annotation.Resource;
@@ -31,12 +30,13 @@ public class DisziplinResource {
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public ArrayList<Disziplin> getAlleDiziplinen(){
         ArrayList<Disziplin> returner = new ArrayList<Disziplin>();
-    	try {			
-			ResultSet rs = Disziplin.getRSgetAll(db.getConnection());
-			db.getConnection().close();
+    	try {		
+    		Connection connection = db.getConnection();
+			ResultSet rs = Disziplin.getRSgetAll(connection);
 			while(rs.next()){
 				returner.add(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7)));
 			}
+			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -48,8 +48,9 @@ public class DisziplinResource {
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Disziplin getDiziplin(@PathParam("did") String did){
 	    try{
-			ResultSet rs = Disziplin.getRSgetOne(db.getConnection(), did);
-			db.getConnection().close();
+	    	Connection connection = db.getConnection();
+			ResultSet rs = Disziplin.getRSgetOne(connection, did);
+			connection.close();
 		if(rs.next())
 			return new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7));
 		else 
@@ -72,8 +73,9 @@ public class DisziplinResource {
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public boolean putDisziplin(Disziplin disziplin){
     	try {
-			Disziplin.getRSput(db.getConnection(), disziplin);
-			db.getConnection().close();
+    		Connection connection = db.getConnection();
+			Disziplin.getRSput(connection, disziplin);
+			connection.close();;
 			return true;
     	} catch (SQLException e) {
 			return false;

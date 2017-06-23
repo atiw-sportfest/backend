@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import jersey.repackaged.com.google.common.base.Throwables;
-
 public class Disziplin {
 
 	private int did;
@@ -77,15 +75,16 @@ public class Disziplin {
 	}
 	
 	public static ResultSet getRSgetAll(Connection conn) throws SQLException{		
-		return conn.prepareStatement("Call DisziplinenAnzeigen(); ").getResultSet();
+		return conn.prepareStatement("Call DisziplinenAnzeigen(); ").executeQuery();
+		
 	}
 	public static ResultSet getRSgetOne(Connection conn, String did) throws SQLException{			 
 		PreparedStatement ps = conn.prepareStatement("Call DisziplinenAnzeigen(?)");
 		ps.setString(1, did);
-		return ps.getResultSet();
+		return ps.executeQuery();
 	}
 	public static void getRSput(Connection conn, Disziplin disziplin) throws SQLException{			 
-		PreparedStatement ps = conn.prepareStatement("Call DisziplinenAnzeigen(?,?,?,?,?,?,?)");
+		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnlegen(?,?,?,?,?,?)");
 		ps.setString(1,disziplin.getName() );
 		ps.setString(2,disziplin.getBeschreibung());
 		ps.setInt(3,disziplin.getMinTeilnehmer());
