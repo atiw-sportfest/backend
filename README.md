@@ -15,7 +15,7 @@ Method | URL
 **GET**|`/disziplin`
 **POST**|`/disziplin/{did}`
 **PUT**|`/schueler`
-**GET**|`/user/login`
+**POST**|`/user/login`
 **GET**|`/user/privileges`
 **GET**|`/user`
 **POST**|`/user`
