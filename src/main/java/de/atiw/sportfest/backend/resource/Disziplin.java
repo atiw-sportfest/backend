@@ -1,4 +1,4 @@
-package de.atiw.sportfest.backend.resource;
+package de.atiw.sportfest.backend.resource.jaxb;
 
 public class Disziplin {
 
