@@ -20,20 +20,20 @@ public class SecureResource {
     @Secured({ Role.admin })
     @Path("admin")
     public String admin(){
-        return "You got Role.admin!";
+        return "admin";
     }
 
     @GET
     @Secured({ Role.schiedsrichter })
     @Path("schiedsrichter")
     public String schiedsrichter(){
-        return "You got Role.schiedsrichter!";
+        return "schiedsrichter";
     }
 
     @GET
     @Secured({ Role.gast })
     @Path("gast")
     public String gast(){
-        return "You got Role.gast!";
+        return "gast";
     }
 }

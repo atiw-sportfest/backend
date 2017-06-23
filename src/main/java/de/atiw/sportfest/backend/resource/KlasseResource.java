@@ -6,6 +6,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
+import de.atiw.sportfest.backend.auth.Role;
+import de.atiw.sportfest.backend.auth.Secured;
+
 @Path("/klasse")
 public class KlasseResource {
 
@@ -21,6 +24,7 @@ public class KlasseResource {
 	}
 	
 	@PUT
+	@Secured({Role.admin})
 	public String putKlasse(){
 		return "PUT Klasse";
 	}

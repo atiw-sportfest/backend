@@ -5,6 +5,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
+import de.atiw.sportfest.backend.auth.Role;
+import de.atiw.sportfest.backend.auth.Secured;
+
 @Path("/user")
 public class UserResource {
 
@@ -27,11 +30,13 @@ public class UserResource {
 	}
 	
 	@POST
+	@Secured(Role.admin)
 	public String setUser(){
 		return "user set";
 	}
 	
 	@DELETE
+	@Secured({Role.admin})
 	@Path("/{uid}")
 	public String delUser(){
 		return "tot";
