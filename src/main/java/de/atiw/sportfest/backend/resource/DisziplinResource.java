@@ -1,5 +1,7 @@
 package de.atiw.sportfest.backend.resource;
 
+
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,12 +31,11 @@ public class DisziplinResource {
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public ArrayList<Disziplin> getAlleDiziplinen(){
         ArrayList<Disziplin> returner = new ArrayList<Disziplin>();
-    	try {
-    		Statement stmt = db.getConnection().createStatement();
-			String query = "Call DisziplinenAnzeigen();  ";
-			ResultSet rs = stmt.executeQuery( query );
+    	try {			
+			ResultSet rs = Disziplin.getRSgetAll(db.getConnection());
+			db.getConnection().close();
 			while(rs.next()){
-				returner.add(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getString(7), rs.getBoolean(8)));
+				returner.add(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -46,12 +47,11 @@ public class DisziplinResource {
     @Path("/{did}")
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Disziplin getDiziplin(@PathParam("did") String did){
-    	try{
-		Statement stmt = db.getConnection().createStatement();
-		String query = "Call disziplinanzeigen("+ Integer.parseInt(did)+");";
-		ResultSet rs = stmt.executeQuery( query );
+	    try{
+			ResultSet rs = Disziplin.getRSgetOne(db.getConnection(), did);
+			db.getConnection().close();
 		if(rs.next())
-			return new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getString(7), rs.getBoolean(8));
+			return new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7));
 		else 
 			return null;
     	}catch(SQLException e){
@@ -72,10 +72,8 @@ public class DisziplinResource {
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public boolean putDisziplin(Disziplin disziplin){
     	try {
-			Statement stmt = db.getConnection().createStatement();
-		
-			String query = String.format("Call DisziplinAnlegen (%s,%s,%s)", disziplin.getName(), disziplin.getBeschreibung(), disziplin.getMinTeilnehmer(), disziplin.getMaxTeilnehmer(), disziplin.isAktiviert(), disziplin.getRegeln(), disziplin.isTeamleistung());
-			stmt.executeQuery(query);
+			Disziplin.getRSput(db.getConnection(), disziplin);
+			db.getConnection().close();
 			return true;
     	} catch (SQLException e) {
 			return false;
