@@ -15,7 +15,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
+import de.atiw.sportfest.backend.ExceptionResponse;
 import de.atiw.sportfest.backend.auth.Role;
 import de.atiw.sportfest.backend.auth.Secured;
 import de.atiw.sportfest.backend.resource.jaxb.Disziplin;
@@ -48,23 +50,19 @@ public class DisziplinResource {
     @GET
     @Path("/{did}")
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    public Disziplin getDiziplin(@PathParam("did") String did){
+    public Response getDiziplin(@PathParam("did") String did){
 	    try{
 	    	Connection connection = db.getConnection();
 			ResultSet rs = Disziplin.getRSgetOne(connection, did);
 			connection.close();
 		if(rs.next())
-			return new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7));
+			return Response.ok(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7))).build();
 		else 
-			return null;
-    	}catch(SQLException e){
-    		//Log Datei
-    		return null;
-    	}
-    	catch (Exception e) {
+			return Response.status(Response.Status.NOT_FOUND).build();
+	    }catch (Exception e) {
     		//Parse
     		//Log Datei
-			return null;
+	    	return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ExceptionResponse(e)).build();
 		}
 		
     }
