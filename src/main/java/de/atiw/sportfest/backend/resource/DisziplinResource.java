@@ -5,9 +5,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -16,6 +16,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import de.atiw.sportfest.backend.auth.Role;
+import de.atiw.sportfest.backend.auth.Secured;
 import de.atiw.sportfest.backend.resource.jaxb.Disziplin;
 
 @Path("/disziplin")
@@ -69,6 +71,7 @@ public class DisziplinResource {
     
     
     @PUT
+    @Secured({ Role.admin })
 	@Path("/{did}")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public boolean putDisziplin(Disziplin disziplin){
