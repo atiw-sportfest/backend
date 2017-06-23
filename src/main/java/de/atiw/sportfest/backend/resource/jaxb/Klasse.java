@@ -1,5 +1,7 @@
 package de.atiw.sportfest.backend.resource.jaxb;
 
+import java.util.ArrayList;
+
 public class Klasse {
 	
 	
