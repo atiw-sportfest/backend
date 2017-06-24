@@ -16,9 +16,7 @@ public class Disziplin {
 	private boolean teamleistung;
 	
 	
-	public Disziplin(){
-		
-	}
+	public Disziplin(){}
 	
 	public Disziplin(int did, String name, String beschreibung, int minTeilnehmer, int maxTeilnehmer, boolean aktiviert, boolean temleistung){
 		this.did = did;
@@ -79,11 +77,11 @@ public class Disziplin {
 		
 	}
 	public static ResultSet getRSgetOne(Connection conn, String did) throws SQLException{			 
-		PreparedStatement ps = conn.prepareStatement("Call DisziplinenAnzeigen(?)");
+		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnzeigen(?)");
 		ps.setString(1, did);
 		return ps.executeQuery();
 	}
-	public static void getRSput(Connection conn, Disziplin disziplin) throws SQLException{			 
+	public static void getRSput(Connection conn, Disziplin disziplin) throws SQLException{	
 		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnlegen(?,?,?,?,?,?)");
 		ps.setString(1,disziplin.getName() );
 		ps.setString(2,disziplin.getBeschreibung());
@@ -91,6 +89,22 @@ public class Disziplin {
 		ps.setInt(4,disziplin.getMaxTeilnehmer());
 		ps.setBoolean(5,disziplin.isTeamleistung());
 		ps.setBoolean(6,disziplin.isAktiviert());
+		ps.execute();
+	}
+	public static void getRSpost(Connection conn, Disziplin disziplin) throws SQLException{	
+		PreparedStatement ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?)");
+		ps.setInt(1,disziplin.getDid());
+		ps.setString(2,disziplin.getName() );
+		ps.setString(3,disziplin.getBeschreibung());
+		ps.setInt(4,disziplin.getMinTeilnehmer());
+		ps.setInt(5,disziplin.getMaxTeilnehmer());
+		ps.setBoolean(6,disziplin.isTeamleistung());
+		ps.setBoolean(7,disziplin.isAktiviert());
+		ps.execute();
+	}
+	public static void getRSdelete(Connection conn, String did) throws SQLException{	
+		PreparedStatement ps = conn.prepareStatement("Call DisziplinLoeschen(?)");
+		ps.setString(1,did);
 		ps.execute();
 	}
 	

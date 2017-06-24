@@ -1,5 +1,6 @@
 package de.atiw.sportfest.backend;
 
+import javax.ws.rs.core.Response;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -56,6 +57,10 @@ public class ExceptionResponse {
 
     public void setData(Object data) {
         this.data = data;
+    }
+    
+    public static Response internalServerError(Exception e){
+		return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ExceptionResponse(e)).build();
     }
 }
 
