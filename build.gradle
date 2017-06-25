@@ -20,7 +20,9 @@ apply plugin: 'com.bmuschko.cargo'
 
 repositories {
     jcenter()
-    mavenLocal()
+    maven {
+        url "https://atiw-sportfest.github.io/repo"
+    }
 }
 
 dependencies {
