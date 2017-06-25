@@ -1,5 +1,9 @@
 package de.atiw.sportfest.backend.rules;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.codehaus.commons.compiler.CompileException;
+
 public class Regel {
 
     private String expression;
@@ -42,6 +46,10 @@ public class Regel {
 
     public void setNext(Regel next) {
         this.next = next;
+    }
+
+    public int evaluate(Variable[] vars, Object[] values) throws CompileException, InvocationTargetException {
+       return RegelEvaluator.instance.evaluate(new EvaluationParameters(expression, vars), values) ? points : next != null ? next.evaluate(vars, values) : 0;
     }
 
 }

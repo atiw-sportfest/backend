@@ -41,6 +41,9 @@ dependencies {
     // Import/Export Anmeldebögen
     compile 'de.atiw.sportfest:anmeldeboegen:0.1.0'
 
+    // Regelauswertung
+    compile 'org.codehaus.janino:janino:3.0.7'
+
     providedCompile 'javax.servlet:servlet-api:2.5'
 }
 
