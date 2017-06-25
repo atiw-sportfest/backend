@@ -1,4 +1,6 @@
 # backend
+![Travis Status](https://travis-ci.org/atiw-sportfest/backend.svg?branch=master-new)
+
 Namespace: de.atiw.sportfest
 
 ## Endpoints
