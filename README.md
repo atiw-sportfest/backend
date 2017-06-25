@@ -28,6 +28,18 @@ Method | URL
 `{did}`| Disziplin ID
 `{eid}`| Ergebnis ID 
 
+## Abhänigkeiten
+
+Bis auf weiteres muss für den Im- und Export der Anmeldebögen das dazugehörige Projekt manuell ins lokale Maven-Repo installiert werden. Dazu einfach das Repo [atiw-sportfest/anmeldeboegen](https://github.com/atiw-sportfest/anmeldeboegen) clonen und dann via Gradle lokal installieren.
+
+**In einem anderen Verzeichnis als diesem:**
+
+Git Bash:
+
+    git clone https://github.com/atiw-sportfest/anmeldeboegen.git
+    cd anmeldeboegen
+    ./gradlew install
+
 ## Compile
 
 Git Bash: `./gradlew war`
