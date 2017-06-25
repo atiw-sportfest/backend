@@ -93,7 +93,10 @@ public class Schueler {
 		ps.setString(2, schueler.getName());
 		ps.setInt(3, schueler.getKid());
 		ps.setInt(4, schueler.getGid());
-		ps.execute();
+		ResultSet rs = ps.executeQuery();
+		if(rs.next()){
+			schueler.setSid(rs.getInt(1));
+		}
 	}
 
 	public static void getRSdelete(Connection conn, String sid) throws SQLException {
