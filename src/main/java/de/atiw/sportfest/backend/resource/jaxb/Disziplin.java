@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
+import de.atiw.sportfest.backend.rules.Regel;
+import de.atiw.sportfest.backend.rules.Variable;
 
 public class Disziplin {
 
@@ -14,7 +18,8 @@ public class Disziplin {
 	private int maxTeilnehmer;
 	private boolean aktiviert;
 	private boolean teamleistung;
-	
+    private Regel ersteRegel;
+    private List<Variable> variablen;
 	
 	public Disziplin(){}
 	
@@ -107,5 +112,20 @@ public class Disziplin {
 		ps.setString(1,did);
 		ps.execute();
 	}
-	
+
+    public Regel getErsteRegel() {
+        return ersteRegel;
+    }
+
+    public void setErsteRegel(Regel ersteRegel) {
+        this.ersteRegel = ersteRegel;
+    }
+
+    public List<Variable> getVariablen() {
+        return variablen;
+    }
+
+    public void setVariablen(List<Variable> variablen) {
+        this.variablen = variablen;
+    }
 }
