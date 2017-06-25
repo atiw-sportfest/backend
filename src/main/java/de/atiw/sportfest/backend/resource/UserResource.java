@@ -24,6 +24,7 @@ public class UserResource {
 	
 	@GET
     @Secured
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/privileges")
     public Jws<Claims> getPrivileges(@HeaderParam("Authorization") String token){
         return Jwts.parser().setSigningKey("secret".getBytes()).parseClaimsJws(token.substring("Bearer ".length()));
