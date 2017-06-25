@@ -16,10 +16,11 @@ apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'com.bmuschko.cargo'
 
-apply from: 'gradle/gretty.plugin'
+//apply from: 'gradle/gretty.plugin'
 
 repositories {
     jcenter()
+    mavenLocal()
 }
 
 dependencies {
@@ -34,6 +35,9 @@ dependencies {
 
     // JWT
     compile 'io.jsonwebtoken:jjwt:0.7.0'
+
+    // Import/Export Anmeldebögen
+    compile 'de.atiw.sportfest:anmeldeboegen:0.1.0'
 
     providedCompile 'javax.servlet:servlet-api:2.5'
 }
