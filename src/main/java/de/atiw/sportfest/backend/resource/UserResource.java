@@ -15,8 +15,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import de.atiw.sportfest.backend.ExceptionResponse;
 import de.atiw.sportfest.backend.auth.Role;
 import de.atiw.sportfest.backend.auth.Secured;
+import de.atiw.sportfest.backend.auth.TokenParser;
 
 @Path("/user")
 public class UserResource {
@@ -26,8 +28,16 @@ public class UserResource {
     @Secured
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/privileges")
-    public Jws<Claims> getPrivileges(@HeaderParam("Authorization") String token){
-        return Jwts.parser().setSigningKey("secret".getBytes()).parseClaimsJws(token.substring("Bearer ".length()));
+    public Response getPrivileges(@HeaderParam("Authorization") String token){
+        try {
+            return Response.ok(new TokenParser(token.substring("Bearer ".length())).verify().getClaims()).build();
+        } catch(Exception e){
+            // TokenParser throws a Exception if token is invalid,
+            // but a invalid token would never reach this method,
+            // the AuthenticationFilter would abort any request with an invalid token.
+            // That's why Internal Server Error and not Forbidden.
+            return ExceptionResponse.internalServerError(e);
+        }
 	}
 	
 	@POST
