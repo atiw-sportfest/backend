@@ -1,5 +1,6 @@
 package de.atiw.sportfest.backend.resource;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -12,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import de.atiw.sportfest.backend.ExceptionResponse;
 import de.atiw.sportfest.backend.auth.Secured;
 import de.atiw.sportfest.backend.resource.jaxb.Disziplin;
 import de.atiw.sportfest.backend.rules.EvaluationParameters;
@@ -65,10 +67,19 @@ public class TestResource {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Path("disziplin")
     public Response testDisziplin(){
-        return Response.ok(makeTestDisziplin()).build();
+
+        try {
+
+            return Response.ok(makeTestDisziplin()).build();
+
+        } catch(Exception e){
+
+            return ExceptionResponse.internalServerError(e);
+
+        }
     }
 
-    private Disziplin makeTestDisziplin(){
+    private Disziplin makeTestDisziplin() throws SQLException, Disziplin.NotFoundException {
 
         // m
         // >=2.4 -> 10
@@ -102,9 +113,8 @@ public class TestResource {
                  counter = new Variable("Counter", "", "counter", integerT),
                  weite = new Variable("Weite", "", "weite", floatT);
 
-        Disziplin d = new Disziplin();
+        Disziplin d = Disziplin.getOne(db.getConnection(), "6");
 
-        d.setRegeln(regel1);
         d.setVariablen(Arrays.asList(new Variable[]{ geschlecht, weite }));
 
         return d;
