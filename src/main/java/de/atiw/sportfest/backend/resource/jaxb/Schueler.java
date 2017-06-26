@@ -4,17 +4,36 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Schueler {
 
+    @XmlElement
 	private Integer sid;
+
+    @XmlElement
 	private String vorname;
+
+    @XmlElement
 	private String name;
+
+    @XmlElement
 	private Integer kid;
+
+    @XmlElement
 	private Integer gid;
 
 	public Schueler() {}
 	
+	public Schueler(String vorname, String name, Integer kid, Integer gid) {
+		this.vorname = vorname;
+		this.name = name;
+		this.kid = kid;
+		this.gid = gid;
+	}
+
 	public Schueler(Integer sid, String vorname, String name, Integer kid, Integer gid) {
 		this.sid = sid;
 		this.vorname = vorname;
@@ -27,40 +46,20 @@ public class Schueler {
 		return sid;
 	}
 
-	public void setSid(Integer sid) {
-		this.sid = sid;
-	}
-
 	public String getVorname() {
 		return vorname;
-	}
-
-	public void setVorname(String vorname) {
-		this.vorname = vorname;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public Integer getKid() {
 		return kid;
 	}
 
-	public void setKid(Integer kid) {
-		this.kid = kid;
-	}
-
 	public Integer getGid() {
 		return gid;
-	}
-
-	public void setGid(Integer gid) {
-		this.gid = gid;
 	}
 
 	public static ResultSet getRSgetAll(Connection conn) throws SQLException {
@@ -89,13 +88,13 @@ public class Schueler {
 
 	public static void getRSput(Connection conn, Schueler schueler) throws SQLException {
 		PreparedStatement ps = conn.prepareStatement("Call SchuelerAnlegen(?, ?, ?, ?);");
-		ps.setString(1, schueler.getVorname());
-		ps.setString(2, schueler.getName());
-		ps.setInt(3, schueler.getKid());
-		ps.setInt(4, schueler.getGid());
+		ps.setString(1, schueler.vorname);
+		ps.setString(2, schueler.name);
+		ps.setInt(3, schueler.kid);
+		ps.setInt(4, schueler.gid);
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()){
-			schueler.setSid(rs.getInt(1));
+			schueler.sid = rs.getInt(1);
 		}
 	}
 
