@@ -19,13 +19,28 @@ import de.atiw.sportfest.backend.rules.Variable;
 @XmlRootElement
 public class Disziplin {
 
+    @XmlElement
 	private Integer did;
+
+    @XmlElement
 	private String name;
+
+    @XmlElement
 	private String beschreibung;
+
+    @XmlElement
 	private Integer minTeilnehmer;
+
+    @XmlElement
 	private Integer maxTeilnehmer;
+
+    @XmlElement
 	private Boolean aktiviert;
+
+    @XmlElement
 	private Boolean teamleistung;
+
+    @XmlElement
     private List<Variable> variablen;
 
     @XmlElement
@@ -41,50 +56,6 @@ public class Disziplin {
 		this.maxTeilnehmer = maxTeilnehmer;
 		this.aktiviert = aktiviert;
 		this.teamleistung = temleistung;
-	}
-
-
-	public Integer getDid() {
-		return did;
-	}
-	public void setDid(Integer did) {
-		this.did = did;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getBeschreibung() {
-		return beschreibung;
-	}
-	public void setBeschreibung(String beschreibung) {
-		this.beschreibung = beschreibung;
-	}
-	public Integer getMinTeilnehmer() {
-		return minTeilnehmer;
-	}
-	public void setMinTeilnehmer(Integer minTeilnehmer) {
-		this.minTeilnehmer = minTeilnehmer;
-	}
-	public Integer getMaxTeilnehmer() {
-		return maxTeilnehmer;
-	}
-	public void setMaxTeilnehmer(Integer maxTeilnehmer) {
-		this.maxTeilnehmer = maxTeilnehmer;
-	}
-	public Boolean isAktiviert() {
-		return aktiviert;
-	}
-	public void setAktiviert(Boolean aktiviert) {
-		this.aktiviert = aktiviert;
-	}
-	public Boolean isTeamleistung() {
-		return teamleistung;
-	}
-	public void setTeamleistung(Boolean teamleistung) {
-		this.teamleistung = teamleistung;
 	}
 
     /**
@@ -130,14 +101,14 @@ public class Disziplin {
 
 		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnlegen(?,?,?,?,?,?)");
 
-		ps.setString(1,disziplin.getName() );
-		ps.setString(2,disziplin.getBeschreibung());
+		ps.setString(1, disziplin.name);
+		ps.setString(2, disziplin.beschreibung);
 
-		ps.setInt(3,disziplin.getMinTeilnehmer());
-		ps.setInt(4,disziplin.getMaxTeilnehmer());
+		ps.setInt(3, disziplin.minTeilnehmer);
+		ps.setInt(4, disziplin.maxTeilnehmer);
 
-		ps.setBoolean(5,disziplin.isTeamleistung());
-		ps.setBoolean(6,disziplin.isAktiviert());
+		ps.setBoolean(5, disziplin.teamleistung);
+		ps.setBoolean(6, disziplin.aktiviert);
 
 		ps.execute();
 
@@ -159,25 +130,32 @@ public class Disziplin {
      */
 	public static void edit(Connection conn, Disziplin disziplin) throws SQLException, NotFoundException {
 
-        Disziplin orig = Disziplin.getOne(conn, Integer.toString(disziplin.getDid()));
+        Disziplin orig = Disziplin.getOne(conn, Integer.toString(disziplin.did), false);
 
 		PreparedStatement ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?)");
 
-		ps.setInt(1,disziplin.getDid());
+		ps.setInt(1, orig.did); // Never change id
 
-		ps.setString(2, disziplin.getName() != null ? disziplin.getName() : orig.getName());
-		ps.setString(3, disziplin.getBeschreibung() != null ? disziplin.getBeschreibung() : orig.getBeschreibung());
+		ps.setString(2, disziplin.name != null ? disziplin.name : orig.name);
+		ps.setString(3, disziplin.beschreibung != null ? disziplin.beschreibung : orig.beschreibung);
 
-		ps.setInt(4, disziplin.getMinTeilnehmer() != 0 ? disziplin.getMinTeilnehmer() : orig.getMinTeilnehmer());
-		ps.setInt(5, disziplin.getMaxTeilnehmer() != 0 ? disziplin.getMaxTeilnehmer() : orig.getMaxTeilnehmer());
+		ps.setInt(4, disziplin.minTeilnehmer != null ? disziplin.minTeilnehmer : orig.minTeilnehmer);
+		ps.setInt(5, disziplin.maxTeilnehmer != null ? disziplin.maxTeilnehmer : orig.maxTeilnehmer);
 
-		ps.setBoolean(6, disziplin.isTeamleistung());
-		ps.setBoolean(7, disziplin.isAktiviert());
+		ps.setBoolean(6, disziplin.teamleistung != null ? disziplin.teamleistung : orig.teamleistung);
+		ps.setBoolean(7, disziplin.aktiviert != null ? disziplin.aktiviert : orig.aktiviert);
 
 		ps.execute();
 
         conn.close();
 	}
+
+    public static void edit(Connection con, String did, Disziplin disziplin) throws SQLException, NotFoundException, NumberFormatException {
+
+        disziplin.did = Integer.parseInt(did);
+
+        edit(con, disziplin);
+    }
 
     /**
      * Löscht eine Disziplin aus der Datenbank.
@@ -211,6 +189,21 @@ public class Disziplin {
      * @throws Disziplin.NotFoundException wenn keine Disziplin mit dieser ID gefunden wurde.
      */
 	public static Disziplin getOne(Connection conn, String did) throws SQLException, NotFoundException {
+        return getOne(conn, did, false);
+    }
+
+    /**
+     * Ruft eine Disziplin aus der Datenbank ab.
+     *
+     * Lädt zusätzlich die Regeln aus der Datenbank.
+     *
+     * @param conn die zu nutzende Datenbankverbindung
+     * @param did die ID der abzurufenden Disziplin
+     * @param close ob die Connection geschlossen werden soll
+     * @return die gefundene Disziplin
+     * @throws Disziplin.NotFoundException wenn keine Disziplin mit dieser ID gefunden wurde.
+     */
+	public static Disziplin getOne(Connection conn, String did, boolean close) throws SQLException, NotFoundException {
 
 		ResultSet rs = getRSgetOne(conn, did);
         Disziplin one = null;
@@ -220,7 +213,8 @@ public class Disziplin {
 
         one.regeln = Regel.getAll(conn, Integer.parseInt(did));
 
-        conn.close();
+        if(close)
+            conn.close();
 
         if(one != null)
             return one;

@@ -1,11 +1,18 @@
 package de.atiw.sportfest.backend.resource.jaxb;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class User {
-	
-	
-	
+
+    @XmlElement
 	private String name;
+
+    @XmlElement
 	private String passwort;
+
+    @XmlElement
 	private Integer berid;
 	
 	
@@ -19,19 +26,13 @@ public class User {
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
+
 	public String getPasswort() {
 		return passwort;
 	}
-	public void setPasswort(String passwort) {
-		this.passwort = passwort;
-	}
+
 	public Integer getBerid() {
 		return berid;
 	}
-	public void setBerid(Integer berid) {
-		this.berid = berid;
-	}	
+
 }

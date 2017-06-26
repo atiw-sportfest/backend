@@ -36,7 +36,7 @@ public class SchuelerResource{
 
 	@Resource(name="jdbc/sportfest")
     DataSource db;
-	
+
 	@GET
 	@Path("/{sid}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -48,7 +48,7 @@ public class SchuelerResource{
 			ResultSet rs = Schueler.getRSgetOne(connection, sid);
 			if(rs.next()){
 				response = Response.ok(new Schueler(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5))).build();
-			}else{ 
+			}else{
 				response = Response.status(Response.Status.NOT_FOUND).build();
 			}
     	} catch (Exception e) {
@@ -60,9 +60,9 @@ public class SchuelerResource{
 				e.printStackTrace();
 			}
 		}
-    	return response;			
+    	return response;
     }
-	
+
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getSchueler(){
@@ -87,7 +87,7 @@ public class SchuelerResource{
 		}
     	return response;
 	}
-	
+
 	@GET
     @Path("/klasse/{kid}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -113,7 +113,7 @@ public class SchuelerResource{
 		}
     	return response;
 	}
-	
+
 	@GET
     @Path("/klasse/{kid}/disziplin/{did}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -139,7 +139,7 @@ public class SchuelerResource{
 		}
     	return response;
 	}
-	
+
 	@PUT
     @Secured({ Role.admin })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -161,7 +161,7 @@ public class SchuelerResource{
 		}
     	return response;
     }
-    
+
 	@POST
 	@Path("/upload")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -171,39 +171,43 @@ public class SchuelerResource{
 
 		Connection connection = null;
 		Response response = null;
-		
+
 		String output = "";
-		
+
 		String line;
 		BufferedReader br = new BufferedReader(new InputStreamReader(uploadedInputStream));
+
 		try {
+
 			connection = db.getConnection();
 			List<Klasse> klassen = new ArrayList<>();
+
 			while((line = br.readLine()) != null){
-				Schueler neuerSchueler = new Schueler();
-				neuerSchueler.setSid(-1);
+
 				String[] split = line.split(",");
-				neuerSchueler.setName(split[0]);
-				neuerSchueler.setVorname(split[1]);				
-				neuerSchueler.setGid((split[3].equals("m")?1:2));
-				
+                String klassenName = split[2];
 
-				Klasse neueKlasse = new Klasse();
-				neueKlasse.setName(split[2]);
+				Klasse neueKlasse = null;
 
-				neueKlasse.setKid(-2);
 				for(Klasse klasse : klassen){
-					if(klasse.getName().equals(neueKlasse.getName())){
-						neueKlasse.setKid(klasse.getKid());
+					if(klasse.getName().equals(klassenName)){
+                        neueKlasse = klasse;
 					}
 				}
-				if(neueKlasse.getKid() == -2){
-					output += "PUT KLASSE: "+neueKlasse.getName()+"<br>";
+
+				if(neueKlasse == null){
+
+                    neueKlasse = new Klasse(klassenName);
+
+					output += "PUT KLASSE: " + klassenName + "<br>";
 					Klasse.getRSput(connection, neueKlasse);
+
 					klassen.add(neueKlasse);
 				}
 
-				neuerSchueler.setKid(neueKlasse.getKid());
+                // vorname name kid gid
+				Schueler neuerSchueler = new Schueler(split[1], split[0], neueKlasse.getKid(), split[3].equals("m") ? 1 : 2);
+
 
 				output += "PUT SCHUELER: "+neuerSchueler.getVorname()+" "+neuerSchueler.getName()+"<br>";
 				Schueler.getRSput(connection, neuerSchueler);
@@ -219,11 +223,11 @@ public class SchuelerResource{
 				e.printStackTrace();
 			}
 		}
-		
+
 		return response;
 
 	}
-	
+
     @DELETE
     @Path("/{sid}")
     @Secured({ Role.admin })

@@ -5,9 +5,13 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -119,6 +123,32 @@ public class TestResource {
 
         return d;
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("value")
+    public Response testValues(){
+        return Response.ok(new ValueTest()).build();
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("value")
+    public Response testValues(ValueTest v){
+        return Response.ok(v).build();
+    }
+}
+
+@XmlRootElement
+class ValueTest {
+
+    @XmlElement
+    Integer i;
+    @XmlElement
+    Boolean b;
+    @XmlElement
+    Float f;
 
 }
 

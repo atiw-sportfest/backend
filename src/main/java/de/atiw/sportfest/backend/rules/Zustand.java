@@ -1,10 +1,19 @@
 package de.atiw.sportfest.backend.rules;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Zustand {
 
-    String name,
-           desc,
-           id;
+    @XmlElement
+    String name;
+
+    @XmlElement
+    String desc;
+
+    @XmlElement
+    String id;
 
     public Zustand() {
     }
@@ -19,24 +28,12 @@ public class Zustand {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getDesc() {
         return desc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }
 

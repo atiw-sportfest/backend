@@ -34,7 +34,10 @@ public class Regel {
     @XmlElement
     private Integer index;
 
+    @XmlElement
     private String expression;
+
+    @XmlElement
     private int points;
 
     @XmlTransient
@@ -58,26 +61,13 @@ public class Regel {
         return expression;
     }
 
-    public void setExpression(String expression) {
-        this.expression = expression;
-    }
-
     public int getPoints() {
         return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
     }
 
     @XmlTransient
     public Regel getNext() {
         return next;
-    }
-
-    @XmlTransient
-    public void setNext(Regel next) {
-        this.next = next;
     }
 
     @XmlTransient
