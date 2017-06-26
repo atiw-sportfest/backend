@@ -60,7 +60,14 @@ public class ExceptionResponse {
     }
     
     public static Response internalServerError(Exception e){
-		return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ExceptionResponse(e)).build();
+
+		Response.ResponseBuilder responseB = Response.status(Response.Status.INTERNAL_SERVER_ERROR);
+
+        if(e != null)
+            responseB = responseB.entity(new ExceptionResponse(e));
+
+        return responseB.build();
+
     }
 }
 

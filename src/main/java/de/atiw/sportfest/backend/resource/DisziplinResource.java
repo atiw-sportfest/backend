@@ -35,55 +35,34 @@ public class DisziplinResource {
     @GET
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response getAlleDiziplinen(){
-        Response response = null; 
-		Connection connection = null;
-    	try {		
-    		connection = db.getConnection();
-    		ArrayList<Disziplin> returner = new ArrayList<Disziplin>();
-			ResultSet rs = Disziplin.getRSgetAll(connection);
-			while(rs.next()){
-				returner.add(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7)));
-			}
-			response = Response.ok(returner).build();
+    	try {
+
+            return Response.ok(Disziplin.getAll(db.getConnection())).build();
+
 		} catch (SQLException e) {
-			e.printStackTrace();
-			response = ExceptionResponse.internalServerError(e);
-		}finally{
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+
+			return ExceptionResponse.internalServerError(e);
 		}
-      	return response;
     }
     
     @GET
     @Path("/{did}")
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Response getDiziplin(@PathParam("did") String did){
-        Response response = null; 
-		Connection connection = null;
-	    try{
-	    	connection = db.getConnection();
-			ResultSet rs = Disziplin.getRSgetOne(connection, did);
-			if(rs.next()){
-				response = Response.ok(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7))).build();
-			}else {
-				response = Response.status(Response.Status.NOT_FOUND).build();
-			}
-    	}
-    	catch (Exception e) {
-			response = ExceptionResponse.internalServerError(e);
-		}finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+
+	    try {
+
+            return Response.ok(Disziplin.getOne(db.getConnection(), did)).build();
+
+    	} catch (Disziplin.NotFoundException e){
+
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+
+        } catch (Exception e) {
+
+			return ExceptionResponse.internalServerError(e);
+
 		}
-	    return response;
-		
     }
     
     
@@ -91,67 +70,84 @@ public class DisziplinResource {
     @Secured({ Role.admin })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response putDisziplin(Disziplin disziplin){
-		Response response = null;
-		Connection connection = null;
+
     	try {
-    		connection = db.getConnection();
-			Disziplin.put(connection, disziplin);
-			response = Response.ok().build();
+
+			Disziplin.create(db.getConnection(), disziplin);
+            return Response.ok().build();
+
     	} catch (SQLException e) {
-    		response = ExceptionResponse.internalServerError(e);
-		}finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+
+    		return ExceptionResponse.internalServerError(e);
+
 		}
-    	return response;
     }
     
     @POST
     @Secured({ Role.admin })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response editDisziplin(Disziplin disziplin){
-		Response response = null;
-		Connection connection = null;
+
+        if(disziplin.getDid() == 0) // by default, AUTO_INCREMENT starts at 1
+            return Response.status(Response.Status.BAD_REQUEST).entity("Missing ID in body!").build();
+
     	try {
-    		connection = db.getConnection();
-			Disziplin.post(connection, disziplin);
-			response = Response.ok().build();
+
+			Disziplin.edit(db.getConnection(), disziplin);
+			return Response.ok().build();
+
+        } catch (Disziplin.NotFoundException e){
+
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+
     	} catch (SQLException e) {
-    		response = ExceptionResponse.internalServerError(e);
-		}finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+
+    		return ExceptionResponse.internalServerError(e);
+
 		}
-    	return response;
+
     }
     
+    @POST
+    @Secured({ Role.admin })
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @Path("/{did}")
+	public Response editDisziplin(@PathParam("did") String did, Disziplin disziplin){
+
+    	try {
+
+            disziplin.setDid(Integer.parseInt(did));
+
+			Disziplin.edit(db.getConnection(), disziplin);
+			return Response.ok().build();
+
+        } catch (Disziplin.NotFoundException e){
+
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+
+    	} catch (SQLException e) {
+
+    		return ExceptionResponse.internalServerError(e);
+
+		}
+
+    }
+
     @DELETE
     @Path("/{did}")
     @Secured({ Role.admin })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response deleteDisziplin(@PathParam("did") String did){
-		Response response = null;
-		Connection connection = null;
+
     	try {
-    		connection = db.getConnection();
-			Disziplin.delete(connection, did);
-			connection.close();
-			response = Response.ok().build();
+
+			Disziplin.delete(db.getConnection(), did);
+			return Response.ok().build();
+
     	} catch (SQLException e) {
-    		response = ExceptionResponse.internalServerError(e);
-		}finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+
+    		return ExceptionResponse.internalServerError(e);
+
 		}
-    	return response;
     }
 }
