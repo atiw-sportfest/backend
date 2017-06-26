@@ -7,20 +7,20 @@ import java.sql.SQLException;
 
 public class Klasse {
 
-	private int kid;
+	private Integer kid;
 	private String name;
 	
 	public Klasse() {}
 	
-	public Klasse(int kid, String name){
+	public Klasse(Integer kid, String name){
 		this.kid = kid;
 		this.name = name;
 	}
 
-	public int getKid() {
+	public Integer getKid() {
 		return kid;
 	}
-	public void setKid(int kid) {
+	public void setKid(Integer kid) {
 		this.kid = kid;
 	}
 	public String getName() {

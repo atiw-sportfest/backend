@@ -6,10 +6,10 @@ public class User {
 	
 	private String name;
 	private String passwort;
-	private int berid;
+	private Integer berid;
 	
 	
-	public User(String name, String passwort, int berid){
+	public User(String name, String passwort, Integer berid){
 		this.name = name;
 		this.passwort = passwort;
 		this.berid = berid;
@@ -28,10 +28,10 @@ public class User {
 	public void setPasswort(String passwort) {
 		this.passwort = passwort;
 	}
-	public int getBerid() {
+	public Integer getBerid() {
 		return berid;
 	}
-	public void setBerid(int berid) {
+	public void setBerid(Integer berid) {
 		this.berid = berid;
 	}	
 }
