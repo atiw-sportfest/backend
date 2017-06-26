@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.atiw.sportfest.backend.rules.Regel;
@@ -86,7 +87,7 @@ public class Disziplin {
 		ps.setString(1, did);
 		return ps.executeQuery();
 	}
-	public static void getRSput(Connection conn, Disziplin disziplin) throws SQLException{	
+	public static void put(Connection conn, Disziplin disziplin) throws SQLException{	
 		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnlegen(?,?,?,?,?,?)");
 		ps.setString(1,disziplin.getName() );
 		ps.setString(2,disziplin.getBeschreibung());
@@ -96,7 +97,7 @@ public class Disziplin {
 		ps.setBoolean(6,disziplin.isAktiviert());
 		ps.execute();
 	}
-	public static void getRSpost(Connection conn, Disziplin disziplin) throws SQLException{	
+	public static void post(Connection conn, Disziplin disziplin) throws SQLException{	
 		PreparedStatement ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?)");
 		ps.setInt(1,disziplin.getDid());
 		ps.setString(2,disziplin.getName() );
@@ -107,12 +108,31 @@ public class Disziplin {
 		ps.setBoolean(7,disziplin.isAktiviert());
 		ps.execute();
 	}
-	public static void getRSdelete(Connection conn, String did) throws SQLException{	
+	public static void delete(Connection conn, String did) throws SQLException{	
 		PreparedStatement ps = conn.prepareStatement("Call DisziplinLoeschen(?)");
 		ps.setString(1,did);
 		ps.execute();
 	}
 
+	public Disziplin getOne(Connection conn, String did) throws SQLException{
+		ResultSet rs;
+		rs = getRSgetOne(conn, did);
+		if(rs.next()){
+			return new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7));
+		}
+		return null;
+	}
+	
+	public ArrayList<Disziplin> getAll(Connection conn) throws SQLException{
+		ResultSet rs;
+		rs = getRSgetAll(conn);
+		ArrayList<Disziplin> returner = new ArrayList<>();
+		while(rs.next()){
+			returner.add(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7)));
+		}
+		return returner;
+	}
+	
     public Regel getErsteRegel() {
         return ersteRegel;
     }

@@ -95,7 +95,7 @@ public class DisziplinResource {
 		Connection connection = null;
     	try {
     		connection = db.getConnection();
-			Disziplin.getRSput(connection, disziplin);
+			Disziplin.put(connection, disziplin);
 			response = Response.ok().build();
     	} catch (SQLException e) {
     		response = ExceptionResponse.internalServerError(e);
@@ -117,7 +117,7 @@ public class DisziplinResource {
 		Connection connection = null;
     	try {
     		connection = db.getConnection();
-			Disziplin.getRSpost(connection, disziplin);
+			Disziplin.post(connection, disziplin);
 			response = Response.ok().build();
     	} catch (SQLException e) {
     		response = ExceptionResponse.internalServerError(e);
@@ -140,7 +140,7 @@ public class DisziplinResource {
 		Connection connection = null;
     	try {
     		connection = db.getConnection();
-			Disziplin.getRSdelete(connection, did);
+			Disziplin.delete(connection, did);
 			connection.close();
 			response = Response.ok().build();
     	} catch (SQLException e) {
