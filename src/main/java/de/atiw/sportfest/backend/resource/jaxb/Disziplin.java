@@ -19,13 +19,13 @@ import de.atiw.sportfest.backend.rules.Variable;
 @XmlRootElement
 public class Disziplin {
 
-	private int did;
+	private Integer did;
 	private String name;
 	private String beschreibung;
-	private int minTeilnehmer;
-	private int maxTeilnehmer;
-	private boolean aktiviert;
-	private boolean teamleistung;
+	private Integer minTeilnehmer;
+	private Integer maxTeilnehmer;
+	private Boolean aktiviert;
+	private Boolean teamleistung;
     private List<Variable> variablen;
 
     @XmlElement
@@ -33,7 +33,7 @@ public class Disziplin {
 
 	public Disziplin(){}
 
-	public Disziplin(int did, String name, String beschreibung, int minTeilnehmer, int maxTeilnehmer, boolean aktiviert, boolean temleistung){
+	public Disziplin(Integer did, String name, String beschreibung, Integer minTeilnehmer, Integer maxTeilnehmer, Boolean aktiviert, Boolean temleistung){
 		this.did = did;
 		this.name = name;
 		this.beschreibung = beschreibung;
@@ -44,10 +44,10 @@ public class Disziplin {
 	}
 
 
-	public int getDid() {
+	public Integer getDid() {
 		return did;
 	}
-	public void setDid(int did) {
+	public void setDid(Integer did) {
 		this.did = did;
 	}
 	public String getName() {
@@ -62,28 +62,28 @@ public class Disziplin {
 	public void setBeschreibung(String beschreibung) {
 		this.beschreibung = beschreibung;
 	}
-	public int getMinTeilnehmer() {
+	public Integer getMinTeilnehmer() {
 		return minTeilnehmer;
 	}
-	public void setMinTeilnehmer(int minTeilnehmer) {
+	public void setMinTeilnehmer(Integer minTeilnehmer) {
 		this.minTeilnehmer = minTeilnehmer;
 	}
-	public int getMaxTeilnehmer() {
+	public Integer getMaxTeilnehmer() {
 		return maxTeilnehmer;
 	}
-	public void setMaxTeilnehmer(int maxTeilnehmer) {
+	public void setMaxTeilnehmer(Integer maxTeilnehmer) {
 		this.maxTeilnehmer = maxTeilnehmer;
 	}
-	public boolean isAktiviert() {
+	public Boolean isAktiviert() {
 		return aktiviert;
 	}
-	public void setAktiviert(boolean aktiviert) {
+	public void setAktiviert(Boolean aktiviert) {
 		this.aktiviert = aktiviert;
 	}
-	public boolean isTeamleistung() {
+	public Boolean isTeamleistung() {
 		return teamleistung;
 	}
-	public void setTeamleistung(boolean teamleistung) {
+	public void setTeamleistung(Boolean teamleistung) {
 		this.teamleistung = teamleistung;
 	}
 

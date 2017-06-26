@@ -2,17 +2,17 @@ package de.atiw.sportfest.backend.resource.jaxb;
 
 public class Ergebnis {
 
-	private int eid;
-	private int did;
+	private Integer eid;
+	private Integer did;
 	private String name;
 	private String beschreibung;
 	private String variablenname;
-	private int bewid;
-	private int istzustand;
+	private Integer bewid;
+	private Integer istzustand;
 	
 	
 	
-	public Ergebnis(int eid, int did, String name, String beschreibung, String variablenname, int bewid, int istzustand){
+	public Ergebnis(Integer eid, Integer did, String name, String beschreibung, String variablenname, Integer bewid, Integer istzustand){
 		this.eid = eid;
 		this.did = did;
 		this.name = name;
@@ -22,16 +22,16 @@ public class Ergebnis {
 		this.istzustand = istzustand;
 	}
 	
-	public int getEid() {
+	public Integer getEid() {
 		return eid;
 	}
-	public void setEid(int eid) {
+	public void setEid(Integer eid) {
 		this.eid = eid;
 	}
-	public int getDid() {
+	public Integer getDid() {
 		return did;
 	}
-	public void setDid(int did) {
+	public void setDid(Integer did) {
 		this.did = did;
 	}
 	public String getName() {
@@ -52,16 +52,16 @@ public class Ergebnis {
 	public void setVariablenname(String variablenname) {
 		this.variablenname = variablenname;
 	}
-	public int getBewid() {
+	public Integer getBewid() {
 		return bewid;
 	}
-	public void setBewid(int bewid) {
+	public void setBewid(Integer bewid) {
 		this.bewid = bewid;
 	}
-	public int getIstzustand() {
+	public Integer getIstzustand() {
 		return istzustand;
 	}
-	public void setIstzustand(int istzustand) {
+	public void setIstzustand(Integer istzustand) {
 		this.istzustand = istzustand;
 	}	
 }

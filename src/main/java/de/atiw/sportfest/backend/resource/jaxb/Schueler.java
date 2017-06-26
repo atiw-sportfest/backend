@@ -7,15 +7,15 @@ import java.sql.SQLException;
 
 public class Schueler {
 
-	private int sid;
+	private Integer sid;
 	private String vorname;
 	private String name;
-	private int kid;
-	private int gid;
+	private Integer kid;
+	private Integer gid;
 
 	public Schueler() {}
 	
-	public Schueler(int sid, String vorname, String name, int kid, int gid) {
+	public Schueler(Integer sid, String vorname, String name, Integer kid, Integer gid) {
 		this.sid = sid;
 		this.vorname = vorname;
 		this.name = name;
@@ -23,11 +23,11 @@ public class Schueler {
 		this.gid = gid;
 	}
 
-	public int getSid() {
+	public Integer getSid() {
 		return sid;
 	}
 
-	public void setSid(int sid) {
+	public void setSid(Integer sid) {
 		this.sid = sid;
 	}
 
@@ -47,19 +47,19 @@ public class Schueler {
 		this.name = name;
 	}
 
-	public int getKid() {
+	public Integer getKid() {
 		return kid;
 	}
 
-	public void setKid(int kid) {
+	public void setKid(Integer kid) {
 		this.kid = kid;
 	}
 
-	public int getGid() {
+	public Integer getGid() {
 		return gid;
 	}
 
-	public void setGid(int gid) {
+	public void setGid(Integer gid) {
 		this.gid = gid;
 	}
 
