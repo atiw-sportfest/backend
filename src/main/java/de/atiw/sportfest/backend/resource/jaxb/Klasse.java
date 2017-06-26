@@ -12,6 +12,10 @@ public class Klasse {
 	
 	public Klasse() {}
 	
+    public Klasse(String name){
+        this.name = name;
+    }
+
 	public Klasse(Integer kid, String name){
 		this.kid = kid;
 		this.name = name;
@@ -43,10 +47,11 @@ public class Klasse {
 	
 	public static void getRSput(Connection conn, Klasse klasse) throws SQLException{	
 		PreparedStatement ps = conn.prepareStatement("Call KlasseAnlegen(?)");
-		ps.setString(1,klasse.getName());
+		ps.setString(1, klasse.name);
+
 		ResultSet rs = ps.executeQuery();
 		if(rs.next()){
-			klasse.setKid(rs.getInt(1));
+			klasse.kid = rs.getInt(1);
 		}
 	}
 	

@@ -176,30 +176,39 @@ public class SchuelerResource{
 		
 		String line;
 		BufferedReader br = new BufferedReader(new InputStreamReader(uploadedInputStream));
+
 		try {
+
 			connection = db.getConnection();
 			List<Klasse> klassen = new ArrayList<>();
+
 			while((line = br.readLine()) != null){
-				Schueler neuerSchueler = new Schueler();
-				neuerSchueler.setSid(-1);
+
 				String[] split = line.split(",");
+                String klassenName = split[2];
+
+				Schueler neuerSchueler = new Schueler();
+
+				neuerSchueler.setSid(-1);
 				neuerSchueler.setName(split[0]);
 				neuerSchueler.setVorname(split[1]);				
 				neuerSchueler.setGid((split[3].equals("m")?1:2));
 				
+				Klasse neueKlasse = null;
 
-				Klasse neueKlasse = new Klasse();
-				neueKlasse.setName(split[2]);
-
-				neueKlasse.setKid(-2);
 				for(Klasse klasse : klassen){
-					if(klasse.getName().equals(neueKlasse.getName())){
-						neueKlasse.setKid(klasse.getKid());
+					if(klasse.getName().equals(klassenName)){
+                        neueKlasse = klasse;
 					}
 				}
-				if(neueKlasse.getKid() == -2){
-					output += "PUT KLASSE: "+neueKlasse.getName()+"<br>";
+
+				if(neueKlasse == null){
+
+                    neueKlasse = new Klasse(klassenName);
+
+					output += "PUT KLASSE: " + klassenName + "<br>";
 					Klasse.getRSput(connection, neueKlasse);
+
 					klassen.add(neueKlasse);
 				}
 
