@@ -8,6 +8,7 @@ import io.jsonwebtoken.impl.crypto.MacProvider;
 import java.security.Key;
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -55,17 +56,19 @@ public class AuthenticationEndpoint {
 	private Role authenticate(String username, String password) throws Exception {
 		Connection conn = null;
 		Role priv = Role.gast;
-		
+
 		try {
 			conn = db.getConnection();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 		try {
-			Statement stmt = conn.createStatement();
-			// todo
-			String query = "call gibBerechtigung(\""+username+"\", \""+password+"\");";
-			ResultSet rs = stmt.executeQuery(query);
+
+			PreparedStatement ps = conn.prepareStatement("Call gibBerechtigung(?,?);");
+			ps.setString(1, username);
+			ps.setString(2, password);
+			ResultSet rs = ps.executeQuery();
+
 			if (rs.next()) {
 
 				int role = rs.getInt(1);
@@ -83,7 +86,7 @@ public class AuthenticationEndpoint {
 				}
 			}
 		} catch (SQLException sqle) {
-			
+
 		}
 
 		return priv;
