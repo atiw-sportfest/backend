@@ -88,8 +88,8 @@ public class DisziplinResource {
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response editDisziplin(Disziplin disziplin){
 
-        if(disziplin.getDid() == 0) // by default, AUTO_INCREMENT starts at 1
-            return Response.status(Response.Status.BAD_REQUEST).entity("Missing ID in body!").build();
+        //if(disziplin.getDid() == 0) // by default, AUTO_INCREMENT starts at 1
+        //    return Response.status(Response.Status.BAD_REQUEST).entity("Missing ID in body!").build();
 
     	try {
 
@@ -116,9 +116,7 @@ public class DisziplinResource {
 
     	try {
 
-            disziplin.setDid(Integer.parseInt(did));
-
-			Disziplin.edit(db.getConnection(), disziplin);
+			Disziplin.edit(db.getConnection(), did, disziplin);
 			return Response.ok().build();
 
         } catch (Disziplin.NotFoundException e){
