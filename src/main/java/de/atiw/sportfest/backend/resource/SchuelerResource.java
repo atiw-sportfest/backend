@@ -1,15 +1,20 @@
 package de.atiw.sportfest.backend.resource;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -17,9 +22,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
 import de.atiw.sportfest.backend.ExceptionResponse;
 import de.atiw.sportfest.backend.auth.Role;
 import de.atiw.sportfest.backend.auth.Secured;
+import de.atiw.sportfest.backend.resource.jaxb.Klasse;
 import de.atiw.sportfest.backend.resource.jaxb.Schueler;
 
 @Path("/schueler")
@@ -153,6 +162,68 @@ public class SchuelerResource{
     	return response;
     }
     
+	@POST
+	@Path("/upload")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response uploadFile(
+			@FormDataParam("file") InputStream uploadedInputStream,
+			@FormDataParam("file") FormDataContentDisposition fileDetail) {
+
+		Connection connection = null;
+		Response response = null;
+		
+		String output = "";
+		
+		String line;
+		BufferedReader br = new BufferedReader(new InputStreamReader(uploadedInputStream));
+		try {
+			connection = db.getConnection();
+			List<Klasse> klassen = new ArrayList<>();
+			while((line = br.readLine()) != null){
+				Schueler neuerSchueler = new Schueler();
+				neuerSchueler.setSid(-1);
+				String[] split = line.split(",");
+				neuerSchueler.setName(split[0]);
+				neuerSchueler.setVorname(split[1]);				
+				neuerSchueler.setGid((split[3].equals("m")?1:2));
+				
+
+				Klasse neueKlasse = new Klasse();
+				neueKlasse.setName(split[2]);
+
+				neueKlasse.setKid(-2);
+				for(Klasse klasse : klassen){
+					if(klasse.getName().equals(neueKlasse.getName())){
+						neueKlasse.setKid(klasse.getKid());
+					}
+				}
+				if(neueKlasse.getKid() == -2){
+					output += "PUT KLASSE: "+neueKlasse.getName()+"<br>";
+					Klasse.getRSput(connection, neueKlasse);
+					klassen.add(neueKlasse);
+				}
+
+				neuerSchueler.setKid(neueKlasse.getKid());
+
+				output += "PUT SCHUELER: "+neuerSchueler.getVorname()+" "+neuerSchueler.getName()+"<br>";
+				Schueler.getRSput(connection, neuerSchueler);
+			}
+			response = Response.ok(output).build();
+		} catch (Exception e) {
+    		response = ExceptionResponse.internalServerError(e);
+		}finally {
+			try {
+				br.close();
+				connection.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return response;
+
+	}
+	
     @DELETE
     @Path("/{sid}")
     @Secured({ Role.admin })

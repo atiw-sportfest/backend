@@ -44,6 +44,10 @@ dependencies {
     // Regelauswertung
     compile 'org.codehaus.janino:janino:3.0.7'
 
+	//File Upload Stream
+	compile 'org.glassfish.jersey.media:jersey-media-multipart:2.26-b03'
+	compile 'org.jvnet.mimepull:mimepull:1.9.7'
+
     providedCompile 'javax.servlet:servlet-api:2.5'
 }
 

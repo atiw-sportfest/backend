@@ -34,16 +34,22 @@ public class Klasse {
 		return conn.prepareStatement("Call KlassenAnzeigen();").executeQuery();
 		
 	}
+	
 	public static ResultSet getRSgetOne(Connection conn, String did) throws SQLException{			 
 		PreparedStatement ps = conn.prepareStatement("Call KlasseAnzeigen(?)");
 		ps.setString(1, did);
 		return ps.executeQuery();
 	}
+	
 	public static void getRSput(Connection conn, Klasse klasse) throws SQLException{	
 		PreparedStatement ps = conn.prepareStatement("Call KlasseAnlegen(?)");
 		ps.setString(1,klasse.getName());
-		ps.execute();
+		ResultSet rs = ps.executeQuery();
+		if(rs.next()){
+			klasse.setKid(rs.getInt(1));
+		}
 	}
+	
 	public static void getRSdelete(Connection conn, String kid) throws SQLException{	
 		PreparedStatement ps = conn.prepareStatement("Call KlasseLoeschen(?)");
 		ps.setString(1,kid);
