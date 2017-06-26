@@ -20,12 +20,19 @@ import de.atiw.sportfest.backend.rules.Variable;
 public class Disziplin {
 
 	private Integer did;
+    @XmlElement
 	private String name;
+    @XmlElement
 	private String beschreibung;
+    @XmlElement
 	private Integer minTeilnehmer;
+    @XmlElement
 	private Integer maxTeilnehmer;
+    @XmlElement
 	private Boolean aktiviert;
+    @XmlElement
 	private Boolean teamleistung;
+    @XmlElement
     private List<Variable> variablen;
 
     @XmlElement

@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -119,6 +121,24 @@ public class TestResource {
 
         return d;
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response testValues(){
+        return Response.ok(new ValueTest()).build();
+    }
+
+}
+
+@XmlRootElement
+class ValueTest {
+
+    @XmlElement
+    Integer i;
+    @XmlElement
+    Boolean b;
+    @XmlElement
+    Float f;
 
 }
 
