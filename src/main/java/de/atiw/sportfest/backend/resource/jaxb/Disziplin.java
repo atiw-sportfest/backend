@@ -32,7 +32,7 @@ public class Disziplin {
     private List<Regel> regeln;
 
 	public Disziplin(){}
-	
+
 	public Disziplin(int did, String name, String beschreibung, int minTeilnehmer, int maxTeilnehmer, boolean aktiviert, boolean temleistung){
 		this.did = did;
 		this.name = name;
@@ -42,7 +42,7 @@ public class Disziplin {
 		this.aktiviert = aktiviert;
 		this.teamleistung = temleistung;
 	}
-	
+
 
 	public int getDid() {
 		return did;
@@ -86,62 +86,165 @@ public class Disziplin {
 	public void setTeamleistung(boolean teamleistung) {
 		this.teamleistung = teamleistung;
 	}
-	
-	public static ResultSet getRSgetAll(Connection conn) throws SQLException{		
+
+    /**
+     * Alle Disziplinen aus der Datenbank abfragen.
+     *
+     * <em>Die Connection muss vom Caller geschlossen werden.</em>
+     *
+     * @param conn die zu nutzende Datenbankverbindung
+     * @return a {@link java.sql.ResultSet}
+     */
+	public static ResultSet getRSgetAll(Connection conn) throws SQLException{
 		return conn.prepareStatement("Call DisziplinenAnzeigen(); ").executeQuery();
-		
-	}
-	public static ResultSet getRSgetOne(Connection conn, String did) throws SQLException{			 
-		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnzeigen(?)");
-		ps.setString(1, did);
-		return ps.executeQuery();
-	}
-	public static void put(Connection conn, Disziplin disziplin) throws SQLException{	
-		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnlegen(?,?,?,?,?,?)");
-		ps.setString(1,disziplin.getName() );
-		ps.setString(2,disziplin.getBeschreibung());
-		ps.setInt(3,disziplin.getMinTeilnehmer());
-		ps.setInt(4,disziplin.getMaxTeilnehmer());
-		ps.setBoolean(5,disziplin.isTeamleistung());
-		ps.setBoolean(6,disziplin.isAktiviert());
-		ps.execute();
-	}
-	public static void post(Connection conn, Disziplin disziplin) throws SQLException{	
-		PreparedStatement ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?)");
-		ps.setInt(1,disziplin.getDid());
-		ps.setString(2,disziplin.getName() );
-		ps.setString(3,disziplin.getBeschreibung());
-		ps.setInt(4,disziplin.getMinTeilnehmer());
-		ps.setInt(5,disziplin.getMaxTeilnehmer());
-		ps.setBoolean(6,disziplin.isTeamleistung());
-		ps.setBoolean(7,disziplin.isAktiviert());
-		ps.execute();
-	}
-	public static void delete(Connection conn, String did) throws SQLException{	
-		PreparedStatement ps = conn.prepareStatement("Call DisziplinLoeschen(?)");
-		ps.setString(1,did);
-		ps.execute();
+
 	}
 
-	public Disziplin getOne(Connection conn, String did) throws SQLException{
-		ResultSet rs;
-		rs = getRSgetOne(conn, did);
-		if(rs.next()){
-			return new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7));
-		}
-		return null;
+    /**
+     * Eine Disziplinen aus der Datenbank abfragen.
+     *
+     * Die Connection muss <em>vom Caller geschlossen</em> werden.
+     *
+     * @param conn die zu nutzende Datenbankverbindung
+     * @param did die ID der Disziplin
+     * @return a {@link java.sql.ResultSet}
+     */
+	public static ResultSet getRSgetOne(Connection conn, String did) throws SQLException{
+
+		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnzeigen(?)");
+
+		ps.setString(1, did);
+
+		return ps.executeQuery();
 	}
-	
-	public ArrayList<Disziplin> getAll(Connection conn) throws SQLException{
-		ResultSet rs;
-		rs = getRSgetAll(conn);
+
+    /**
+     * Legt eine Disziplin in der Datenbank ab.
+     *
+     * Die Connection wird <em>von der Methode geschlossen</em>.
+     *
+     * @param conn die zu nutzende Datenbankverbindung
+     * @param disziplin die abzulegende Disziplin
+     */
+	public static void create(Connection conn, Disziplin disziplin) throws SQLException{
+
+		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnlegen(?,?,?,?,?,?)");
+
+		ps.setString(1,disziplin.getName() );
+		ps.setString(2,disziplin.getBeschreibung());
+
+		ps.setInt(3,disziplin.getMinTeilnehmer());
+		ps.setInt(4,disziplin.getMaxTeilnehmer());
+
+		ps.setBoolean(5,disziplin.isTeamleistung());
+		ps.setBoolean(6,disziplin.isAktiviert());
+
+		ps.execute();
+
+        conn.close();
+	}
+
+    /**
+     * Bearbeitet eine Disziplin in der Datenbank ab.
+     *
+     * Gesetze Attribute werden überschrieben, nicht gesetzte beibehalten.
+     *
+     * Für {@code int} gilt 0 als ungesetzt.
+     *
+     * Die Connection wird <em>von der Methode geschlossen</em>.
+     *
+     * @param conn die zu nutzende Datenbankverbindung
+     * @param disziplin die neuen Werte der Disziplin
+     * @throws Disziplin.NotFoundException wenn die zu bearbeitende Disziplin nicht vorhanden ist.
+     */
+	public static void edit(Connection conn, Disziplin disziplin) throws SQLException, NotFoundException {
+
+        Disziplin orig = Disziplin.getOne(conn, Integer.toString(disziplin.getDid()));
+
+		PreparedStatement ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?)");
+
+		ps.setInt(1,disziplin.getDid());
+
+		ps.setString(2, disziplin.getName() != null ? disziplin.getName() : orig.getName());
+		ps.setString(3, disziplin.getBeschreibung() != null ? disziplin.getBeschreibung() : orig.getBeschreibung());
+
+		ps.setInt(4, disziplin.getMinTeilnehmer() != 0 ? disziplin.getMinTeilnehmer() : orig.getMinTeilnehmer());
+		ps.setInt(5, disziplin.getMaxTeilnehmer() != 0 ? disziplin.getMaxTeilnehmer() : orig.getMaxTeilnehmer());
+
+		ps.setBoolean(6, disziplin.isTeamleistung());
+		ps.setBoolean(7, disziplin.isAktiviert());
+
+		ps.execute();
+
+        conn.close();
+	}
+
+    /**
+     * Löscht eine Disziplin aus der Datenbank.
+     *
+     * Die Connection wird <em>von der Methode geschlossen</em>.
+     *
+     * @param conn die zu nutzende Datenbankverbindung
+     * @param did die ID der zu löschenden Disziplin
+     */
+	public static void delete(Connection conn, String did) throws SQLException{
+
+		PreparedStatement ps = conn.prepareStatement("Call DisziplinLoeschen(?)");
+
+		ps.setString(1,did);
+
+		ps.execute();
+
+        conn.close();
+	}
+
+    /**
+     * Ruft eine Disziplin aus der Datenbank ab.
+     *
+     * Die Connection wird <em>von der Methode geschlossen</em>.
+     *
+     * @param conn die zu nutzende Datenbankverbindung
+     * @param did die ID der abzurufenden Disziplin
+     * @return die gefundene Disziplin
+     * @throws Disziplin.NotFoundException wenn keine Disziplin mit dieser ID gefunden wurde.
+     */
+	public static Disziplin getOne(Connection conn, String did) throws SQLException, NotFoundException {
+
+		ResultSet rs = getRSgetOne(conn, did);
+        Disziplin one = null;
+
+		if(rs.next())
+            one = new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7));
+
+        conn.close();
+
+        if(one != null)
+            return one;
+        else
+            throw new NotFoundException(String.format("Keine Disziplin zu ID \"%s\" gefunden!", did));
+	}
+
+    /**
+     * Ruft alle Disziplin aus der Datenbank ab.
+     *
+     * Die Connection wird <em>von der Methode geschlossen</em>.
+     *
+     * @param conn die zu nutzende Datenbankverbindung
+     * @return die gefundene Disziplin
+     */
+	public static ArrayList<Disziplin> getAll(Connection conn) throws SQLException{
+
 		ArrayList<Disziplin> returner = new ArrayList<>();
-		while(rs.next()){
-			returner.add(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7)));
-		}
+		ResultSet rs = getRSgetAll(conn);
+
+		while(rs.next())
+            returner.add(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7)));
+
+        conn.close();
+
 		return returner;
 	}
-	
+
     @XmlTransient
     public Regel getErsteRegel() {
         return regeln != null && regeln.size() > 0 ? regeln.get(0) : null;
@@ -166,4 +269,15 @@ public class Disziplin {
     public void setVariablen(List<Variable> variablen) {
         this.variablen = variablen;
     }
+
+    public static class NotFoundException extends Exception {
+
+        private static final long serialVersionUID = 1L;
+
+        public NotFoundException(String message){
+            super(message);
+        }
+
+    }
+
 }
