@@ -203,6 +203,8 @@ public class Disziplin {
      *
      * Die Connection wird <em>von der Methode geschlossen</em>.
      *
+     * Lädt zusätzlich die Regeln aus der Datenbank.
+     *
      * @param conn die zu nutzende Datenbankverbindung
      * @param did die ID der abzurufenden Disziplin
      * @return die gefundene Disziplin
@@ -215,6 +217,8 @@ public class Disziplin {
 
 		if(rs.next())
             one = new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7));
+
+        one.regeln = Regel.getAll(conn, Integer.parseInt(did));
 
         conn.close();
 
@@ -247,7 +251,28 @@ public class Disziplin {
 
     @XmlTransient
     public Regel getErsteRegel() {
-        return regeln != null && regeln.size() > 0 ? regeln.get(0) : null;
+
+        Regel regel;
+
+        // Erste Regel kann entweder am Anfang oder Ende stehen.
+        // Erstmal versuchen dort zu finden.
+        // Wenn das alles nix bringt, versuchen die erste Regel in der Liste zu finden.
+
+        // Erst am Ende, wie wenn aus der DB,
+        // dann am Anfang,
+        // dann alles durchsuchen
+
+        if(regeln != null && regeln.size() > 0)
+            if( ( regel = regeln.get(regeln.size()-1) ) != null && regel.isFirst())
+                return regel;
+            else if( ( regel = regeln.get(0) ) != null && regel.isFirst())
+                return regel;
+            else
+                for(Regel regel_ : regeln)
+                    if(regel_ != null && regel_.isFirst())
+                        return regel_;
+
+        return null;
     }
 
     public void setRegeln(Regel ersteRegel) {
