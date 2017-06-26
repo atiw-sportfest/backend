@@ -15,6 +15,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import de.atiw.sportfest.backend.ExceptionResponse;
 import de.atiw.sportfest.backend.auth.Role;
 import de.atiw.sportfest.backend.auth.Secured;
@@ -23,7 +25,7 @@ import de.atiw.sportfest.backend.auth.TokenParser;
 @Path("/user")
 public class UserResource {
 
-	
+
 	@GET
     @Secured
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
@@ -39,31 +41,84 @@ public class UserResource {
             return ExceptionResponse.internalServerError(e);
         }
 	}
-	
+
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Path("/login")
 	public Response login(@FormParam("username") String username, @FormParam("password") String password) {
         return Response.ok("login").build();
 	}
-	
+
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/login")
+	public Response jsonlogin(Credentials Credentials) {
+        return Response.ok("login").build();
+	}
+
 	@GET
 	public String getUser(){
 		return "user";
 	}
-	
+
 	@POST
     @Secured({ Role.admin })
 	public String setUser(){
 		return "user set";
 	}
-	
+
 	@DELETE
     @Secured({ Role.admin })
 	@Path("/{uid}")
 	public String delUser(){
 		return "tot";
 	}
-	
+
+}
+
+@XmlRootElement
+class Credentials {
+
+    private String username, password;
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}
+
+@XmlRootElement
+class TokenResponse {
+
+    String token;
+
+    public TokenResponse() {
+    }
+
+    public TokenResponse(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
 }
