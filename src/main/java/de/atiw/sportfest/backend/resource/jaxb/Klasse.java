@@ -10,17 +10,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Klasse {
 
-    @XmlElement
+	@XmlElement
 	private Integer kid;
 
-    @XmlElement
+	@XmlElement
 	private String name;
-	
+
 	public Klasse() {}
 	
-    public Klasse(String name){
-        this.name = name;
-    }
+	public Klasse(String name){
+		this.name = name;
+	}
 
 	public Klasse(Integer kid, String name){
 		this.kid = kid;
