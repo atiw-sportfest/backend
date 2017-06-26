@@ -104,7 +104,7 @@ public class TestResource {
 
         Disziplin d = new Disziplin();
 
-        d.setErsteRegel(regel1);
+        d.setRegeln(regel1);
         d.setVariablen(Arrays.asList(new Variable[]{ geschlecht, weite }));
 
         return d;

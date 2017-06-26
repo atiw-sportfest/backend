@@ -1,13 +1,18 @@
 package de.atiw.sportfest.backend.rules;
 
 import java.lang.reflect.InvocationTargetException;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.codehaus.commons.compiler.CompileException;
 
+@XmlRootElement
 public class Regel {
 
     private String expression;
     private int points;
+
+    @XmlTransient
     private Regel next;
 
     public Regel() {
@@ -40,10 +45,12 @@ public class Regel {
         this.points = points;
     }
 
+    @XmlTransient
     public Regel getNext() {
         return next;
     }
 
+    @XmlTransient
     public void setNext(Regel next) {
         this.next = next;
     }

@@ -6,10 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.core.Response;
 
 import de.atiw.sportfest.backend.rules.Regel;
 import de.atiw.sportfest.backend.rules.Variable;
 
+@XmlRootElement
 public class Disziplin {
 
 	private int did;
@@ -19,9 +26,11 @@ public class Disziplin {
 	private int maxTeilnehmer;
 	private boolean aktiviert;
 	private boolean teamleistung;
-    private Regel ersteRegel;
     private List<Variable> variablen;
-	
+
+    @XmlElement
+    private List<Regel> regeln;
+
 	public Disziplin(){}
 	
 	public Disziplin(int did, String name, String beschreibung, int minTeilnehmer, int maxTeilnehmer, boolean aktiviert, boolean temleistung){
@@ -133,12 +142,21 @@ public class Disziplin {
 		return returner;
 	}
 	
+    @XmlTransient
     public Regel getErsteRegel() {
-        return ersteRegel;
+        return regeln != null && regeln.size() > 0 ? regeln.get(0) : null;
     }
 
-    public void setErsteRegel(Regel ersteRegel) {
-        this.ersteRegel = ersteRegel;
+    public void setRegeln(Regel ersteRegel) {
+
+        Regel regel = ersteRegel;
+        this.regeln = new ArrayList<>();
+
+        do {
+            this.regeln.add(regel);
+            regel = regel.getNext();
+        } while(regel != null && regel.getNext() != null);
+
     }
 
     public List<Variable> getVariablen() {
