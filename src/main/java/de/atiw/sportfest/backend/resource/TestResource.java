@@ -11,8 +11,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -137,6 +140,17 @@ public class TestResource {
     @Path("value")
     public Response testValues(ValueTest v){
         return Response.ok(v).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("variable/{vid:\\d+}")
+    public Variable testVariableVid(@PathParam("vid") String vid) throws NotFoundException, InternalServerErrorException {
+        try {
+            return Variable.getOne(db.getConnection(), vid, true);
+        } catch (Exception e){
+            throw new InternalServerErrorException(e);
+        }
     }
 }
 

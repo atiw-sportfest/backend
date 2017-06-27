@@ -264,6 +264,7 @@ public class Disziplin {
         d.kontrahentenAnzahl = rs.getInt(i++);
 
         d.regeln = Regel.getAll(conn, d.did);
+        d.variablen = Variable.getAll(conn, d.did, false);
 
         return d;
     }
