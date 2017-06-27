@@ -162,6 +162,7 @@ public class Variable {
         var.name =  rs.getString(i++);
         var.desc = rs.getString(i++);
         var.expressionParameter = rs.getString(i++);
+        var.typ = Typ.getOne(con, rs.getInt(i++), false);
 
         return var;
 
