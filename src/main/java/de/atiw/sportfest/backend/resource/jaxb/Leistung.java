@@ -125,53 +125,5 @@ public class Leistung {
 		}
 		conn.close();
 		return all;
-	}
-	public Integer getLid() {
-		return lid;
-	}
-
-	public void setLid(Integer lid) {
-		this.lid = lid;
-	}
-
-	public Integer getDid() {
-		return did;
-	}
-
-	public void setDid(Integer did) {
-		this.did = did;
-	}
-
-	public Integer getEid() {
-		return eid;
-	}
-
-	public void setEid(Integer eid) {
-		this.eid = eid;
-	}
-
-	public Integer getKid() {
-		return kid;
-	}
-
-	public void setKid(Integer kid) {
-		this.kid = kid;
-	}
-
-	public Integer getSid() {
-		return sid;
-	}
-
-	public void setSid(Integer sid) {
-		this.sid = sid;
-	}
-
-	public Date getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Date timestamp) {
-		this.timestamp = timestamp;
-	}
-    
+	}    
 }
