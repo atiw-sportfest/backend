@@ -64,7 +64,7 @@ public class AuthenticationEndpoint {
 		}
 		try {
 
-			PreparedStatement ps = conn.prepareStatement("Call gibBerechtigung(?,?);");
+			PreparedStatement ps = conn.prepareStatement("Call BerechtigungAnzeigen(?,?);");
 			ps.setString(1, username);
 			ps.setString(2, password);
 			ResultSet rs = ps.executeQuery();
