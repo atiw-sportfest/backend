@@ -53,7 +53,7 @@ public class AuthenticationEndpoint {
 		}
 	}
 
-	private Role authenticate(String username, String password) throws Exception {
+	public Role authenticate(String username, String password) throws Exception {
 		Connection conn = null;
 		Role priv = Role.gast;
 

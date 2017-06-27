@@ -69,6 +69,68 @@ public class UserResource {
 		return Response.ok("login").build();
 	}
 
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Path("/password")
+	@Secured({Role.admin,Role.schiedsrichter})
+	public String changepw(@HeaderParam("Authorization") String token, @FormParam("currpw") String currentpw, @FormParam("newpw") String password) {
+		
+		Connection conn = null;
+		PreparedStatement ps;
+		ResultSet rs;
+		try {
+			conn = db.getConnection();
+		} catch (SQLException e1) {
+			
+			e1.printStackTrace();
+			return "db";
+		}
+		
+		String username = "";
+		try {
+			username = new TokenParser(token.substring("Bearer ".length())).verify().getClaims().getAudience();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return "tp";
+			//return Response.status(Response.Status.CONFLICT).build();
+		}
+		
+		AuthenticationEndpoint auth = new AuthenticationEndpoint();
+		
+		// If soll abfragen, ob currentpw stimmt. TODO
+		try {
+			if(true){ //auth.authenticate(username, currentpw)!=Role.gast
+				
+				try {
+					ps = conn.prepareStatement("Call BenutzerPasswortAendern(?,?);");
+					ps.setString(1, username);
+					ps.setString(2, password);
+					rs = ps.executeQuery();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					return "db";
+					//return Response.status(Response.Status.BAD_REQUEST).build();
+				}
+				
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return e1.getMessage()+ "wat?!";
+			//return Response.status(Response.Status.BAD_GATEWAY).build();
+		}
+		
+
+
+		
+
+		//return Response.ok("pw changed").build();
+		return "gut";
+		
+		
+
+	}
+	
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
