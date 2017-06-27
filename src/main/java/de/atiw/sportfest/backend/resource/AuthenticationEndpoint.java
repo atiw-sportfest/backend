@@ -86,8 +86,10 @@ public class AuthenticationEndpoint {
 				}
 			}
 		} catch (SQLException sqle) {
-
+			
 		}
+		
+		conn.close();
 
 		return priv;
 
