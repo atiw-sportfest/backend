@@ -126,6 +126,8 @@ public class Typ {
             typ.desc = rs.getString(i++);
             typ.typ = resolveJavaType(rs.getString(i++));
 
+            typ.zustaende = Zustand.getAll(con, typ.tid, false);
+
             return typ;
 
         } catch (ClassNotFoundException e){
