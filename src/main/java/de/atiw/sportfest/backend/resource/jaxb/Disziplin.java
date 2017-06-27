@@ -213,9 +213,7 @@ public class Disziplin {
         Disziplin one = null;
 
 		if(rs.next())
-            one = new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7), rs.getInt(8));
-
-        one.regeln = Regel.getAll(conn, Integer.parseInt(did));
+            one = fromResultSet(conn, rs);
 
         if(close)
             conn.close();
@@ -240,12 +238,35 @@ public class Disziplin {
 		ResultSet rs = getRSgetAll(conn);
 
 		while(rs.next())
-            returner.add(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7), rs.getInt(8)));
+            returner.add(fromResultSet(conn, rs));
 
         conn.close();
 
 		return returner;
 	}
+
+    private static Disziplin fromResultSet(Connection conn, ResultSet rs) throws SQLException {
+
+        Disziplin d = new Disziplin();
+        int i = 1;
+
+        d.did = rs.getInt(i++);
+
+        d.name = rs.getString(i++);
+        d.beschreibung = rs.getString(i++);
+
+        d.minTeilnehmer = rs.getInt(i++);
+        d.maxTeilnehmer = rs.getInt(i++);
+
+        d.aktiviert = rs.getBoolean(i++);
+        d.teamleistung = rs.getBoolean(i++);
+
+        d.kontrahentenAnzahl = rs.getInt(i++);
+
+        d.regeln = Regel.getAll(conn, d.did);
+
+        return d;
+    }
 
     @XmlTransient
     public Regel getErsteRegel() {
