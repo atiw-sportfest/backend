@@ -96,13 +96,25 @@ public class UserResource {
 			//return Response.status(Response.Status.CONFLICT).build();
 		}
 		
-		AuthenticationEndpoint auth = new AuthenticationEndpoint();
-		
 		// If soll abfragen, ob currentpw stimmt. TODO
 		try {
-			if(true){ //auth.authenticate(username, currentpw)!=Role.gast
+			PreparedStatement psrechte = conn.prepareStatement("Call BerechtigungAnzeigen(?,?);");
+			psrechte.setString(1, username);
+			psrechte.setString(2, currentpw);
+			ResultSet rsrechte = psrechte.executeQuery();
+			conn.close();
+
+			if (true) { //rsrechte.next()
 				
 				try {
+					try {
+						conn = db.getConnection();
+					} catch (SQLException e1) {
+						
+						e1.printStackTrace();
+						return "db";
+					}
+					
 					ps = conn.prepareStatement("Call BenutzerPasswortAendern(?,?);");
 					ps.setString(1, username);
 					ps.setString(2, password);
@@ -112,8 +124,9 @@ public class UserResource {
 					return "db";
 					//return Response.status(Response.Status.BAD_REQUEST).build();
 				}
+				return "rsfalsch";
 				
-			}
+			} 
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			return e1.getMessage()+ "wat?!";
@@ -134,6 +147,7 @@ public class UserResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Secured(Role.admin)
 	public Response getUser() {
 		Response response = null;
 		Connection connection = null;
