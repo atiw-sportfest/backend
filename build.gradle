@@ -42,7 +42,7 @@ dependencies {
     compile 'org.codehaus.janino:janino:3.0.7'
 
     // Import/Export Anmeldebögen
-    compile 'de.atiw.sportfest:anmeldeboegen:0.1.1'
+    compile 'de.atiw.sportfest:anmeldeboegen:0.1.2'
 
     //File Upload Stream
     compile 'org.glassfish.jersey.media:jersey-media-multipart:2.26-b03'
