@@ -63,7 +63,9 @@ public class Schueler {
 	}
 
 	public static ResultSet getRSgetAll(Connection conn) throws SQLException {
+
 		return conn.prepareStatement("Call SchuelerPAnzeigen();").executeQuery();
+
 
 	}
 
