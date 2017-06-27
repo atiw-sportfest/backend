@@ -11,8 +11,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -85,27 +88,6 @@ public class TestResource {
 
     private Disziplin makeTestDisziplin() throws SQLException, Disziplin.NotFoundException {
 
-        // m
-        // >=2.4 -> 10
-        // >=1.2 ->  5
-        // >=0.6 ->  2
-        // >=0.3 ->  1
-        //
-        // w
-        // >=1.2 -> 10
-        // >=0.6 ->  5
-        // >=0.3 ->  2
-        // >=0.15->  1
-
-        Regel regel8 = new Regel("geschlecht == \"w\" && weite >= 0.15", 1),
-              regel7 = new Regel("geschlecht == \"w\" && weite >= 0.3", 2, regel8),
-              regel6 = new Regel("geschlecht == \"w\" && weite >= 0.6", 5, regel7),
-              regel5 = new Regel("geschlecht == \"w\" && weite >= 1.2", 10, regel6),
-              regel4 = new Regel("geschlecht == \"m\" && weite >= 0.3", 1, regel5),
-              regel3 = new Regel("geschlecht == \"m\" && weite >= 0.6", 2, regel4),
-              regel2 = new Regel("geschlecht == \"m\" && weite >= 1.2", 5, regel3),
-              regel1 = new Regel("geschlecht == \"m\" && weite >= 2.4", 10, regel2);
-
         Zustand m = new Zustand("Männlich", "", "m"),
                 w = new Zustand("Weiblich", "", "w");
 
@@ -117,7 +99,7 @@ public class TestResource {
                  counter = new Variable("Counter", "", "counter", integerT),
                  weite = new Variable("Weite", "", "weite", floatT);
 
-        Disziplin d = Disziplin.getOne(db.getConnection(), "6");
+        Disziplin d = Disziplin.getOne(db.getConnection(), "1000");
 
         d.setVariablen(Arrays.asList(new Variable[]{ geschlecht, weite }));
 
@@ -137,6 +119,17 @@ public class TestResource {
     @Path("value")
     public Response testValues(ValueTest v){
         return Response.ok(v).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("variable/{vid:\\d+}")
+    public Variable testVariableVid(@PathParam("vid") String vid) throws NotFoundException, InternalServerErrorException {
+        try {
+            return Variable.getOne(db.getConnection(), vid, true);
+        } catch (Exception e){
+            throw new InternalServerErrorException(e);
+        }
     }
 }
 
