@@ -52,6 +52,13 @@ public class Klasse {
 		}
 	}
 	
+	public static void getRSputAnmeldung(Connection conn, int sid, int did) throws SQLException {
+		PreparedStatement ps = conn.prepareStatement("Call AnmeldungAnlegen(?, ?);");
+		ps.setInt(1, sid);
+		ps.setInt(2, did);
+		ps.execute();
+	}
+	
 	public static void getRSdelete(Connection conn, String kid) throws SQLException{	
 		PreparedStatement ps = conn.prepareStatement("Call KlasseLoeschen(?)");
 		ps.setString(1,kid);
