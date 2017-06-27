@@ -45,10 +45,13 @@ public class Disziplin {
 
     @XmlElement
     private List<Regel> regeln;
+    
+    @XmlElement
+    private Integer kontrahentenAnzahl;
 
 	public Disziplin(){}
 
-	public Disziplin(Integer did, String name, String beschreibung, Integer minTeilnehmer, Integer maxTeilnehmer, Boolean aktiviert, Boolean temleistung){
+	public Disziplin(Integer did, String name, String beschreibung, Integer minTeilnehmer, Integer maxTeilnehmer, Boolean aktiviert, Boolean temleistung, Integer kontrahentenAnzahl){
 		this.did = did;
 		this.name = name;
 		this.beschreibung = beschreibung;
@@ -56,6 +59,7 @@ public class Disziplin {
 		this.maxTeilnehmer = maxTeilnehmer;
 		this.aktiviert = aktiviert;
 		this.teamleistung = temleistung;
+		this.kontrahentenAnzahl = kontrahentenAnzahl;
 	}
 
     /**
@@ -99,7 +103,7 @@ public class Disziplin {
      */
 	public static void create(Connection conn, Disziplin disziplin) throws SQLException{
 
-		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnlegen(?,?,?,?,?,?)");
+		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnlegen(?,?,?,?,?,?,?)");
 
 		ps.setString(1, disziplin.name);
 		ps.setString(2, disziplin.beschreibung);
@@ -132,7 +136,7 @@ public class Disziplin {
 
         Disziplin orig = Disziplin.getOne(conn, Integer.toString(disziplin.did), false);
 
-		PreparedStatement ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?)");
+		PreparedStatement ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?,?)");
 
 		ps.setInt(1, orig.did); // Never change id
 
@@ -209,7 +213,7 @@ public class Disziplin {
         Disziplin one = null;
 
 		if(rs.next())
-            one = new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7));
+            one = new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7), rs.getInt(8));
 
         one.regeln = Regel.getAll(conn, Integer.parseInt(did));
 
@@ -236,7 +240,7 @@ public class Disziplin {
 		ResultSet rs = getRSgetAll(conn);
 
 		while(rs.next())
-            returner.add(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7)));
+            returner.add(new Disziplin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getBoolean(6), rs.getBoolean(7), rs.getInt(8)));
 
         conn.close();
 
