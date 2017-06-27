@@ -53,7 +53,7 @@ public class AuthenticationEndpoint {
 		}
 	}
 
-	private Role authenticate(String username, String password) throws Exception {
+	public Role authenticate(String username, String password) throws Exception {
 		Connection conn = null;
 		Role priv = Role.gast;
 
@@ -96,7 +96,7 @@ public class AuthenticationEndpoint {
 	private String issueToken(String username, Role priv) {
 
 		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MINUTE, 10);
+		cal.add(Calendar.HOUR,10);
 
 		return Jwts.builder()
 				.setAudience(username)
