@@ -37,12 +37,10 @@ import de.atiw.sportfest.backend.resource.jaxb.User;
 @Path("/user")
 public class UserResource {
 
-
 	@Resource(name = "jdbc/sportfest")
 	DataSource db;
 
 	private static Logger logger = Logger.getAnonymousLogger();
-
 
 	@GET
 	@Secured
@@ -73,77 +71,83 @@ public class UserResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Path("/password")
-	@Secured({Role.admin,Role.schiedsrichter})
-	public String changepw(@HeaderParam("Authorization") String token, @FormParam("currpw") String currentpw, @FormParam("newpw") String password) {
-		
+	@Secured({ Role.admin, Role.schiedsrichter })
+	public String changepw(@HeaderParam("Authorization") String token, @FormParam("currpw") String currentpw,
+			@FormParam("newpw") String password) {
+
 		Connection conn = null;
 		PreparedStatement ps;
 		ResultSet rs;
 		try {
 			conn = db.getConnection();
 		} catch (SQLException e1) {
-			
+
 			e1.printStackTrace();
 			return "db";
 		}
-		
+
 		String username = "";
+		String role = "";
 		try {
+			role = new TokenParser(token.substring("Bearer ".length())).verify().getClaims().get("role", String.class)
+					;
 			username = new TokenParser(token.substring("Bearer ".length())).verify().getClaims().getAudience();
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			return "tp";
-			//return Response.status(Response.Status.CONFLICT).build();
+			return e1.getMessage() + " wow";
+			// return Response.status(Response.Status.CONFLICT).build();
 		}
-		
-		// If soll abfragen, ob currentpw stimmt. TODO
+
+		int legit = 7;
 		try {
-			PreparedStatement psrechte = conn.prepareStatement("Call BerechtigungAnzeigen(?,?);");
-			psrechte.setString(1, username);
-			psrechte.setString(2, currentpw);
-			ResultSet rsrechte = psrechte.executeQuery();
-			conn.close();
-
-			if (true) { //rsrechte.next()
-				
-				try {
-					try {
-						conn = db.getConnection();
-					} catch (SQLException e1) {
-						
-						e1.printStackTrace();
-						return "db";
-					}
-					
-					ps = conn.prepareStatement("Call BenutzerPasswortAendern(?,?);");
-					ps.setString(1, username);
-					ps.setString(2, password);
-					rs = ps.executeQuery();
-				} catch (SQLException e) {
-					e.printStackTrace();
-					return "db";
-					//return Response.status(Response.Status.BAD_REQUEST).build();
-				}
-				return "rsfalsch";
-				
-			} 
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			return e1.getMessage()+ "wat?!";
-			//return Response.status(Response.Status.BAD_GATEWAY).build();
+			ps = conn.prepareStatement("Call BenutzerDatenExistieren(?,?);");
+			ps.setString(1, username);
+			ps.setString(2, currentpw);
+			rs = ps.executeQuery();
+			rs.next();
+			legit = rs.getInt(1);
+		} catch (SQLException e) {
+		
+			e.printStackTrace();
+			return e.getMessage();
 		}
-		
 
+		int roleint = 2;
+		switch (role) {
+		case "admin":
+			roleint = 1;
+			break;
+		case "schiedsrichter":
+			roleint = 2;
+			break;
+		default:
+			roleint = 2;
+			break;
 
-		
+		}
 
-		//return Response.ok("pw changed").build();
-		return "gut";
-		
-		
+		if (legit == 1) {
+			try {
+				ps = conn.prepareStatement("Call BenutzerAendern(?,?,?);");
+				ps.setString(1, username);
+				ps.setString(2, password);
+				ps.setInt(3, roleint);
+				rs = ps.executeQuery();
+				conn.close();
+				return "test";
+
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+				return "problem";
+			}
+
+		}
+
+		return "un: "+username+" cpw:"+currentpw+" pw:"+password+" lg:"+legit;
 
 	}
-	
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -151,24 +155,24 @@ public class UserResource {
 	public Response getUser() {
 		Response response = null;
 		Connection connection = null;
-    	try {
-    		ArrayList<User> returner = new ArrayList<User>();
-    		connection = db.getConnection();
+		try {
+			ArrayList<User> returner = new ArrayList<User>();
+			connection = db.getConnection();
 			ResultSet rs = User.getRSgetAll(connection);
-			while(rs.next()){
-				returner.add(new User(rs.getString(1),rs.getString(2),rs.getInt(3)));
+			while (rs.next()) {
+				returner.add(new User(rs.getString(1), rs.getString(2), rs.getInt(3)));
 			}
 			response = Response.ok(returner).build();
 		} catch (Exception e) {
 			response = ExceptionResponse.internalServerError(e);
-		}finally {
+		} finally {
 			try {
 				connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-    	return response;
+		return response;
 
 	}
 
@@ -237,6 +241,5 @@ public class UserResource {
 
 		return Response.ok("user deleted").build();
 	}
-
 
 }
