@@ -189,7 +189,7 @@ public class Disziplin {
      * @throws Disziplin.NotFoundException wenn keine Disziplin mit dieser ID gefunden wurde.
      */
 	public static Disziplin getOne(Connection conn, String did) throws SQLException, NotFoundException {
-        return getOne(conn, did, false);
+        return getOne(conn, did, true);
     }
 
     /**
