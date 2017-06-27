@@ -10,17 +10,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Klasse {
 
-    @XmlElement
+	@XmlElement
 	private Integer kid;
 
-    @XmlElement
+	@XmlElement
 	private String name;
-	
+
 	public Klasse() {}
 	
-    public Klasse(String name){
-        this.name = name;
-    }
+	public Klasse(String name){
+		this.name = name;
+	}
 
 	public Klasse(Integer kid, String name){
 		this.kid = kid;
@@ -50,6 +50,13 @@ public class Klasse {
 		if(rs.next()){
 			klasse.kid = rs.getInt(1);
 		}
+	}
+	
+	public static void getRSputAnmeldung(Connection conn, int sid, int did) throws SQLException {
+		PreparedStatement ps = conn.prepareStatement("Call AnmeldungAnlegen(?, ?);");
+		ps.setInt(1, sid);
+		ps.setInt(2, did);
+		ps.execute();
 	}
 	
 	public static void getRSdelete(Connection conn, String kid) throws SQLException{	
