@@ -99,7 +99,7 @@ public class AuthenticationEndpoint {
 		cal.add(Calendar.MINUTE, 10);
 
 		return Jwts.builder()
-				.setAudience("You")
+				.setAudience(username)
 				.claim("role", priv != null ? priv : Role.gast)
 				.setSubject("Joe")
 				.setIssuedAt(Calendar.getInstance().getTime())
