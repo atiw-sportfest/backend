@@ -81,7 +81,7 @@ public class Klasse {
         Klasse one = null;
 
 		if(rs.next())
-            one = new Klasse(rs.getInt(1), rs.getString(2));
+            one = fromResultSet(rs);
 
         if(close)
             conn.close();
@@ -109,7 +109,7 @@ public class Klasse {
 		ResultSet rs = getRSgetAll(conn);
 
 		while(rs.next())
-            returner.add(new Klasse(rs.getInt(1), rs.getString(2)));
+            returner.add(fromResultSet(rs));
 
         conn.close();
 
@@ -117,9 +117,21 @@ public class Klasse {
 	}
 	
 	
+    private static Klasse fromResultSet(ResultSet rs) throws SQLException {
+
+        int i = 1;
+
+        Klasse klasse = new Klasse();
+
+        klasse.kid = rs.getInt(i++);
+        klasse.name = rs.getString(i++);
+
+        return klasse;
+    }
 	
 	
 	
+    
 	public static void getRSput(Connection conn, Klasse klasse) throws SQLException{	
 
 		PreparedStatement ps = conn.prepareStatement("Call KlasseAnlegen(?)");
