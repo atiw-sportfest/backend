@@ -11,7 +11,11 @@
         <!-- Register resources and providers -->
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>de.atiw.sportfest.backend.resource;de.atiw.sportfest.backend.auth</param-value>
+            <param-value>
+            de.atiw.sportfest.backend.resource;
+            de.atiw.sportfest.backend.auth;
+            de.atiw.sportfest.backend.error;
+            </param-value>
         </init-param>
         <init-param>
 		    <param-name>jersey.config.server.provider.classnames</param-name>

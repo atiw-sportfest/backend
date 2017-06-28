@@ -1,9 +1,6 @@
 package de.atiw.sportfest.backend.resource;
 
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -19,7 +16,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import de.atiw.sportfest.backend.ExceptionResponse;
 import de.atiw.sportfest.backend.auth.Role;
 import de.atiw.sportfest.backend.auth.Secured;
 import de.atiw.sportfest.backend.resource.jaxb.Disziplin;
@@ -34,33 +30,28 @@ public class DisziplinResource {
 	
     @GET
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    public Response getAlleDiziplinen(){
+    public Response getAlleDiziplinen() throws Exception{
     	try {
 
             return Response.ok(Disziplin.getAll(db.getConnection())).build();
 
-		} catch (SQLException e) {
-
-			return ExceptionResponse.internalServerError(e);
+		} catch (Exception e) {
+			throw e;
 		}
     }
     
     @GET
     @Path("/{did}")
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    public Response getDiziplin(@PathParam("did") String did){
+    public Response getDiziplin(@PathParam("did") String did) throws Exception{
 
 	    try {
 
             return Response.ok(Disziplin.getOne(db.getConnection(), did)).build();
-
-    	} catch (Disziplin.NotFoundException e){
-
-            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
-
+            
         } catch (Exception e) {
 
-			return ExceptionResponse.internalServerError(e);
+        	throw e;
 
 		}
     }
@@ -69,16 +60,16 @@ public class DisziplinResource {
     @PUT
     @Secured({ Role.admin })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response putDisziplin(Disziplin disziplin){
+	public Response putDisziplin(Disziplin disziplin) throws Exception{
 
     	try {
 
 			Disziplin.create(db.getConnection(), disziplin);
             return Response.ok().build();
 
-    	} catch (SQLException e) {
+    	} catch (Exception e) {
 
-    		return ExceptionResponse.internalServerError(e);
+        	throw e;
 
 		}
     }
@@ -86,7 +77,7 @@ public class DisziplinResource {
     @POST
     @Secured({ Role.admin })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response editDisziplin(Disziplin disziplin){
+	public Response editDisziplin(Disziplin disziplin) throws Exception{
 
         //if(disziplin.getDid() == 0) // by default, AUTO_INCREMENT starts at 1
         //    return Response.status(Response.Status.BAD_REQUEST).entity("Missing ID in body!").build();
@@ -96,13 +87,9 @@ public class DisziplinResource {
 			Disziplin.edit(db.getConnection(), disziplin);
 			return Response.ok().build();
 
-        } catch (Disziplin.NotFoundException e){
+    	} catch (Exception e) {
 
-            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
-
-    	} catch (SQLException e) {
-
-    		return ExceptionResponse.internalServerError(e);
+        	throw e;
 
 		}
 
@@ -112,39 +99,34 @@ public class DisziplinResource {
     @Secured({ Role.admin })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @Path("/{did}")
-	public Response editDisziplin(@PathParam("did") String did, Disziplin disziplin){
+	public Response editDisziplin(@PathParam("did") String did, Disziplin disziplin) throws Exception{
 
     	try {
 
 			Disziplin.edit(db.getConnection(), did, disziplin);
 			return Response.ok().build();
 
-        } catch (Disziplin.NotFoundException e){
+    	} catch (Exception e) {
 
-            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
-
-    	} catch (SQLException e) {
-
-    		return ExceptionResponse.internalServerError(e);
+        	throw e;
 
 		}
-
     }
 
     @DELETE
     @Path("/{did}")
     @Secured({ Role.admin })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response deleteDisziplin(@PathParam("did") String did){
+	public Response deleteDisziplin(@PathParam("did") String did) throws Exception{
 
     	try {
 
 			Disziplin.delete(db.getConnection(), did);
 			return Response.ok().build();
 
-    	} catch (SQLException e) {
+    	} catch (Exception e) {
 
-    		return ExceptionResponse.internalServerError(e);
+        	throw e;
 
 		}
     }
