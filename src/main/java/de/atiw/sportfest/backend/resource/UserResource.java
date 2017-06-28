@@ -1,3 +1,4 @@
+
 package de.atiw.sportfest.backend.resource;
 
 import io.jsonwebtoken.Claims;
@@ -107,10 +108,18 @@ public class UserResource {
 			rs = ps.executeQuery();
 			rs.next();
 			legit = rs.getInt(1);
+			
 		} catch (SQLException e) {
 		
+			
 			e.printStackTrace();
 			return e.getMessage();
+		} finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				return "conn not closed";
+			}
 		}
 
 		int roleint = 2;
@@ -134,13 +143,16 @@ public class UserResource {
 				ps.setString(2, password);
 				ps.setInt(3, roleint);
 				rs = ps.executeQuery();
-				conn.close();
-				return "test";
-
 			} catch (SQLException e) {
 				
 				e.printStackTrace();
 				return "problem";
+			}finally{
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					return "conn not closed";
+				}
 			}
 
 		}
@@ -200,7 +212,7 @@ public class UserResource {
 		}
 
 		try {
-			// Code geht nicht
+			// Code geht
 			ps = conn.prepareStatement("Call BenutzerAnlegen(?,?,?);");
 			ps.setString(1, username);
 			ps.setString(2, "63f205e15d34aafe2b7a931bddfe467e"); // Atiw2017
@@ -211,6 +223,13 @@ public class UserResource {
 			e.printStackTrace();
 			return Response.status(Response.Status.CONFLICT).build();
 
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+
+			}
 		}
 
 		return Response.ok("user created, pw:Atiw2017").build();
@@ -237,6 +256,13 @@ public class UserResource {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return Response.status(Response.Status.CONFLICT).build();
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+
+			}
 		}
 
 		return Response.ok("user deleted").build();
