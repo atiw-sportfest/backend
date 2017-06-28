@@ -83,3 +83,7 @@ Add this to `$CATALINA_BASE/conf/context.xml` (replace `USER`, `PASSWORD`, `HOST
         url="jdbc:mysql://HOST:3306/DATABASE"/>
 
 See also [Tomcat JNDI Resources How-To](https://tomcat.apache.org/tomcat-8.0-doc/jndi-resources-howto.html#JDBC_Data_Sources), [JNDI Resources Examples (MySQL)](https://tomcat.apache.org/tomcat-8.0-doc/jndi-datasource-examples-howto.html#MySQL_DBCP_Example).
+
+## Get Insomnia Workspace
+
+Insomnia -> Import/Export -> Import from URL -> https://github.com/atiw-sportfest/backend/raw/master-new/meta/Insomnia.json
