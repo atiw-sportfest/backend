@@ -164,8 +164,8 @@ public class Regel {
         Regel regel = new Regel();
 
         regel.rid = rs.getInt(i++);
-        regel.expression = rs.getString(i++);
         regel.did = rs.getInt(i++);
+        regel.expression = rs.getString(i++);
         regel.index = rs.getInt(i++);
         regel.points = rs.getInt(i++);
 
