@@ -295,6 +295,7 @@ public class Disziplin {
         return null;
     }
 
+    @XmlTransient
     public void setRegeln(Regel ersteRegel) {
 
         Regel regel = ersteRegel;
