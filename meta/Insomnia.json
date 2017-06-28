@@ -446,26 +446,6 @@
 			"_type": "request"
 		},
 		{
-			"_id": "req_55e1b7d7ef9248ff8461b8f71910694f",
-			"parentId": "fld_bf9ce79a1f2b4314a7a3a268faa8e7df",
-			"modified": 1498652451403,
-			"created": 1497954535992,
-			"url": "{{backend}}/ergebnis/1",
-			"name": "ergebnis/ {did}",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1497954535992,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"_type": "request"
-		},
-		{
 			"_id": "req_bf6c385da86b4894afcad09fe5e5bc17",
 			"parentId": "fld_bf9ce79a1f2b4314a7a3a268faa8e7df",
 			"modified": 1498652451401,
