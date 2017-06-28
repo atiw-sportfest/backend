@@ -65,7 +65,7 @@ public class UserResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Path("/login")
 	public Response login(@FormParam("username") String username, @FormParam("password") String password) {
-		return Response.ok("login").build();
+		return Response.ok("please use /backend/authentication").build();
 	}
 
 	@POST
@@ -111,16 +111,16 @@ public class UserResource {
 			
 		} catch (SQLException e) {
 		
-			
-			e.printStackTrace();
-			return e.getMessage();
-		} finally{
 			try {
 				conn.close();
-			} catch (SQLException e) {
-				return "conn not closed";
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+			e.printStackTrace();
+			return e.getMessage();
 		}
+		
 
 		int roleint = 2;
 		switch (role) {
@@ -219,7 +219,6 @@ public class UserResource {
 			ps.setInt(3, roleint);
 			rs = ps.executeQuery();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return Response.status(Response.Status.CONFLICT).build();
 
