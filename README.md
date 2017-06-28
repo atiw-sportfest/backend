@@ -41,6 +41,15 @@ Method | URL
 **GET**|`/ergebnis`
 **GET**|`/ergebnis/{eid}`
 **POST**|`/ergebnis`
+**PUT**|`/ergebnis`
+**DELETE**|`/ergebnis/{eid}`
+**GET**|`/leistung`
+**GET**|`/leistung/{lid}`
+**POST**|`/leistung`
+**PUT**|`/leistung/{isTeamleistung}`
+**DELETE**|`/leistung/{lid}`
+
+
 
 &nbsp;|&nbsp;
 ---|---
