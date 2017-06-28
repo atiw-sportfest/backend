@@ -22,8 +22,6 @@ public class Leistung {
     @XmlElement
 	private Integer did;
     @XmlElement
-	private Integer eid;
-    @XmlElement
 	private Integer kid;
     @XmlElement
 	private Integer sid;
@@ -34,10 +32,9 @@ public class Leistung {
 	
 	public Leistung() {}
 	
-    public Leistung(Integer lid, Integer did, Integer eid, Integer kid, Integer sid, Date timestamp){
+    public Leistung(Integer lid, Integer did, Integer kid, Integer sid, Date timestamp){
     	this.lid = lid;
     	this.did = did;
-    	this.eid = eid;
     	this.kid = kid;
     	this.sid = sid;
     	this.timestamp = timestamp;
@@ -56,21 +53,19 @@ public class Leistung {
 	
 	public static void putSchuelerleistung(Connection conn, Leistung leistung) throws SQLException{	
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern); 
-		PreparedStatement ps = conn.prepareStatement("Call LeistungSchuelerAnlegen(?,?,?,?)");
+		PreparedStatement ps = conn.prepareStatement("Call LeistungSchuelerAnlegen(?,?,?)");
 		ps.setInt(1, leistung.did);
-		ps.setInt(2, leistung.eid);
-		ps.setInt(3, leistung.sid);
-		ps.setString(4, simpleDateFormat.format(leistung.timestamp));
+		ps.setInt(2, leistung.sid);
+		ps.setString(3, simpleDateFormat.format(leistung.timestamp));
 		ps.executeQuery();
 	}
 	
 	public static void putKlassenleistung(Connection conn, Leistung leistung) throws SQLException{	
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern); 
-		PreparedStatement ps = conn.prepareStatement("Call LeistungKlasseAnlegen(?,?,?,?)");
+		PreparedStatement ps = conn.prepareStatement("Call LeistungKlasseAnlegen(?,?,?)");
 		ps.setInt(1, leistung.did);
-		ps.setInt(2, leistung.eid);
-		ps.setInt(3, leistung.kid);
-		ps.setString(4, simpleDateFormat.format(leistung.timestamp));
+		ps.setInt(2, leistung.kid);
+		ps.setString(3, simpleDateFormat.format(leistung.timestamp));
 		ps.executeQuery();
 	}
 	
@@ -79,10 +74,9 @@ public class Leistung {
 		PreparedStatement ps = conn.prepareStatement("Call LeistungAendern(?,?,?,?,?,?)");
 		ps.setInt(1, leistung.lid);
 		ps.setInt(2, leistung.did);
-		ps.setInt(3, leistung.eid);
-		ps.setInt(4, leistung.kid);
-		ps.setInt(5, leistung.sid);
-		ps.setString(6, simpleDateFormat.format(leistung.timestamp));
+		ps.setInt(3, leistung.kid);
+		ps.setInt(4, leistung.sid);
+		ps.setString(5, simpleDateFormat.format(leistung.timestamp));
 		ps.executeQuery();
 	}
 	public static void delete(Connection conn, String lid) throws SQLException{	
@@ -97,7 +91,7 @@ public class Leistung {
         Leistung one = null;
 		if(rs.next()){
 			try {
-				one = new Leistung(rs.getInt(1),rs.getInt(2),rs.getInt(3), rs.getInt(4), rs.getInt(5), simpleDateFormat.parse(rs.getString(6)) );
+				one = new Leistung(rs.getInt(1),rs.getInt(2),rs.getInt(3), rs.getInt(4), simpleDateFormat.parse(rs.getString(5)) );
 			} catch (Exception e) {
 				
 				e.printStackTrace();
@@ -118,7 +112,7 @@ public class Leistung {
         ArrayList<Leistung> all = new ArrayList<>();
 		while(rs.next()){
 			try {
-				all.add(new Leistung(rs.getInt(1),rs.getInt(2),rs.getInt(3), rs.getInt(4), rs.getInt(5),simpleDateFormat.parse(rs.getString(6))));
+				all.add(new Leistung(rs.getInt(1),rs.getInt(2),rs.getInt(3), rs.getInt(4), simpleDateFormat.parse(rs.getString(5))));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
