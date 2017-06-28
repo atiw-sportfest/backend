@@ -7,21 +7,40 @@ Namespace: de.atiw.sportfest
 
 Method | URL
 ----------|------------------------
+**POST**|`/authentication`
 **GET**|`/klasse`
 **GET**|`/klasse/{kid}`
+**GET**|`/klasse/{kid}/anmeldung`
+**POST**|`/klasse/anmeldung`
 **PUT**|`/klasse`
+**DELETE**|`/klasse/{kid}`
 **GET**|`/ergebnis/{did}`
 **POST**|`/ergebnis/{did}/{eid}`
 **PUT**|`/ergebnis/{did}`
 **DELETE**|`/ergebnis/{did}/{eid}`
 **GET**|`/disziplin`
+**GET**|`/disziplin/{did}`
+**PUT**|`/disziplin`
+**POST**|`/disziplin`
 **POST**|`/disziplin/{did}`
+**DELETE**|`/disziplin/{did}`
+**GET**|`/schueler`
+**GET**|`/schueler/{sid}`
+**GET**|`/schueler/klasse/{kid}`
+**GET**|`/schueler`
+**GET**|`/schueler/klasse/{kid}/disziplin/{did}`
+**POST**|`/schueler/upload`
 **PUT**|`/schueler`
-**POST**|`/user/login`
-**GET**|`/user/privileges`
+**DELETE**|`/schueler/{sid}`
 **GET**|`/user`
+**GET**|`/user/privileges`
 **POST**|`/user`
+**POST**|`/user/password`
+**POST**|`/user/login`
 **DELETE**|`/user/{uid}`
+**GET**|`/ergebnis`
+**GET**|`/ergebnis/{eid}`
+**POST**|`/ergebnis`
 
 &nbsp;|&nbsp;
 ---|---
