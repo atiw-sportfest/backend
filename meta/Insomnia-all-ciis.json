@@ -1,0 +1,1580 @@
+{
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2017-06-29T06:10:03.414Z",
+	"__export_source": "insomnia.desktop.app:v5.3.6",
+	"resources": [
+		{
+			"_id": "wrk_493eaf128fc041eea1c1cde823d135f9",
+			"parentId": null,
+			"modified": 1498142875213,
+			"created": 1497942846111,
+			"name": "Sportfest Backend",
+			"description": "",
+			"certificates": [],
+			"_type": "workspace"
+		},
+		{
+			"_id": "wrk_9e9a8e991fc0476e98ff6993c47d15f2",
+			"parentId": null,
+			"modified": 1498056201716,
+			"created": 1498056201716,
+			"name": "Insomnia",
+			"description": "",
+			"certificates": [],
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_2d27ab66056b4153ac06a6ad3ca22e7c",
+			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
+			"modified": 1498701117125,
+			"created": 1497942950037,
+			"name": "Base Environment",
+			"data": {
+				"token": "eyJhbGciOiJIUzUxMiJ9.eyJhdWQiOiIwOjA6MDowOjA6MDowOjEiLCJ1c2VybmFtZSI6InRlc3QiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE0OTg3MDExMDUsImV4cCI6MTQ5ODczNzEwNX0.FZAni9kLSjzIJugcJ4-SLCjYhy2YVMuvvvinc6hGW34Wuf3Us07XtHeN9dz5x0exs8ZqweCm7TtW_vVJGABcjw"
+			},
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_69db35499a1f4bef96ad53d9703095a3",
+			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
+			"modified": 1498113817934,
+			"created": 1497943006642,
+			"name": "Default Jar",
+			"cookies": [],
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "fld_dcc631abe7b944c3b60d62695fe9d025",
+			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
+			"modified": 1498113817932,
+			"created": 1497954191237,
+			"name": "#2 TestResource",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1497954790324,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_ebb070e9fa9e4c61a7729502b551b571",
+			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
+			"modified": 1498113817929,
+			"created": 1497954434087,
+			"name": "#9 KlasseResource",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1497954434087,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_bf9ce79a1f2b4314a7a3a268faa8e7df",
+			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
+			"modified": 1498113817926,
+			"created": 1497954528677,
+			"name": "#8 ErgebnisResource",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1497954528678,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_e5ff38c46655468eb8f0c8a72bda12e5",
+			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
+			"modified": 1498678162187,
+			"created": 1497954694676,
+			"name": "Disziplin",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1497954694676,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_23c784d69456493585380dc6efca1af0",
+			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
+			"modified": 1498113817922,
+			"created": 1497954775257,
+			"name": "#6 SchuelerResource",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1497954775257,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_e89e35ab5b1c44659917f958607ea364",
+			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
+			"modified": 1498113817920,
+			"created": 1497954790274,
+			"name": "#4 UserResource",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1497954790274,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
+			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
+			"modified": 1498684063608,
+			"created": 1498684063608,
+			"name": "Variable",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1498684063608,
+			"_type": "request_group"
+		},
+		{
+			"_id": "env_467e49369de4498ba64835d13d7df2b9",
+			"parentId": "wrk_9e9a8e991fc0476e98ff6993c47d15f2",
+			"modified": 1498174073722,
+			"created": 1498056248418,
+			"name": "Base Environment",
+			"data": {
+				"tomcat": "http://localhost:8080",
+				"token": "eyJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJZb3UiLCJyb2xlIjoiZ2FzdCIsInN1YiI6IkpvZSIsImlhdCI6MTQ5ODE3NDA2NSwiZXhwIjoxNDk4MTc0NjY0fQ.TKXZIdn3nfOm95c4X0jEdvoc-Qw14uYVl2A8cBwI3GRLYIR_tLOr8qE7PDrfMguCKj469ImKjO9H3bhgStLjaw",
+				"accept": "application/json,application/xml,text/plain"
+			},
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_e3b8f9c280e3478c8bfe4b0289918949",
+			"parentId": "wrk_9e9a8e991fc0476e98ff6993c47d15f2",
+			"modified": 1498056347656,
+			"created": 1498056347656,
+			"name": "Default Jar",
+			"cookies": [],
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "fld_db38563d5ad440af9b73f985b3d1b0d2",
+			"parentId": "wrk_9e9a8e991fc0476e98ff6993c47d15f2",
+			"modified": 1498056223343,
+			"created": 1498056223343,
+			"name": "servlet-hello-world",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1498056223343,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_832a42a2b8154dd2ae08540a61a81682",
+			"parentId": "wrk_9e9a8e991fc0476e98ff6993c47d15f2",
+			"modified": 1498070900908,
+			"created": 1498070900908,
+			"name": "sportfest",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1498070900908,
+			"_type": "request_group"
+		},
+		{
+			"_id": "env_7bec37c0aaee40de809280e5bf87d50f",
+			"parentId": "env_2d27ab66056b4153ac06a6ad3ca22e7c",
+			"modified": 1498578223186,
+			"created": 1498578115683,
+			"name": "Global",
+			"data": {
+				"token": "http://172.20.3.18:8080/backend"
+			},
+			"_type": "environment"
+		},
+		{
+			"_id": "env_e5eba96740344c20890ce3169f8c6739",
+			"parentId": "env_2d27ab66056b4153ac06a6ad3ca22e7c",
+			"modified": 1498578252870,
+			"created": 1498578243857,
+			"name": "Local",
+			"data": {
+				"backend": "http://localhost:8080/backend"
+			},
+			"_type": "environment"
+		},
+		{
+			"_id": "req_a230bfbaa0a540a0b5a894b4e9b702b6",
+			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
+			"modified": 1498578452721,
+			"created": 1497954173403,
+			"url": "{{backend}}/test/rules",
+			"name": "Rules",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1497948570569,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_6e75fcaba78c4c669c02497b7394ce8b",
+			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
+			"modified": 1498674781313,
+			"created": 1497954263903,
+			"url": "{{backend}}/test/",
+			"name": "test",
+			"description": "",
+			"method": "GET",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_e159187075cd4db99112a9678c3bd9c7"
+				},
+				{
+					"name": "",
+					"value": "",
+					"id": "pair_66a8229f665e444f908fe2707b24c879"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1497945760234.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_7e8823414c1f406682f9513f12fedb01",
+			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
+			"modified": 1498504230823,
+			"created": 1498414365706,
+			"url": "http://localhost:8080/backend/test/disziplin",
+			"name": "Disziplin",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498414365706,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_6aac70bf1d6c480da8a2004a1207f547",
+			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
+			"modified": 1498578274800,
+			"created": 1498504240421,
+			"url": "{{backend}}/test/value",
+			"name": "Value",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498504240421,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_03c7d71e7e6c41318edf901e94d4395c",
+			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
+			"modified": 1498675755820,
+			"created": 1498516278066,
+			"url": "{{ backend  }}/test/value",
+			"name": "Value",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"i\": 1,\n\t\"b\": false\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_96083488ad5f4dddab5bfcada976d72d"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1498499200649.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_22aec566435249a99656740af1088b56",
+			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
+			"modified": 1498599623338,
+			"created": 1498586690669,
+			"url": "{{backend}}/test/variable/2000",
+			"name": "Variable",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Accept",
+					"value": "application/json",
+					"id": "pair_0762e5a3be6c491a82ef1f7f2215b045",
+					"disabled": false
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1497947165401.75,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_49292e706cc6478b86c33d8681b3df65",
+			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
+			"modified": 1498652346398,
+			"created": 1498650211316,
+			"url": "{{ backend  }}/test/post/disziplin",
+			"name": "Upload Disziplin",
+			"description": "",
+			"method": "PUT",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"did\": 1000,\n\t\"name\": \"Weitsprung\",\n\t\"beschreibung\": \"Weit springen\",\n\t\"minTeilnehmer\": 2,\n\t\"maxTeilnehmer\": 2,\n\t\"aktiviert\": true,\n\t\"teamleistung\": false,\n\t\"variablen\": [\n\t\t{\n\t\t\t\"var_id\": 2000,\n\t\t\t\"name\": \"Weite\",\n\t\t\t\"desc\": \"Weite in cm\",\n\t\t\t\"expressionParameter\": \"w\",\n\t\t\t\"typ\": {\n\t\t\t\t\"tid\": 100,\n\t\t\t\t\"name\": \"Ganzzahl\",\n\t\t\t\t\"desc\": \"Einfacher Zahlewert\",\n\t\t\t\t\"zustaende\": [],\n\t\t\t\t\"typ\": \"int\"\n\t\t\t}\n\t\t}\n\t],\n\t\"regeln\": [\n\t\t{\n\t\t\t\"rid\": 7,\n\t\t\t\"did\": 1000,\n\t\t\t\"index\": 0,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 2.4\",\n\t\t\t\"points\": 10\n\t\t},\n\t\t{\n\t\t\t\"rid\": 8,\n\t\t\t\"did\": 1000,\n\t\t\t\"index\": 1,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 1.2\",\n\t\t\t\"points\": 5\n\t\t},\n\t\t{\n\t\t\t\"rid\": 9,\n\t\t\t\"did\": 1000,\n\t\t\t\"index\": 2,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 0.6\",\n\t\t\t\"points\": 2\n\t\t},\n\t\t{\n\t\t\t\"rid\": 10,\n\t\t\t\"did\": 1000,\n\t\t\t\"index\": 3,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 0.3\",\n\t\t\t\"points\": 1\n\t\t},\n\t\t{\n\t\t\t\"rid\": 11,\n\t\t\t\"did\": 1000,\n\t\t\t\"index\": 4,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 1.2\",\n\t\t\t\"points\": 10\n\t\t},\n\t\t{\n\t\t\t\"rid\": 12,\n\t\t\t\"did\": 1000,\n\t\t\t\"index\": 5,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 0.6\",\n\t\t\t\"points\": 5\n\t\t},\n\t\t{\n\t\t\t\"rid\": 13,\n\t\t\t\"did\": 1000,\n\t\t\t\"index\": 6,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 0.3\",\n\t\t\t\"points\": 2\n\t\t},\n\t\t{\n\t\t\t\"rid\": 14,\n\t\t\t\"did\": 1000,\n\t\t\t\"index\": 7,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 0.15\",\n\t\t\t\"points\": 1\n\t\t}\n\t],\n\t\"kontrahentenAnzahl\": 0\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_96083488ad5f4dddab5bfcada976d72d",
+					"disabled": false
+				},
+				{
+					"name": "Accept",
+					"value": "application/json",
+					"id": "pair_ace5bca1b7444078a6487a66ddd033db"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1498496680763.75,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_7f58e3ec55ec422b9d97fbc0b04d1ed8",
+			"parentId": "fld_ebb070e9fa9e4c61a7729502b551b571",
+			"modified": 1498578590681,
+			"created": 1497954448750,
+			"url": "{{backend}}/klasse",
+			"name": "klasse",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1497954448750,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_9ae1d85616454d32914ae3d7bafb1d9d",
+			"parentId": "fld_ebb070e9fa9e4c61a7729502b551b571",
+			"modified": 1498578595728,
+			"created": 1497954479016,
+			"url": "{{backend}}/klasse/1",
+			"name": "klasse/ {kid}",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Accept",
+					"value": "application/json",
+					"id": "pair_9134dec737914bc79d617220d0c91d78"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1497951509659.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_371d878bccdb4e3ead7e2c77fb1cd5e2",
+			"parentId": "fld_ebb070e9fa9e4c61a7729502b551b571",
+			"modified": 1498578602346,
+			"created": 1497954480578,
+			"url": "{{backend}}/klasse",
+			"name": "klasse",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"name\": \"klasse2\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_1b3abe94a6e24dfb8a703dc0d5b51193"
+				}
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1497950040114.25,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_55e1b7d7ef9248ff8461b8f71910694f",
+			"parentId": "fld_bf9ce79a1f2b4314a7a3a268faa8e7df",
+			"modified": 1498598023560,
+			"created": 1497954535992,
+			"url": "{{backend}}/ergebnis/",
+			"name": "ergebnis/ {did}",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1497954535992,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_bf6c385da86b4894afcad09fe5e5bc17",
+			"parentId": "fld_bf9ce79a1f2b4314a7a3a268faa8e7df",
+			"modified": 1498578575745,
+			"created": 1497954557498,
+			"url": "{{backend}}/ergebnis/1/1",
+			"name": "ergebnis/ {did} / {eid}",
+			"description": "",
+			"method": "POST",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1497954492371,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_272abf204e5d48c0af31d5dd2061a9c5",
+			"parentId": "fld_bf9ce79a1f2b4314a7a3a268faa8e7df",
+			"modified": 1498578580108,
+			"created": 1497954559191,
+			"url": "{{backend}}/ergebnis/1",
+			"name": "ergebnis/ {did}",
+			"description": "",
+			"method": "PUT",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1497954470560.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_afd2119af5e04ccea62291120744197a",
+			"parentId": "fld_bf9ce79a1f2b4314a7a3a268faa8e7df",
+			"modified": 1498578584664,
+			"created": 1497954560877,
+			"url": "{{backend}}/ergebnis/1",
+			"name": "ergebnis/ {did / {eid}",
+			"description": "",
+			"method": "DELETE",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1497954459655.25,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_a5feadbee4a34bd38bfd9e6d9273b8ee",
+			"parentId": "fld_e5ff38c46655468eb8f0c8a72bda12e5",
+			"modified": 1498678127806,
+			"created": 1497954722593,
+			"url": "{{backend}}/disziplin",
+			"name": "List",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1497954605967.375,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_c10859f5a5754c41aa4c407b887fe245",
+			"parentId": "fld_e5ff38c46655468eb8f0c8a72bda12e5",
+			"modified": 1498703399705,
+			"created": 1497954739294,
+			"url": "{{backend}}/disziplin/1338",
+			"name": "Update",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"name\": \"test\",\n\t\"beschreibung\": \"test\",\n\t\"minTeilnehmer\": 2,\n\t\"maxTeilnehmer\": 2,\n\t\"aktiviert\": true,\n\t\"teamleistung\": false,\n\t\"variablen\": [],\n\t\"regeln\": [\n\t\t{\n\t\t\t\"index\": 0,\n\t\t\t\"expression\": \"geschlecht == \\\"q\\\" && weite >= 2.4\",\n\t\t\t\"points\": 10\n\t\t},\n\t\t{\n\t\t\t\"index\": 1,\n\t\t\t\"expression\": \"test\",\n\t\t\t\"points\": 10\n\t\t}\n\t],\n\t\"kontrahentenAnzahl\": 0\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_d8685f5a4c31451ab2e3e9a0908bc630"
+				},
+				{
+					"name": "Accept",
+					"value": "application/json",
+					"id": "pair_664c9ca50dff40468bff327e5b6730b2"
+				}
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1497954629292.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_711bc7cc96324ac59d0161501e2a0a05",
+			"parentId": "fld_e5ff38c46655468eb8f0c8a72bda12e5",
+			"modified": 1498703407694,
+			"created": 1498049900017,
+			"url": "{{backend}}/disziplin/1338",
+			"name": "Read",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Accept",
+					"value": "application/json",
+					"id": "pair_151d0e28606e49e5ad4ecd536e5e2028",
+					"disabled": false
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1497954675942.75,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_5cdde8cbb9dd483eaa2851999fd0b423",
+			"parentId": "fld_e5ff38c46655468eb8f0c8a72bda12e5",
+			"modified": 1498703326838,
+			"created": 1498494160878,
+			"url": "{{backend}}/disziplin",
+			"name": "Create",
+			"description": "",
+			"method": "PUT",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"name\": \"Weitsprung\",\n\t\"beschreibung\": \"Weit springen\",\n\t\"minTeilnehmer\": 2,\n\t\"maxTeilnehmer\": 2,\n\t\"aktiviert\": true,\n\t\"teamleistung\": false,\n\t\"variablen\": [\n\t\t{\n\t\t\t\"var_id\": 2000,\n\t\t\t\"name\": \"Weite\",\n\t\t\t\"desc\": \"Weite in cm\",\n\t\t\t\"expressionParameter\": \"w\",\n\t\t\t\"typ\": {\n\t\t\t\t\"tid\": 100,\n\t\t\t\t\"name\": \"Ganzzahl\",\n\t\t\t\t\"desc\": \"Einfacher Zahlewert\",\n\t\t\t\t\"zustaende\": [],\n\t\t\t\t\"typ\": \"int\"\n\t\t\t}\n\t\t}\n\t],\n\t\"regeln\": [\n\t\t{\n\t\t\t\"index\": 0,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 2.4\",\n\t\t\t\"points\": 10\n\t\t},\n\t\t{\n\t\t\t\"index\": 1,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 1.2\",\n\t\t\t\"points\": 5\n\t\t},\n\t\t{\n\t\t\t\"index\": 2,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 0.6\",\n\t\t\t\"points\": 2\n\t\t},\n\t\t{\n\t\t\t\"index\": 3,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 0.3\",\n\t\t\t\"points\": 1\n\t\t},\n\t\t{\n\t\t\t\"index\": 4,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 1.2\",\n\t\t\t\"points\": 10\n\t\t},\n\t\t{\n\t\t\t\"index\": 5,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 0.6\",\n\t\t\t\"points\": 5\n\t\t},\n\t\t{\n\t\t\t\"index\": 6,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 0.3\",\n\t\t\t\"points\": 2\n\t\t},\n\t\t{\n\t\t\t\"index\": 7,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 0.15\",\n\t\t\t\"points\": 1\n\t\t}\n\t],\n\t\"kontrahentenAnzahl\": 0\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_df3aa19b173c48e5bbfe5ac91cb50ce8"
+				},
+				{
+					"name": "Accept",
+					"value": "application/json",
+					"id": "pair_e58446331d7844308a5748104a1ea094"
+				}
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1498494160878,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_b60a6782fe5c4929a7ee0d48514efac6",
+			"parentId": "fld_e5ff38c46655468eb8f0c8a72bda12e5",
+			"modified": 1498678138123,
+			"created": 1498678024256,
+			"url": "{{backend}}/disziplin/1350",
+			"name": "Delete",
+			"description": "",
+			"method": "DELETE",
+			"body": {},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Accept",
+					"value": "application/json",
+					"id": "pair_664c9ca50dff40468bff327e5b6730b2"
+				}
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1497954617629.9375,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_3f26e9ad50f54a39a0cb683287dde8df",
+			"parentId": "fld_23c784d69456493585380dc6efca1af0",
+			"modified": 1498578547251,
+			"created": 1497942949899,
+			"url": "{{backend}}/klasse",
+			"name": "SchuelerResource",
+			"description": "",
+			"method": "PUT",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1497942949900,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_54e4142738874cb19313671c5d8e453d",
+			"parentId": "fld_e89e35ab5b1c44659917f958607ea364",
+			"modified": 1498697865342,
+			"created": 1497954804588,
+			"url": "{{backend}}/authentication/",
+			"name": "User Login",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/x-www-form-urlencoded",
+				"params": [
+					{
+						"name": "username",
+						"value": "test",
+						"id": "pair_c9ef6527c9de4fb5868e059b86411157",
+						"disabled": false
+					},
+					{
+						"name": "password",
+						"value": "098f6bcd4621d373cade4e832627b4f6",
+						"id": "pair_dd517c86828e4f319d1b6f10f042985f",
+						"disabled": false
+					}
+				]
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"id": "pair_07bdf6e0348e40a0a77a9a9acd26fa2c"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1497954804588,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_95f0778b419043a1be3e27bd4b5eba04",
+			"parentId": "fld_e89e35ab5b1c44659917f958607ea364",
+			"modified": 1498578476042,
+			"created": 1497954855638,
+			"url": "{{backend}}/user/privileges",
+			"name": "user/privileges",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1497954763590.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_df7af5f0b4214a73b22e7c542e2f020e",
+			"parentId": "fld_e89e35ab5b1c44659917f958607ea364",
+			"modified": 1498598470081,
+			"created": 1497954858255,
+			"url": "{{backend}}/user",
+			"name": "user",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1497954743091.75,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_343bb3598c914500bad83dce79bef88d",
+			"parentId": "fld_e89e35ab5b1c44659917f958607ea364",
+			"modified": 1498698819273,
+			"created": 1497954866312,
+			"url": "{{backend}}/user/",
+			"name": "user",
+			"description": "",
+			"method": "POST",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1497954732842.375,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_861752f15a894264b6c891ed66d932e1",
+			"parentId": "fld_e89e35ab5b1c44659917f958607ea364",
+			"modified": 1498578543041,
+			"created": 1497954895725,
+			"url": "{{backend}}/user/1",
+			"name": "user/ {uid}",
+			"description": "",
+			"method": "DELETE",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1497954727717.6875,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_6d183375d4ce4774bebc2e55c75f74aa",
+			"parentId": "fld_e89e35ab5b1c44659917f958607ea364",
+			"modified": 1498698149446,
+			"created": 1498698097386,
+			"url": "{{backend}}/authentication/gast",
+			"name": "Gast Login",
+			"description": "",
+			"method": "GET",
+			"body": {
+				"mimeType": "application/x-www-form-urlencoded",
+				"params": []
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"id": "pair_07bdf6e0348e40a0a77a9a9acd26fa2c"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1497954784089.25,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "fld_f5789259d40a4a269e4a0e157d33f99d",
+			"parentId": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
+			"modified": 1498691526789,
+			"created": 1498691519399,
+			"name": "Typ",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1498515480478,
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_92aee7ca70664011bf20f9094c989e45",
+			"parentId": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
+			"modified": 1498684508954,
+			"created": 1498684082132,
+			"url": "{{backend}}/variable",
+			"name": "List",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498684082133,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_23b48397734d4448b649011750be5685",
+			"parentId": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
+			"modified": 1498687992211,
+			"created": 1498684512424,
+			"url": "{{backend}}/variable/2000",
+			"name": "Read",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498627881598,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_a7f3025c2a09496c9eadc3e225435ed0",
+			"parentId": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
+			"modified": 1498687954022,
+			"created": 1498687674179,
+			"url": "{{backend}}/variable/",
+			"name": "Create",
+			"description": "",
+			"method": "PUT",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"name\": \"Weite 2\",\n\t\"desc\": \"Weite in cm 2\",\n\t\"expressionParameter\": \"w\",\n\t\"typ\": {\n\t\t\"tid\": 100\n\t}\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_6db5380415bb4d5a95b63d60fe772d66"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1498639121705,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_a22c588195b44733a24bb0e78069bf42",
+			"parentId": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
+			"modified": 1498688454310,
+			"created": 1498687674912,
+			"url": "{{backend}}/variable/2000",
+			"name": "Update",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"typ\": {\n\t\t\"tid\": 102\n\t}\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_03f64a9edec84ebea214df2f8707c0eb"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1498616641491,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_d5cf107179b34192946cace2ef428536",
+			"parentId": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
+			"modified": 1498687975819,
+			"created": 1498687694807,
+			"url": "{{backend}}/variable/2010",
+			"name": "Delete",
+			"description": "",
+			"method": "DELETE",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498515480528,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "fld_5fb388963d024d7098fed44a2062a065",
+			"parentId": "fld_db38563d5ad440af9b73f985b3d1b0d2",
+			"modified": 1498056234628,
+			"created": 1498056234628,
+			"name": "todo",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1498056234628,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_9cfb2e94591c4dde886dae4defb4eb0b",
+			"parentId": "fld_832a42a2b8154dd2ae08540a61a81682",
+			"modified": 1498072258003,
+			"created": 1498072258003,
+			"name": "#2 Schueler",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1498072258003,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_d7d7b32c88cd4391b2697a7a6eef2ced",
+			"parentId": "fld_832a42a2b8154dd2ae08540a61a81682",
+			"modified": 1498072295734,
+			"created": 1498072295734,
+			"name": "Test",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1498072295734,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_ec652aaa3ad54d7e860f7d4914a92fa0",
+			"parentId": "fld_832a42a2b8154dd2ae08540a61a81682",
+			"modified": 1498075460424,
+			"created": 1498075460424,
+			"name": "Auth",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1498075460424,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_e7ba269b8e8f4a7ca329187058c5b5ef",
+			"parentId": "fld_832a42a2b8154dd2ae08540a61a81682",
+			"modified": 1498169273431,
+			"created": 1498169229036,
+			"name": "Secure",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1498169229036,
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_87aee2ffa9da41fc964be495a1209127",
+			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
+			"modified": 1498691562617,
+			"created": 1498691535477,
+			"url": "{{ backend  }}/variable/typ",
+			"name": "List",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498691535477,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_05cad49cceb64a4da84f3961c0fccf68",
+			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
+			"modified": 1498696306512,
+			"created": 1498691567749,
+			"url": "{{ backend  }}/variable/typ/107",
+			"name": "Read",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498687808805,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_09092845365b4bf2b163bcd208848a54",
+			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
+			"modified": 1498696276164,
+			"created": 1498691635933,
+			"url": "{{ backend  }}/variable/typ/",
+			"name": "Create",
+			"description": "",
+			"method": "PUT",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"name\": \"Test\",\n\t\"zustaende\": [\n\t\t{\n\t\t\t\"name\": \"a\",\n\t\t\t\"value\": \"a\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"b\",\n\t\t\t\"value\": \"b\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"c\",\n\t\t\t\"value\": \"c\"\n\t\t}\n\t],\n\t\"typ\": \"java.lang.Exception\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_a8a10263a1b24606a522d9abae1bb456"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1498689672141,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_e50589db7aad4efcb1cb24c03407d976",
+			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
+			"modified": 1498696809312,
+			"created": 1498691812814,
+			"url": "{{ backend  }}/variable/typ/107",
+			"name": "Update",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"tid\": 107,\n\t\"name\": \"Test\",\n\t\"desc\": null,\n\t\"typ\": \"java.lang.Integer\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_13a2e7e9dbf5471cbeade4cfdaf5ee5d"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1498685945469,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_ab5474fe6ad545b98828a1d3fd447538",
+			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
+			"modified": 1498696820932,
+			"created": 1498691860651,
+			"url": "{{backend}}/variable/typ/107",
+			"name": "Delete",
+			"description": "",
+			"method": "DELETE",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498685013801,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_58fe30683701472d82d4c5fbb87b73f8",
+			"parentId": "fld_5fb388963d024d7098fed44a2062a065",
+			"modified": 1498056450269,
+			"created": 1498056248090,
+			"url": "{{ tomcat  }}/servlet-hello-world/rest/todo",
+			"name": "GET JSON",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "accept",
+					"value": "application/json",
+					"id": "pair_eba7e36e8aab44f49b239fe08bc5a210"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1498056248090,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_b48c0897e9594478baa351d860744e9a",
+			"parentId": "fld_5fb388963d024d7098fed44a2062a065",
+			"modified": 1498056418571,
+			"created": 1498056359625,
+			"url": "{{ tomcat  }}/servlet-hello-world/rest/todo",
+			"name": "GET XML",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Accept",
+					"value": "application/xml",
+					"id": "pair_fe7e16089f3a4581901fc911bd4c31e2"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1498056359625,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_e1f07b76c2e3497a8641690c17ed7671",
+			"parentId": "fld_5fb388963d024d7098fed44a2062a065",
+			"modified": 1498056474586,
+			"created": 1498056460267,
+			"url": "{{ tomcat  }}/servlet-hello-world/rest/todo",
+			"name": "POST",
+			"description": "",
+			"method": "POST",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498056460267,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_8228c8804e0f4cbbb70c7800bb6852d7",
+			"parentId": "fld_5fb388963d024d7098fed44a2062a065",
+			"modified": 1498056504635,
+			"created": 1498056493091,
+			"url": "{{ tomcat  }}/servlet-hello-world/rest/todo",
+			"name": "PUT",
+			"description": "",
+			"method": "PUT",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498056493091,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_d0bf68bde8374d389eaf7341c7bad6b4",
+			"parentId": "fld_5fb388963d024d7098fed44a2062a065",
+			"modified": 1498056540349,
+			"created": 1498056521983,
+			"url": "{{ tomcat  }}/servlet-hello-world/rest/todo",
+			"name": "DELETE",
+			"description": "",
+			"method": "DELETE",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498056493141,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_98a65f15db704123876f2edf1b9e5c5d",
+			"parentId": "fld_5fb388963d024d7098fed44a2062a065",
+			"modified": 1498056542914,
+			"created": 1498056534030,
+			"url": "{{ tomcat  }}/servlet-hello-world/rest/todo",
+			"name": "OPTIONS",
+			"description": "",
+			"method": "OPTIONS",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498056534030,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_32fabce3a14c4b83b9bcbc70ed570a3e",
+			"parentId": "fld_5fb388963d024d7098fed44a2062a065",
+			"modified": 1498062250578,
+			"created": 1498062229189,
+			"url": "{{ tomcat  }}/servlet-hello-world/rest/todo",
+			"name": "GET  XML (Text)",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Accept",
+					"value": "text/xml",
+					"id": "pair_fe7e16089f3a4581901fc911bd4c31e2"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1498056303857.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_6826fd86d280420887c307811a8f0238",
+			"parentId": "fld_5fb388963d024d7098fed44a2062a065",
+			"modified": 1498062588845,
+			"created": 1498062570729,
+			"url": "{{ tomcat  }}/servlet-hello-world/rest/todo/status",
+			"name": "GET Status",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498062570729,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_0d088a93e82242018b0c1488a8df8fef",
+			"parentId": "fld_9cfb2e94591c4dde886dae4defb4eb0b",
+			"modified": 1498072287457,
+			"created": 1498070919515,
+			"url": "{{ tomcat  }}/backend/schueler",
+			"name": "PUT /schueler",
+			"description": "",
+			"method": "PUT",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498072090692,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_c9c0da5222b841418675f1e428bc2070",
+			"parentId": "fld_d7d7b32c88cd4391b2697a7a6eef2ced",
+			"modified": 1498074050795,
+			"created": 1498072301085,
+			"url": "{{ tomcat  }}/backend/test/cdi",
+			"name": "CDI Status",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1498072301085,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_1070abe2a5374c0f92406ff2e2f3e14a",
+			"parentId": "fld_d7d7b32c88cd4391b2697a7a6eef2ced",
+			"modified": 1498172303649,
+			"created": 1498076436974,
+			"url": "{{ tomcat  }}/backend/test/auth",
+			"name": "Auth",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Accept",
+					"value": "application/json,text/plain",
+					"id": "pair_d60d712b58344d0081ecb56b583b8c7f"
+				}
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1498076436974,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_53d8ea77ecec490c851337e0746a1edb",
+			"parentId": "fld_d7d7b32c88cd4391b2697a7a6eef2ced",
+			"modified": 1498174138313,
+			"created": 1498079392571,
+			"url": "{{ tomcat  }}/backend/test/token",
+			"name": "Token",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1498075953215.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_449b76a94b0d42ea98240731bda0b216",
+			"parentId": "fld_ec652aaa3ad54d7e860f7d4914a92fa0",
+			"modified": 1498172418417,
+			"created": 1498075469457,
+			"url": "{{ tomcat  }}/backend/authentication",
+			"name": "Auth",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/x-www-form-urlencoded",
+				"params": [
+					{
+						"name": "username",
+						"value": "",
+						"id": "pair_a2f2aac4c4434f488e77d2f91128c4f2",
+						"disabled": false
+					},
+					{
+						"name": "password",
+						"value": "",
+						"id": "pair_f05046db8276450ea6c6be4996c2b52d",
+						"disabled": false
+					}
+				]
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/x-www-form-urlencoded",
+					"id": "pair_41a04208477a49f6b5c9c89ba50310d8"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1498075469457,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_95895fa55d454a55a3aeeec2c4a2ca96",
+			"parentId": "fld_e7ba269b8e8f4a7ca329187058c5b5ef",
+			"modified": 1498171385767,
+			"created": 1498169239108,
+			"url": "{{ tomcat  }}/backend/secure/admin",
+			"name": "Role.admin?",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Accept",
+					"value": "application/json",
+					"id": "pair_e17f732633e1432bafe1a0d3e5fae9a2"
+				}
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1498169239108,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_b94607a5f9204f73aa8c5ccd5302ffe0",
+			"parentId": "fld_e7ba269b8e8f4a7ca329187058c5b5ef",
+			"modified": 1498171776029,
+			"created": 1498171299932,
+			"url": "{{ tomcat  }}/backend/secure/schiedsrichter",
+			"name": "Role.schiedsrichter?",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Accept",
+					"value": "application/json,text/plain",
+					"id": "pair_e17f732633e1432bafe1a0d3e5fae9a2"
+				}
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1498122838041,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_235f06d011f44e5190af5ba1b08796e1",
+			"parentId": "fld_e7ba269b8e8f4a7ca329187058c5b5ef",
+			"modified": 1498173927263,
+			"created": 1498171301934,
+			"url": "{{ tomcat  }}/backend/secure/gast",
+			"name": "Role.gast?",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Accept",
+					"value": "application/json,application/xml,text/plain,",
+					"id": "pair_0f4ea84146584c5e9d8d12e50860856e"
+				}
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "{{ token  }}"
+			},
+			"metaSortKey": -1498099637507.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		}
+	]
+}
