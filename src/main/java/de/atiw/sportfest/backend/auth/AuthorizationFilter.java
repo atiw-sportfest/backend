@@ -13,15 +13,18 @@ import javax.annotation.Priority;
 
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.Priorities;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
 import de.atiw.sportfest.backend.ExceptionResponse;
+import de.atiw.sportfest.backend.error.ErrorEntity;
 
 @Secured
 @Provider
@@ -56,7 +59,10 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
         } catch (Exception e) {
 
-            requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).entity(new ExceptionResponse(e)).build());
+            if(e instanceof AuthorizationException)
+                requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build());
+            else
+                requestContext.abortWith(Response.status(Response.Status.FORBIDDEN).entity(e).type(MediaType.APPLICATION_JSON).build());
 
         }
     }
@@ -77,8 +83,14 @@ public class AuthorizationFilter implements ContainerRequestFilter {
     }
 
     private void checkPermissions(List<Role> allowedRoles, Claims claims) throws Exception {
+
+        Role role;
+
+        if(claims.get("role", String.class) == null || claims.get("username", String.class) == null)
+            throw new AuthorizationException("You must be logged in to do this.");
+
         if(!allowedRoles.isEmpty() && !allowedRoles.contains(Role.valueOf(claims.get("role", String.class))))
-            throw new AuthorizationException("Missing role for this action.");
+            throw new AuthorizationException("You are missing a role that is required to do this.");
     }
 }
 
