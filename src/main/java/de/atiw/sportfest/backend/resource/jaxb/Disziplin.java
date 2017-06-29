@@ -6,11 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.ws.rs.BadRequestException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 
 import de.atiw.sportfest.backend.rules.Regel;
 import de.atiw.sportfest.backend.rules.Variable;
@@ -100,25 +102,48 @@ public class Disziplin {
      * @param disziplin die abzulegende Disziplin
      * @throws falseInputException 
      */
-	public static void create(Connection conn, Disziplin disziplin) throws SQLException, BadRequestException{
+	public static int create(Connection conn, Disziplin disziplin) throws SQLException, BadRequestException, InternalServerErrorException {
 
-		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnlegen(?,?,?,?,?,?,?)");
+        ResultSet rs;
+        PreparedStatement ps;
+        int did;
 
-		ps.setString(1, disziplin.name);
-		ps.setString(2, disziplin.beschreibung);
-		if(disziplin.minTeilnehmer > 0)
-			ps.setInt(3, disziplin.minTeilnehmer);
-		else 
-			throw new BadRequestException("Das Attribut && minTeilnehmer darf nicht kleiner als 1 sein!");
-		ps.setInt(4, disziplin.maxTeilnehmer);
+        if(disziplin.minTeilnehmer == null || disziplin.maxTeilnehmer == null || 
+                disziplin.teamleistung == null || disziplin.aktiviert == null)
+            throw new BadRequestException("minTeilnehmer, maxTeilnehmer, teamleistung und aktiviert müssen immer gesetzt sein!");
 
-		ps.setBoolean(5, disziplin.teamleistung);
-		ps.setBoolean(6, disziplin.aktiviert);
+        try {
 
-		ps.execute();
+            ps = conn.prepareStatement("Call DisziplinAnlegen(?,?,?,?,?,?,?)");
 
-        conn.close();
-        }
+            ps.setString(1, disziplin.name);
+            ps.setString(2, disziplin.beschreibung);
+
+            if(disziplin.minTeilnehmer != null && disziplin.minTeilnehmer > 0)
+                ps.setInt(3, disziplin.minTeilnehmer);
+            else 
+                throw new BadRequestException("Das Attribut && minTeilnehmer darf nicht kleiner als 1 sein!");
+
+            ps.setInt(4, disziplin.maxTeilnehmer);
+
+            ps.setBoolean(5, disziplin.teamleistung);
+            ps.setBoolean(6, disziplin.aktiviert);
+
+            ps.setInt(7, disziplin.kontrahentenAnzahl);
+
+            rs = ps.executeQuery();
+
+            if(rs.next())
+                did = rs.getInt(1);
+            else
+                throw new InternalServerErrorException("Keine LAST_INSERT_ID ?!");
+
+            return did;
+
+        } finally { conn.close(); }
+
+    }
+
     /**
      * Bearbeitet eine Disziplin in der Datenbank ab.
      *
@@ -135,26 +160,32 @@ public class Disziplin {
      */
 	public static void edit(Connection conn, Disziplin disziplin) throws SQLException, NotFoundException, BadRequestException {
 
-        Disziplin orig = Disziplin.getOne(conn, Integer.toString(disziplin.did), false);
+        try {
 
-		PreparedStatement ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?,?)");
+            Disziplin orig = Disziplin.getOne(conn, Integer.toString(disziplin.did), false);
 
-		ps.setInt(1, orig.did); // Never change id
+            PreparedStatement ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?,?)");
 
-		ps.setString(2, disziplin.name != null ? disziplin.name : orig.name);
-		ps.setString(3, disziplin.beschreibung != null ? disziplin.beschreibung : orig.beschreibung);
-		if(disziplin.minTeilnehmer > 0)
-			ps.setInt(4, disziplin.minTeilnehmer != null ? disziplin.minTeilnehmer : orig.minTeilnehmer);
-		else	
-			throw new BadRequestException("Das Attribut && minTeilnehmer darf nicht kleiner als 1 sein!");
-		ps.setInt(5, disziplin.maxTeilnehmer != null ? disziplin.maxTeilnehmer : orig.maxTeilnehmer);
+            ps.setInt(1, orig.did); // Never change id
 
-		ps.setBoolean(6, disziplin.teamleistung != null ? disziplin.teamleistung : orig.teamleistung);
-		ps.setBoolean(7, disziplin.aktiviert != null ? disziplin.aktiviert : orig.aktiviert);
+            ps.setString(2, disziplin.name != null ? disziplin.name : orig.name);
+            ps.setString(3, disziplin.beschreibung != null ? disziplin.beschreibung : orig.beschreibung);
+            if(disziplin.minTeilnehmer > 0)
+                ps.setInt(4, disziplin.minTeilnehmer != null ? disziplin.minTeilnehmer : orig.minTeilnehmer);
+            else	
+                throw new BadRequestException("Das Attribut && minTeilnehmer darf nicht kleiner als 1 sein!");
+            ps.setInt(5, disziplin.maxTeilnehmer != null ? disziplin.maxTeilnehmer : orig.maxTeilnehmer);
 
-		ps.execute();
+            ps.setBoolean(6, disziplin.teamleistung != null ? disziplin.teamleistung : orig.teamleistung);
+            ps.setBoolean(7, disziplin.aktiviert != null ? disziplin.aktiviert : orig.aktiviert);
 
-        conn.close();
+            ps.setInt(8, disziplin.kontrahentenAnzahl != null ? disziplin.kontrahentenAnzahl : orig.kontrahentenAnzahl);
+
+            ps.execute();
+
+        } finally {
+            conn.close();
+        }
 	}
 
     public static void edit(Connection con, String did, Disziplin disziplin) throws SQLException, NotFoundException, NumberFormatException, BadRequestException {
