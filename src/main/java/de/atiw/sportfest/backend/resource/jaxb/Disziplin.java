@@ -138,6 +138,8 @@ public class Disziplin {
             else
                 throw new InternalServerErrorException("Keine LAST_INSERT_ID ?!");
 
+            Regel.create(conn, did, disziplin.regeln, false);
+
             return did;
 
         } finally { conn.close(); }
@@ -183,8 +185,12 @@ public class Disziplin {
 
             ps.execute();
 
+            if(disziplin.regeln != null)
+                Regel.createOrEdit(conn, orig.did, disziplin.regeln);
+
         } finally {
-            conn.close();
+            if(!conn.isClosed()) // could already be closed by Regel.createOrEdit
+                conn.close();
         }
 	}
 
@@ -297,7 +303,7 @@ public class Disziplin {
 
         d.kontrahentenAnzahl = rs.getInt(i++);
 
-        d.regeln = Regel.getAll(conn, d.did);
+        d.regeln = Regel.getAll(conn, d.did, false);
         d.variablen = Variable.getAll(conn, d.did, false);
 
         return d;
