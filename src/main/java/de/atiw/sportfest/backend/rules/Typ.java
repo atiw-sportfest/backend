@@ -170,6 +170,8 @@ public class Typ {
             else
                 throw new InternalServerErrorException("Die Datenbank hat den erstellten Typ nicht zurückgegeben ?!");
 
+            Zustand.createOrEdit(con, created.tid, typ.zustaende, false);
+
             return getOne(con, created.tid, false);
 
         } finally { if(close) con.close(); }
@@ -205,6 +207,8 @@ public class Typ {
                 changed = fromResultSet(con, rs);
             else
                 throw new InternalServerErrorException("Die Datenbank hat den veränderten Typ nichtzurückgegen ?!");
+
+            Zustand.createOrEdit(con, orig.tid, typ.zustaende != null ? typ.zustaende : orig.zustaende, false);
 
             return getOne(con, orig.tid, false);
 
