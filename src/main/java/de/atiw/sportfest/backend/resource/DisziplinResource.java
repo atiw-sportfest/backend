@@ -1,10 +1,12 @@
 package de.atiw.sportfest.backend.resource;
 
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,6 +15,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -60,18 +63,10 @@ public class DisziplinResource {
     @PUT
     @Secured({ Role.admin })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response putDisziplin(Disziplin disziplin) throws Exception{
+    public Response putDisziplin(Disziplin disziplin) throws SQLException, BadRequestException {
 
-    	try {
-
-			Disziplin.create(db.getConnection(), disziplin);
-            return Response.ok().build();
-
-    	} catch (Exception e) {
-
-        	throw e;
-
-		}
+        Disziplin.create(db.getConnection(), disziplin);
+        return Response.ok().build();
     }
     
     @POST
