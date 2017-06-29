@@ -13,14 +13,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
-
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
+import javax.servlet.http.HttpServletRequest;
+
 import javax.ws.rs.Consumes;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -32,47 +38,49 @@ public class AuthenticationEndpoint {
 	@Resource(name = "jdbc/sportfest")
 	DataSource db;
 
+    @Context
+    HttpServletRequest hsr;
+
 	@POST
-	@Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response authenticateUser(@FormParam("username") String username, @FormParam("password") String password) {
+	public Response authenticateUser(@FormParam("username") String username, @FormParam("password") String password) throws ForbiddenException, SQLException {
 
-		try {
+        // Authenticate the user using the credentials provided
+        Role priv = authenticate(username, password);
 
-			// Authenticate the user using the credentials provided
-			Role priv = authenticate(username, password);
+        if(priv == null)
+            throw new ForbiddenException(String.format("Wrong password for %s!", username));
 
-			// Issue a token for the user
-			String token = issueToken(username, priv);
+        // Issue a token for the user
+        String token = issueToken(username, priv);
 
-			// Return the token on the response;
-			return Response.ok(token).build();
+        // Return the token on the response;
+        return Response.ok(token).build();
 
-		} catch (Exception e) {
-			return Response.status(Response.Status.UNAUTHORIZED).build();
-		}
 	}
 
-	public Role authenticate(String username, String password) throws Exception {
+	public Role authenticate(String username, String password) throws SQLException {
+
 		Connection conn = null;
-		Role priv = Role.gast;
+        PreparedStatement ps;
+        ResultSet rs;
+		Role priv = null;
 
 		try {
+
 			conn = db.getConnection();
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		try {
 
-			PreparedStatement ps = conn.prepareStatement("Call BerechtigungAnzeigen(?,?);");
+			ps = conn.prepareStatement("Call BerechtigungAnzeigen(?,?);");
+
 			ps.setString(1, username);
 			ps.setString(2, password);
-			ResultSet rs = ps.executeQuery();
+
+			rs = ps.executeQuery();
 
 			if (rs.next()) {
 
-				int role = rs.getInt(1);
-				switch (role) {
+				switch (rs.getInt(1)) {
 				case 1:
 					priv = Role.admin;
 					break;
@@ -85,34 +93,33 @@ public class AuthenticationEndpoint {
 
 				}
 			}
-		} catch (SQLException sqle) {
-			
-		}
-		finally{
-			try {
-				conn.close();
-			} catch (SQLException e) {
 
-			}
-		}
-		
+            return priv;
 
-
-		return priv;
+		} finally{ if(conn != null) conn.close(); } 
 
 	}
 
 	private String issueToken(String username, Role priv) {
 
 		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.HOUR,10);
+		cal.add(Calendar.HOUR, 10);
 
 		return Jwts.builder()
-				.setAudience(username)
-				.claim("role", priv != null ? priv : Role.gast)
-				.setSubject("Joe")
+				.setAudience(hsr.getRemoteAddr())
+                .claim("username", username)
+				.claim("role", priv)
 				.setIssuedAt(Calendar.getInstance().getTime())
 				.setExpiration(cal.getTime())
 				.signWith(SignatureAlgorithm.HS512, "secret".getBytes()).compact();
 	}
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/gast")
+    public String guestLogin(){
+        return issueToken(null, null);
+    }
+
+
 }

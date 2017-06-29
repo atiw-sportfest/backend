@@ -13,11 +13,15 @@ import java.util.Map;
 
 import javax.annotation.Priority;
 
+import javax.servlet.http.HttpServletRequest;
+
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
@@ -29,17 +33,28 @@ import de.atiw.sportfest.backend.auth.Secured;
 @Priority(Priorities.AUTHENTICATION)
 public class AuthenticationFilter implements ContainerRequestFilter {
 
+    @Context
+    HttpServletRequest hsr;
+
     @Override
-    public void filter(ContainerRequestContext requestContext) throws IOException {
+    public void filter(ContainerRequestContext requestContext) throws NotAuthorizedException {
+
+        Claims claims = null;
 
         try {
 
             // Validate the token
-            new TokenParser(requestContext).verify(); // throws exception if invalid
+            claims = new TokenParser(requestContext).verify().getClaims(); // throws exception if invalid
 
         } catch (Exception e){
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity(new ExceptionResponse(e)).build());
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity(e).type(MediaType.APPLICATION_JSON).build());
         }
+
+        if(claims == null)
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("Your claims are empty.").type(MediaType.TEXT_PLAIN).build());
+
+        if(claims != null && !claims.getAudience().equals(hsr.getRemoteAddr()))
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("You (" + hsr.getRemoteAddr() + ") are not the audience of this token (" + claims.getAudience() + ").").type(MediaType.TEXT_PLAIN).build());
     }
 }
 
