@@ -169,6 +169,8 @@ public class Disziplin {
 
             orig = Disziplin.getOne(conn, Integer.toString(disziplin.did), false);
 
+            Variable.updateAssignments(conn, disziplin.did, orig.variablen, disziplin.variablen, false);
+
             ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?,?)");
 
             ps.setInt(1, orig.did); // Never change id

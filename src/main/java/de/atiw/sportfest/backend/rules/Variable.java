@@ -6,10 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.sql.DataSource;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.WebApplicationException;
@@ -62,7 +64,7 @@ public class Variable {
         return var_id;
     }
 
-    public static Variable getOne(Connection con, String vid, boolean close) throws SQLException, NotFoundException {
+    public static Variable getOne(Connection con, int vid, boolean close) throws SQLException, NotFoundException {
 
         Variable var = null;
         ResultSet rs;
@@ -71,7 +73,7 @@ public class Variable {
         try {
 
             prep = con.prepareStatement("CALL VariableAnzeigen(?)");
-            prep.setInt(1, Integer.parseInt(vid));
+            prep.setInt(1, vid);
 
             rs = prep.executeQuery();
 
@@ -79,12 +81,16 @@ public class Variable {
                 var = fromResultSet(con, rs);
 
             if(var == null)
-                throw new NotFoundException(String.format("Variable mit ID \"%s\" nicht gefunden!", vid));
+                throw new NotFoundException(String.format("Variable mit ID \"%d\" nicht gefunden!", vid));
 
             return var;
 
         } finally { if(close) con.close(); }
 
+    }
+
+    public static Variable getOne(Connection con, String vid, boolean close) throws SQLException, NotFoundException {
+        return getOne(con, Integer.parseInt(vid), close);
     }
 
     public static Variable getOne(Connection con, String vid) throws SQLException, NotFoundException {
@@ -247,6 +253,59 @@ public class Variable {
             prep.setInt(i++, Integer.parseInt(vid));
 
             prep.execute();
+
+        } finally { if(close) con.close(); }
+    }
+
+    public static void updateAssignments(Connection con, int did, List<Variable> existing, List<Variable> nevv, boolean close) throws SQLException, NotFoundException {
+
+        PreparedStatement prep;
+        List<Variable> deleted;
+        Logger logger = Logger.getLogger("updateAssignments");
+
+        if(existing == null)
+            existing = new ArrayList<>();
+
+        if(nevv == null)
+            nevv = new ArrayList<>();
+
+        try {
+
+            // deleted = existing - new
+            deleted = new ArrayList<>(existing); // this should copy the elements
+            deleted.removeAll(nevv);
+
+            // new - existing = added
+            nevv.removeAll(existing);
+
+            prep = con.prepareStatement("CALL VariableVonDisziplinEntfernen(?, ?)"); // var_id, did
+
+            for (Variable del : deleted){
+
+                logger.info(String.format("Removing var-assignment for %d", del.var_id));
+
+                getOne(con, del.var_id, false); // throws NotFoundException
+
+                prep.setInt(1, del.var_id);
+                prep.setInt(2, did);
+
+                prep.execute();
+
+            }
+
+            prep = con.prepareStatement("CALL VariableZuDisziplinZuordnen(?, ?)"); // var_id, did
+
+            for(Variable add : nevv){
+
+                logger.info(String.format("Adding var-assignment for %d", add.var_id));
+
+                getOne(con, add.var_id, false); // throws NotFoundException
+
+                prep.setInt(1, add.var_id);
+                prep.setInt(2, did);
+
+                prep.execute();
+            }
 
         } finally { if(close) con.close(); }
     }
