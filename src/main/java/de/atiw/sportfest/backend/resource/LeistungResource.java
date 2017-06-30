@@ -12,6 +12,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -24,7 +25,6 @@ import de.atiw.sportfest.backend.ExceptionResponse;
 import de.atiw.sportfest.backend.auth.Role;
 import de.atiw.sportfest.backend.auth.Secured;
 import de.atiw.sportfest.backend.resource.jaxb.Disziplin;
-import de.atiw.sportfest.backend.resource.jaxb.Disziplin.NotFoundException;
 import de.atiw.sportfest.backend.resource.jaxb.Leistung;
 
 @Path("/leistung")
