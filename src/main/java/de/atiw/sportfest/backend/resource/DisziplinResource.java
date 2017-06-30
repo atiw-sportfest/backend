@@ -73,40 +73,16 @@ public class DisziplinResource {
     @POST
     @Secured({ Role.admin })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response editDisziplin(Disziplin disziplin) throws Exception{
-
-        //if(disziplin.getDid() == 0) // by default, AUTO_INCREMENT starts at 1
-        //    return Response.status(Response.Status.BAD_REQUEST).entity("Missing ID in body!").build();
-
-    	try {
-
-			Disziplin.edit(db.getConnection(), disziplin);
-			return Response.ok().build();
-
-    	} catch (Exception e) {
-
-        	throw e;
-
-		}
-
+	public Disziplin editDisziplin(Disziplin disziplin) throws Exception {
+			return Disziplin.edit(db.getConnection(), disziplin);
     }
     
     @POST
     @Secured({ Role.admin })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     @Path("/{did}")
-	public Response editDisziplin(@PathParam("did") String did, Disziplin disziplin) throws Exception{
-
-    	try {
-
-			Disziplin.edit(db.getConnection(), did, disziplin);
-			return Response.ok().build();
-
-    	} catch (Exception e) {
-
-        	throw e;
-
-		}
+	public Disziplin editDisziplin(@PathParam("did") String did, Disziplin disziplin) throws SQLException, BadRequestException, NotFoundException {
+        return Disziplin.edit(db.getConnection(), did, disziplin);
     }
 
     @DELETE
