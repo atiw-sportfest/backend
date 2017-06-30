@@ -43,6 +43,11 @@ Format: `application/json`
 
 Data:
 
+- `did`: Disziplin ID
+- `kid`: Klassen-ID
+- `sid`: Schüler-ID (leer wenn Teamleistung)
+- `var_id`: Variablen-ID
+
 ```
 {
 	"did": 1337,
