@@ -192,6 +192,9 @@ public class Leistung {
             else
                 throw new InternalServerErrorException("Die Datenbank hat das erstellte Objekt nicht zurückgegeben ?!");
 
+            for(Ergebnis ergebnis : ls.ergebnisse)
+                Ergebnis.create(con, Integer.toString(created.lid), ergebnis, false);
+
             return getOne(con, created.lid, false);
 
         } catch (NotFoundException e) {
@@ -224,6 +227,8 @@ public class Leistung {
         l.kid = rs.getInt(i++);
         l.sid = rs.getInt(i++);
         l.timestamp = rs.getTimestamp(i++);
+
+        l.ergebnisse = Ergebnis.getAll(con, rs.getString(1), false);
 
         return l;
 

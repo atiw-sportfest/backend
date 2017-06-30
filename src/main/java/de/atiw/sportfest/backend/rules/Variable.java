@@ -58,6 +58,10 @@ public class Variable {
         return typ;
     }
 
+    public Integer getVarId(){
+        return var_id;
+    }
+
     public static Variable getOne(Connection con, String vid, boolean close) throws SQLException, NotFoundException {
 
         Variable var = null;
@@ -129,6 +133,22 @@ public class Variable {
 
         } finally { if(close) con.close(); }
 
+    }
+
+    public static Variable createOrGet(Connection con, Variable var, boolean close) throws SQLException, InternalServerErrorException {
+
+        Variable orig;
+
+        try {
+
+            if(var.var_id == null)
+                return create(con, var, false);
+            else if ( (orig = getOne(con, Integer.toString(var.var_id), false)) != null)
+                return orig;
+            else
+                return create(con, var, false);
+
+        } finally { if(close) con.close(); }
     }
 
     public static Variable create(Connection con, Variable var, boolean close) throws SQLException, InternalServerErrorException {
