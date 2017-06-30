@@ -160,18 +160,24 @@ public class Disziplin {
      * @throws Disziplin.NotFoundException wenn die zu bearbeitende Disziplin nicht vorhanden ist.
      * @throws FalseInputException 
      */
-	public static void edit(Connection conn, Disziplin disziplin) throws SQLException, NotFoundException, BadRequestException {
+	public static Disziplin edit(Connection conn, Disziplin disziplin) throws SQLException, NotFoundException, BadRequestException {
+
+        Disziplin orig;
+        PreparedStatement ps;
 
         try {
 
-            Disziplin orig = Disziplin.getOne(conn, Integer.toString(disziplin.did), false);
+            orig = Disziplin.getOne(conn, Integer.toString(disziplin.did), false);
 
-            PreparedStatement ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?,?)");
+            Variable.updateAssignments(conn, disziplin.did, orig.variablen, disziplin.variablen, false);
+
+            ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?,?)");
 
             ps.setInt(1, orig.did); // Never change id
 
             ps.setString(2, disziplin.name != null ? disziplin.name : orig.name);
             ps.setString(3, disziplin.beschreibung != null ? disziplin.beschreibung : orig.beschreibung);
+
             if(disziplin.minTeilnehmer > 0)
                 ps.setInt(4, disziplin.minTeilnehmer != null ? disziplin.minTeilnehmer : orig.minTeilnehmer);
             else	
@@ -186,19 +192,18 @@ public class Disziplin {
             ps.execute();
 
             if(disziplin.regeln != null)
-                Regel.createOrEdit(conn, orig.did, disziplin.regeln);
+                Regel.createOrEdit(conn, orig.did, disziplin.regeln, false);
 
-        } finally {
-            if(!conn.isClosed()) // could already be closed by Regel.createOrEdit
-                conn.close();
-        }
+            return getOne(conn, Integer.toString(disziplin.did));
+
+        } finally { conn.close(); }
 	}
 
-    public static void edit(Connection con, String did, Disziplin disziplin) throws SQLException, NotFoundException, NumberFormatException, BadRequestException {
+    public static Disziplin edit(Connection con, String did, Disziplin disziplin) throws SQLException, NotFoundException, NumberFormatException, BadRequestException {
 
         disziplin.did = Integer.parseInt(did);
 
-        edit(con, disziplin);
+        return edit(con, disziplin);
     }
 
     /**
