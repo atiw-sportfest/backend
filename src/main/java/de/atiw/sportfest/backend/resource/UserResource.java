@@ -92,10 +92,11 @@ public class UserResource {
 		try {
 			role = new TokenParser(token.substring("Bearer ".length())).verify().getClaims().get("role", String.class)
 					;
-			username = new TokenParser(token.substring("Bearer ".length())).verify().getClaims().getAudience();
+			username = new TokenParser(token.substring("Bearer ".length())).verify().getClaims().get("username", String.class);
 
 		} catch (Exception e1) {
 			e1.printStackTrace();
+		
 			return e1.getMessage() + " wow";
 			// return Response.status(Response.Status.CONFLICT).build();
 		}
@@ -144,7 +145,7 @@ public class UserResource {
 				ps.setInt(3, roleint);
 				rs = ps.executeQuery();
 			} catch (SQLException e) {
-				
+
 				e.printStackTrace();
 				return "problem";
 			}finally{
