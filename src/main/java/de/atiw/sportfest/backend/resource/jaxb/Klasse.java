@@ -5,11 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import de.atiw.sportfest.backend.resource.jaxb.Disziplin.NotFoundException;
+import javax.ws.rs.NotFoundException;
+
 import de.atiw.sportfest.backend.rules.Regel;
 
 @XmlRootElement

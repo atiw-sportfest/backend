@@ -88,7 +88,7 @@ public class TestResource {
         }
     }
 
-    private Disziplin makeTestDisziplin() throws SQLException, Disziplin.NotFoundException {
+    private Disziplin makeTestDisziplin() throws SQLException, NotFoundException {
 
         Zustand m = new Zustand("Männlich", "", "m"),
                 w = new Zustand("Weiblich", "", "w");

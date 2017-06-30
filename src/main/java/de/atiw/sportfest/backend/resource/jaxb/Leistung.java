@@ -16,8 +16,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 
-import de.atiw.sportfest.backend.resource.jaxb.Disziplin.NotFoundException;
 import de.atiw.sportfest.backend.rules.Variable;
 
 @XmlRootElement

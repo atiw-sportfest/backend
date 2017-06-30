@@ -356,13 +356,4 @@ public class Disziplin {
         this.variablen = variablen;
     }
 
-    public static class NotFoundException extends Exception {
-
-        private static final long serialVersionUID = 1L;
-
-        public NotFoundException(String message){
-            super(message);
-        }
-
-    }
 }
