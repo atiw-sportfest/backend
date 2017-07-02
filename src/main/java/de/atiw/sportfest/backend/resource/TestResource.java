@@ -1,5 +1,6 @@
 package de.atiw.sportfest.backend.resource;
 
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -63,8 +64,7 @@ public class TestResource {
 
         try {
 
-            Disziplin d = makeTestDisziplin();
-
+            Disziplin d = Disziplin.getOne(db.getConnection(), "1000");
             return Response.ok(d.getErsteRegel().evaluate(d.getVariablen(), new Object[]{ "m", 1.2f })).build();
 
         } catch(Exception e){
@@ -80,33 +80,13 @@ public class TestResource {
 
         try {
 
-            return Response.ok(makeTestDisziplin()).build();
+            return Response.ok(Disziplin.getOne(db.getConnection(), "1000")).build();
 
         } catch(Exception e){
 
             return ExceptionResponse.internalServerError(e);
 
         }
-    }
-
-    private Disziplin makeTestDisziplin() throws SQLException, NotFoundException {
-
-        Zustand m = new Zustand("Männlich", "", "m"),
-                w = new Zustand("Weiblich", "", "w");
-
-        Typ geschlechtT = new Typ("Geschlecht", "", String.class, Arrays.asList(new Zustand[]{m, w})),
-            integerT = new Typ(int.class),
-            floatT = new Typ(float.class);
-
-        Variable geschlecht = new Variable("Geschlecht", "", "geschlecht", geschlechtT),
-                 counter = new Variable("Counter", "", "counter", integerT),
-                 weite = new Variable("Weite", "", "weite", floatT);
-
-        Disziplin d = Disziplin.getOne(db.getConnection(), "1000");
-
-        d.setVariablen(Arrays.asList(new Variable[]{ geschlecht, weite }));
-
-        return d;
     }
 
     @GET
@@ -142,6 +122,28 @@ public class TestResource {
         return leistung;
     }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("reflection")
+    public Response testReflection(TestType test) throws Exception {
+
+        if(test.convert){
+
+            Class<?> type = Class.forName(test.className);
+            Method method = type.getDeclaredMethod(test.convertMethod, String.class);
+
+            return Response.ok(method.invoke(null, test.string)).build();
+        } else {
+            return Response.ok(test.string).build();
+        }
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("test2")
+    public Response test2(ValueTest test) throws Exception {
+        return Response.ok(test.aTest).build();
+    }
 }
 
 @XmlRootElement
@@ -149,10 +151,37 @@ class ValueTest {
 
     @XmlElement
     Integer i;
+
     @XmlElement
     Boolean b;
+
     @XmlElement
     Float f;
+
+    @XmlTransient
+    String aTest;
+
+    @XmlElement
+    private void setTest(Integer test){
+        this.aTest = Integer.toString(test);
+    }
+
+}
+
+@XmlRootElement
+class TestType{
+
+    @XmlElement
+    String className;
+
+    @XmlElement
+    String convertMethod;
+
+    @XmlElement
+    String string;
+
+    @XmlElement
+    Boolean convert;
 
 }
 
