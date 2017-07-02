@@ -70,7 +70,7 @@ public class Typ {
             case "String":
                 return String.class;
             case "int":
-                return int.class;
+                return Integer.class;
         }
 
         return Class.forName(typ);
