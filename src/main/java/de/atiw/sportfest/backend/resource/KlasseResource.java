@@ -48,52 +48,14 @@ public class KlasseResource {
 	@GET
 	@Path("/{kid}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    public Response getKlasse(@PathParam("kid") String kid){
-		Response response = null;
-		Connection connection = null;
-		try{
-    		connection = db.getConnection();
-			ResultSet rs = Klasse.getRSgetOne(connection, kid);
-			if(rs.next()){
-				response = Response.ok(new Klasse(rs.getInt(1), rs.getString(2))).build();
-			}else{ 
-				response = Response.status(Response.Status.NOT_FOUND).build();
-			}
-    	} catch (Exception e) {
-			response = ExceptionResponse.internalServerError(e);
-		}finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-    	return response;			
+    public Klasse getKlasse(@PathParam("kid") String kid) throws SQLException {
+        return Klasse.getOne(db.getConnection(), kid);
     }
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getKlassen(){
-		Response response = null;
-		Connection connection = null;
-    	try {
-    		ArrayList<Klasse> returner = new ArrayList<Klasse>();
-    		connection = db.getConnection();
-			ResultSet rs = Klasse.getRSgetAll(connection);
-			while(rs.next()){
-				returner.add(new Klasse(rs.getInt(1), rs.getString(2)));
-			}
-			response = Response.ok(returner).build();
-		} catch (Exception e) {
-			response = ExceptionResponse.internalServerError(e);
-		}finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-    	return response;
+	public List<Klasse> getKlassen() throws SQLException {
+        return Klasse.getAll(db.getConnection());
 	}
 	
 	@PUT
