@@ -136,4 +136,15 @@ public class Schueler {
 
         return s;
     }
+
+    public String getGeschlecht(){
+        switch(gid){
+            case 1:
+                return "m";
+            case 2:
+                return "w";
+            default:
+                return "";
+        }
+    }
 }
