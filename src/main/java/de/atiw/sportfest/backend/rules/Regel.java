@@ -75,7 +75,7 @@ public class Regel {
         return this.index == 0;
     }
 
-    public int evaluate(Variable[] vars, Object[] values) throws CompileException, InvocationTargetException {
+    public int evaluate(List<Variable> vars, Object[] values) throws CompileException, InvocationTargetException {
        return RegelEvaluator.instance.evaluate(new EvaluationParameters(expression, vars), values) ? points : next != null ? next.evaluate(vars, values) : 0;
     }
 
