@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

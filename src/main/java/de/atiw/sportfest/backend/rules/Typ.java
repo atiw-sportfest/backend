@@ -1,5 +1,7 @@
 package de.atiw.sportfest.backend.rules;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,6 +37,9 @@ public class Typ {
     @XmlElement
     private Class<?> typ;
 
+    @XmlElement
+    private String convertMethod;
+
     public Typ() {
     }
 
@@ -69,6 +74,21 @@ public class Typ {
         }
 
         return Class.forName(typ);
+    }
+
+    public Object getValue(String wert) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+
+        if(convertMethod != null){
+
+            Method method = typ.getDeclaredMethod(convertMethod, String.class);
+
+            return method.invoke(null, wert);
+        } else return wert;
+
+    }
+
+    public Object translateToJavaType(String string){
+        return null;
     }
 
     public String getName() {
@@ -275,6 +295,7 @@ public class Typ {
             typ.name = rs.getString(i++);
             typ.desc = rs.getString(i++);
             typ.typ = resolveJavaType(rs.getString(i++));
+            typ.convertMethod = rs.getString(i++);
 
             typ.zustaende = Zustand.getAll(con, typ.tid, false);
 
