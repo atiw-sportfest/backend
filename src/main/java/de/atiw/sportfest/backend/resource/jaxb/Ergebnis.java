@@ -55,7 +55,29 @@ public class Ergebnis {
         return getAll(con, Integer.parseInt(lid), close);
     }
 
+    public static void updateErgebnisse(Connection con, int lid, List<Ergebnis> nevv, boolean close) throws SQLException, NotFoundException, InternalServerErrorException {
+
+        List<Ergebnis> existing = getAll(con, lid, false);
+
+        // deleted = existing - new
+        List<Ergebnis> deleted = new ArrayList<>(existing);
+        deleted.removeAll(nevv);
+
+        // (real) new = new - existing
+        nevv.removeAll(existing);
+
+        delete(con, deleted, false);
+
+        for(Ergebnis add : nevv)
+            Ergebnis.create(con, lid, add, false);
+
+    }
+
     public static Ergebnis create(Connection con, String lid, Ergebnis ergebnis, boolean close) throws SQLException, NotFoundException, InternalServerErrorException {
+        return create(con, Integer.parseInt(lid), ergebnis, close);
+    }
+
+    public static Ergebnis create(Connection con, int lid, Ergebnis ergebnis, boolean close) throws SQLException, NotFoundException, InternalServerErrorException {
 
         PreparedStatement prep;
         ResultSet rs;
@@ -70,7 +92,7 @@ public class Ergebnis {
 
             prep = con.prepareStatement("CALL ErgebnisAnlegen(?, ?, ?)"); // lid, wert, var_id
 
-            prep.setInt(i++, Integer.parseInt(lid));
+            prep.setInt(i++, lid);
             prep.setString(i++, ergebnis.wert);
             prep.setInt(i++, var_id);
 
@@ -81,6 +103,31 @@ public class Ergebnis {
             else
                 throw new InternalServerErrorException("Die Datenbank hat das erstellte Objekt nicht zurückgegenen ?!");
 
+
+        } finally { if(close) con.close(); }
+
+    }
+
+    public static void delete(Connection con, List<Ergebnis> ergebnisse, boolean close) throws SQLException, InternalServerErrorException {
+
+        PreparedStatement prep;
+        int i = 1;
+
+        try {
+
+            prep = con.prepareStatement("CALL ErgebnisEntfernen(?, ?)"); // lid, vid
+
+            for(Ergebnis ergebnis : ergebnisse){
+
+                if(ergebnis.lid == null || ergebnis.var == null || ergebnis.var.getVarId() == null)
+                    throw new InternalServerErrorException("Kann Ergebnis nicht löschen, braucht immer eine LeistungsID und eine Variable mit Variablen-ID!");
+                prep.setInt(i++, ergebnis.lid);
+                prep.setInt(i++, ergebnis.var.getVarId());
+
+                prep.execute();
+                i = 1;
+
+            }
 
         } finally { if(close) con.close(); }
 
