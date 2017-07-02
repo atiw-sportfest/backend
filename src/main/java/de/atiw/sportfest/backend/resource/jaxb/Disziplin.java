@@ -84,11 +84,11 @@ public class Disziplin {
      * @param did die ID der Disziplin
      * @return a {@link java.sql.ResultSet}
      */
-	public static ResultSet getRSgetOne(Connection conn, String did) throws SQLException{
+	public static ResultSet getRSgetOne(Connection conn, int did) throws SQLException{
 
 		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnzeigen(?)");
 
-		ps.setString(1, did);
+		ps.setInt(1, did);
 
 		return ps.executeQuery();
 	}
@@ -252,7 +252,7 @@ public class Disziplin {
      * @return die gefundene Disziplin
      * @throws Disziplin.NotFoundException wenn keine Disziplin mit dieser ID gefunden wurde.
      */
-	public static Disziplin getOne(Connection conn, String did, boolean close) throws SQLException, NotFoundException {
+	public static Disziplin getOne(Connection conn, int did, boolean close) throws SQLException, NotFoundException {
 
 		ResultSet rs = getRSgetOne(conn, did);
         Disziplin one = null;
@@ -266,8 +266,12 @@ public class Disziplin {
         if(one != null)
             return one;
         else
-            throw new NotFoundException(String.format("Keine Disziplin zu ID \"%s\" gefunden!", did));
+            throw new NotFoundException(String.format("Keine Disziplin zu ID \"%d\" gefunden!", did));
 	}
+
+	public static Disziplin getOne(Connection conn, String did, boolean close) throws SQLException, NotFoundException {
+        return getOne(conn, Integer.parseInt(did), close);
+    }
 
     /**
      * Ruft alle Disziplin aus der Datenbank ab.
