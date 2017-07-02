@@ -28,7 +28,7 @@ public class Ergebnis {
 
     public Ergebnis(){}
 
-    public static List<Ergebnis> getAll(Connection con, String lid, boolean close) throws SQLException {
+    public static List<Ergebnis> getAll(Connection con, int lid, boolean close) throws SQLException {
 
         PreparedStatement prep;
         ResultSet rs;
@@ -37,7 +37,7 @@ public class Ergebnis {
         try {
 
             prep = con.prepareStatement("CALL ErgebnisseAnzeigen(?)"); // lid
-            prep.setInt(1, Integer.parseInt(lid));
+            prep.setInt(1, lid);
 
             rs = prep.executeQuery();
 
@@ -47,6 +47,10 @@ public class Ergebnis {
             return ergebnisse;
 
         } finally { if(close) con.close(); }
+    }
+
+    public static List<Ergebnis> getAll(Connection con, String lid, boolean close) throws SQLException {
+        return getAll(con, Integer.parseInt(lid), close);
     }
 
     public static Ergebnis create(Connection con, String lid, Ergebnis ergebnis, boolean close) throws SQLException, NotFoundException, InternalServerErrorException {
