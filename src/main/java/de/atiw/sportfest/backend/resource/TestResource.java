@@ -64,7 +64,7 @@ public class TestResource {
 
             Disziplin d = makeTestDisziplin();
 
-            return Response.ok(d.getErsteRegel().evaluate(d.getVariablen().toArray(new Variable[0]), new Object[]{ "m", 1.2f })).build();
+            return Response.ok(d.getErsteRegel().evaluate(d.getVariablen(), new Object[]{ "m", 1.2f })).build();
 
         } catch(Exception e){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
