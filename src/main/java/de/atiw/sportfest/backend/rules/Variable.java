@@ -35,6 +35,10 @@ public class Variable {
     @XmlElement
     private Typ typ;
 
+    public static final Variable Geschlecht = new Variable("", "", "geschlecht",
+            new Typ("Geschlecht", "", String.class,
+                new Zustand("", "", "m"), new Zustand("", "", "w")));
+
     public Variable(){}
 
     public Variable(String name, String desc, String expressionParameter, Typ typ) {
