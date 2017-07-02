@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import javax.ws.rs.NotFoundException;
+
 @XmlRootElement
 public class Schueler {
 
@@ -69,6 +71,21 @@ public class Schueler {
 
 	}
 
+    public static Schueler getOne(Connection con, String sid, boolean close) throws SQLException, NotFoundException {
+
+        ResultSet rs;
+
+        try {
+
+            rs = getRSgetOne(con, sid);
+
+            if(rs.next())
+                return fromRS(con, rs);
+            else throw new NotFoundException(String.format("Schueler %s konnte nicht gefunden werden!", sid));
+
+        } finally { if(close) con.close(); }
+    }
+
 	public static ResultSet getRSgetOne(Connection conn, String sid) throws SQLException {
 		PreparedStatement ps = conn.prepareStatement("Call SchuelerAnzeigen(?);");
 		ps.setString(1, sid);
@@ -105,4 +122,18 @@ public class Schueler {
 		ps.setString(1, sid);
 		ps.execute();
 	}
+
+    private static Schueler fromRS(Connection con, ResultSet rs) throws SQLException {
+
+        Schueler s = new Schueler();
+        int i = 1;
+
+        s.sid = rs.getInt(i++);
+        s.vorname = rs.getString(i++);
+        s.name = rs.getString(i++);
+        s.kid = rs.getInt(i++);
+        s.gid = rs.getInt(i++);
+
+        return s;
+    }
 }
