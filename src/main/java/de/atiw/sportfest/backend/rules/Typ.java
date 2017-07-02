@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -42,12 +43,15 @@ public class Typ {
     }
 
     public Typ(Class<?> typ){
-        this("", "", typ, null);
+        this("", "", typ, (List<Zustand>) null);
     }
     public Typ(String name, String desc, String typ, List<Zustand> zustaende) throws ClassNotFoundException {
         this(name, desc, resolveJavaType(typ), zustaende);
     }
 
+    public Typ(String name, String desc, Class<?> typ, Zustand ...zustaende) {
+        this(name, desc, typ, Arrays.asList(zustaende));
+    }
     public Typ(String name, String desc, Class<?> typ, List<Zustand> zustaende) {
         this.name = name;
         this.desc = desc;
