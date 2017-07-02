@@ -1,5 +1,6 @@
 package de.atiw.sportfest.backend.resource;
 
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -121,6 +122,22 @@ public class TestResource {
         return leistung;
     }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("reflection")
+    public Response testReflection(TestType test) throws Exception {
+
+        if(test.convert){
+
+            Class<?> type = Class.forName(test.className);
+            Method method = type.getDeclaredMethod(test.convertMethod, String.class);
+
+            return Response.ok(method.invoke(null, test.string)).build();
+        } else {
+            return Response.ok(test.string).build();
+        }
+    }
+
 }
 
 @XmlRootElement
@@ -132,6 +149,23 @@ class ValueTest {
     Boolean b;
     @XmlElement
     Float f;
+
+}
+
+@XmlRootElement
+class TestType{
+
+    @XmlElement
+    String className;
+
+    @XmlElement
+    String convertMethod;
+
+    @XmlElement
+    String string;
+
+    @XmlElement
+    Boolean convert;
 
 }
 
