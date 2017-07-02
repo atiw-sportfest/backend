@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
@@ -297,5 +298,10 @@ public class Leistung {
     public void verify() throws BadRequestException {
         if(ergebnisse == null && did == null && kid == null)
             throw new BadRequestException("Ergebnisse, Klassen-Id und Disziplin-ID müssen immer gesetzt sein!");
+    }
+
+    @XmlTransient
+    public Integer getPunkte(){
+        return punkte;
     }
 }

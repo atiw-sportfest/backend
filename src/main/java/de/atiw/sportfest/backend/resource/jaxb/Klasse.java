@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -20,6 +21,9 @@ public class Klasse {
 
 	@XmlElement
 	private String name;
+
+    @XmlElement
+    private Integer points;
 
 	public Klasse() {}
 	
@@ -81,7 +85,7 @@ public class Klasse {
         Klasse one = null;
 
 		if(rs.next())
-            one = fromResultSet(rs);
+            one = fromResultSet(conn, rs);
 
         if(close)
             conn.close();
@@ -109,7 +113,7 @@ public class Klasse {
 		ResultSet rs = getRSgetAll(conn);
 
 		while(rs.next())
-            returner.add(fromResultSet(rs));
+            returner.add(fromResultSet(conn, rs));
 
         conn.close();
 
@@ -117,14 +121,18 @@ public class Klasse {
 	}
 	
 	
-    private static Klasse fromResultSet(ResultSet rs) throws SQLException {
-
-        int i = 1;
+    private static Klasse fromResultSet(Connection con, ResultSet rs) throws SQLException {
 
         Klasse klasse = new Klasse();
+        int i = 1;
 
         klasse.kid = rs.getInt(i++);
         klasse.name = rs.getString(i++);
+        klasse.points = 0;
+
+        for(Leistung l : Leistung.getAll(con, klasse.kid, false))
+            if(l.getPunkte() != null)
+                klasse.points += l.getPunkte();
 
         return klasse;
     }
@@ -163,5 +171,9 @@ public class Klasse {
 
     public String getName() {
         return name;
+    }
+
+    public Integer getPoints(){
+        return points;
     }
 }
