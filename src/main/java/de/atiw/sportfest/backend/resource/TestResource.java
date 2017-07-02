@@ -138,6 +138,12 @@ public class TestResource {
         }
     }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("test2")
+    public Response test2(ValueTest test) throws Exception {
+        return Response.ok(test.aTest).build();
+    }
 }
 
 @XmlRootElement
@@ -145,10 +151,20 @@ class ValueTest {
 
     @XmlElement
     Integer i;
+
     @XmlElement
     Boolean b;
+
     @XmlElement
     Float f;
+
+    @XmlTransient
+    String aTest;
+
+    @XmlElement
+    private void setTest(Integer test){
+        this.aTest = Integer.toString(test);
+    }
 
 }
 
