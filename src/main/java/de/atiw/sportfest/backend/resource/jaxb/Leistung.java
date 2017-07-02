@@ -1,5 +1,6 @@
 package de.atiw.sportfest.backend.resource.jaxb;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
+
+import org.codehaus.commons.compiler.CompileException;
 
 import de.atiw.sportfest.backend.rules.Variable;
 
@@ -37,6 +40,9 @@ public class Leistung {
 
     @XmlElement
     private List<Ergebnis> ergebnisse;
+
+    @XmlElement
+    private Integer punkte;
 
     @XmlElement
 	private Timestamp timestamp;
@@ -139,6 +145,27 @@ public class Leistung {
 
 	}    
 
+    public static List<Leistung> getAll(Connection con, int kid, boolean close) throws SQLException {
+
+        PreparedStatement prep;
+        ResultSet rs;
+        List<Leistung> leistungen = new ArrayList<>();
+
+        try {
+
+            prep = con.prepareStatement("CALL LeistungenEinerKlasseAnzeigen(?)"); // kid
+            prep.setInt(1, kid);
+
+            rs = prep.executeQuery();
+
+            while(rs.next())
+                leistungen.add(fromResultSet(con, rs));
+
+            return leistungen;
+
+        } finally { if(close) con.close(); }
+    }
+
     public static Leistung edit(Connection con, String lid, Leistung leistung, boolean close) throws SQLException, NotFoundException {
         return edit(con, lid, leistung, getOne(con, lid, false), close);
     }
@@ -217,18 +244,51 @@ public class Leistung {
         } finally { if(close) conn.close(); }
     }
 
-    private static Leistung fromResultSet(Connection con, ResultSet rs) throws SQLException {
+    private static Leistung fromResultSet(Connection con, ResultSet rs) throws SQLException, InternalServerErrorException {
 
         Leistung l = new Leistung();
+        List<Variable> vars = new ArrayList<>();
+        List<Object> vals = new ArrayList<>();
+        Disziplin d;
         int i = 1;
 
         l.lid = rs.getInt(i++);
         l.did = rs.getInt(i++);
         l.kid = rs.getInt(i++);
+
         l.sid = rs.getInt(i++);
+        l.sid = rs.wasNull() ? null : l.sid;
+
         l.timestamp = rs.getTimestamp(i++);
 
-        l.ergebnisse = Ergebnis.getAll(con, rs.getString(1), false);
+        l.ergebnisse = Ergebnis.getAll(con, Integer.toString(l.lid), false);
+
+        vars.add(Variable.Geschlecht);
+
+        if(l.sid != null)
+            vals.add(Schueler.getOne(con, Integer.toString(l.sid), false).getGeschlecht());
+        else
+            vals.add("");
+
+        d = Disziplin.getOne(con, l.did, false);
+
+        try {
+
+            for(Ergebnis ergebnis : l.ergebnisse){
+                vals.add(ergebnis.getWert());
+                vars.add(ergebnis.getVariable());
+            }
+
+            if(d.getErsteRegel() != null)
+                l.punkte = d.getErsteRegel().evaluate(vars, vals);
+
+        } catch(NoSuchMethodException | IllegalAccessException e){
+            throw new InternalServerErrorException("Konnte Wert nicht übersetzen!", e);
+        } catch(CompileException e){
+            throw new InternalServerErrorException("Konnte Regel nicht auswerten!", e);
+        } catch(InvocationTargetException e){
+            throw new InternalServerErrorException(e);
+        }
 
         return l;
 
