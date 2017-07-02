@@ -187,6 +187,8 @@ public class Leistung {
             prep.setInt(i++, leistung.sid != null ? leistung.sid: orig.sid);
             prep.setTimestamp(i++, leistung.timestamp != null ? leistung.timestamp : orig.timestamp);
 
+            Ergebnis.updateErgebnisse(con, orig.lid, leistung.ergebnisse, false);
+
             prep.execute();
 
             return getOne(con, lid, false);
