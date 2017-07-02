@@ -279,7 +279,7 @@ public class Leistung {
                 vars.add(ergebnis.getVariable());
             }
 
-            if(d.getErsteRegel() != null)
+            if(d.getErsteRegel() != null && l.ergebnisse.size() > 0)
                 l.punkte = d.getErsteRegel().evaluate(vars, vals);
 
         } catch(NoSuchMethodException | IllegalAccessException e){
