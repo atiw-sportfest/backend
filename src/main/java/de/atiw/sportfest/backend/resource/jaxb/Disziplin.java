@@ -365,4 +365,13 @@ public class Disziplin {
         this.variablen = variablen;
     }
 
+    @XmlTransient
+    public String getName(){
+        return this.name;
+    }
+
+    @XmlTransient
+    public Integer getDid(){
+        return this.did;
+    }
 }
