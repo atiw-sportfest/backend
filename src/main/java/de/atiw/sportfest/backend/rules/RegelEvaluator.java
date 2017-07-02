@@ -27,6 +27,12 @@ public enum RegelEvaluator {
         ExpressionEvaluator ee;
         String expression = params.getExpression();
 
+        for(String param : params.getParameters())
+            logger.info("Param: " + param);
+
+        for(Object value : values)
+            logger.info("Value: " + value);
+
         if( (ee = eeCache.get(params)) == null){
 
             logger.info(String.format("Cache miss for \"%s\"", expression));
