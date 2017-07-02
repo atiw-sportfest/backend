@@ -1,5 +1,6 @@
 package de.atiw.sportfest.backend.resource.jaxb;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
@@ -96,5 +98,15 @@ public class Ergebnis {
 
         return e;
 
+    }
+
+    @XmlTransient
+    public Variable getVariable(){
+        return var;
+    }
+
+    @XmlTransient
+    public Object getWert() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        return var.getTyp().getValue(wert);
     }
 }
