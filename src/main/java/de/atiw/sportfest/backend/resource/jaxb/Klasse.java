@@ -24,8 +24,6 @@ public class Klasse {
 
     @XmlElement
     private Integer points;
-
-	public Klasse() {}
 	
 	//Konstruktoren
 	public Klasse() {}
