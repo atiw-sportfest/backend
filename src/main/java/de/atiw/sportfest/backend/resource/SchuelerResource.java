@@ -44,7 +44,7 @@ public class SchuelerResource{
 		Response response = null;
 		Connection connection = null;
 		try{
-    		connection = db.getConnection();
+    		connection = this.db.getConnection();
 			ResultSet rs = Schueler.getRSgetOne(connection, sid);
 			if(rs.next()){
 				response = Response.ok(new Schueler(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5))).build();
@@ -70,7 +70,7 @@ public class SchuelerResource{
 		Connection connection = null;
     	try {
     		ArrayList<Schueler> returner = new ArrayList<Schueler>();
-    		connection = db.getConnection();
+    		connection = this.db.getConnection();
 			ResultSet rs = Schueler.getRSgetAll(connection);
 			while(rs.next()){
 				returner.add(new Schueler(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5)));
@@ -96,7 +96,7 @@ public class SchuelerResource{
 		Connection connection = null;
     	try {
     		ArrayList<Schueler> returner = new ArrayList<Schueler>();
-    		connection = db.getConnection();
+    		connection = this.db.getConnection();
 			ResultSet rs = Schueler.getRSgetAllOfKlasse(connection, kid);
 			while(rs.next()){
 				returner.add(new Schueler(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5)));
@@ -115,14 +115,14 @@ public class SchuelerResource{
 	}
 
 	@GET
-    @Path("/klasse/{kid}/disziplin/{did}")
+    @Path("/{kid}/{did}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getSchuelerEinerKlasseUndDisziplin(@PathParam("kid") String kid, @PathParam("did") String did){
 		Response response = null;
 		Connection connection = null;
     	try {
     		ArrayList<Schueler> returner = new ArrayList<Schueler>();
-    		connection = db.getConnection();
+    		connection = this.db.getConnection();
 			ResultSet rs = Schueler.getRSgetAllOfKlasseAndDisziplin(connection, kid, did);
 			while(rs.next()){
 				returner.add(new Schueler(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5)));
@@ -147,7 +147,7 @@ public class SchuelerResource{
 		Response response = null;
 		Connection connection = null;
     	try {
-    		connection = db.getConnection();
+    		connection = this.db.getConnection();
     		Schueler.getRSput(connection, schueler);
 			response = Response.ok().build();
     	} catch (SQLException e) {
@@ -179,7 +179,7 @@ public class SchuelerResource{
 
 		try {
 
-			connection = db.getConnection();
+			connection = this.db.getConnection();
 			List<Klasse> klassen = new ArrayList<>();
 
 			while((line = br.readLine()) != null){
@@ -236,7 +236,7 @@ public class SchuelerResource{
 		Response response = null;
 		Connection connection = null;
     	try {
-    		connection = db.getConnection();
+    		connection = this.db.getConnection();
     		Schueler.getRSdelete(connection, sid);
 			response = Response.ok().build();
     	} catch (SQLException e) {

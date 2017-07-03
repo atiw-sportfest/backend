@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import javax.ws.rs.NotFoundException;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Schueler {
@@ -45,23 +45,23 @@ public class Schueler {
 	}
 
 	public Integer getSid() {
-		return sid;
+		return this.sid;
 	}
 
 	public String getVorname() {
-		return vorname;
+		return this.vorname;
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public Integer getKid() {
-		return kid;
+		return this.kid;
 	}
 
 	public Integer getGid() {
-		return gid;
+		return this.gid;
 	}
 
 	public static ResultSet getRSgetAll(Connection conn) throws SQLException {
@@ -99,7 +99,7 @@ public class Schueler {
 	}
 	
 	public static ResultSet getRSgetAllOfKlasseAndDisziplin(Connection conn, String kid, String did) throws SQLException {
-		PreparedStatement ps = conn.prepareStatement("Call SchuelerEinerDisziplinUndKlasseAnzeigen(?, ?);");
+		PreparedStatement ps = conn.prepareStatement("Call AnmeldungenEinerDisziplinUndKlasseAnzeigen(?, ?);");
 		ps.setString(1, kid);
 		ps.setString(2, did);
 		return ps.executeQuery();
@@ -138,7 +138,7 @@ public class Schueler {
     }
 
     public String getGeschlecht(){
-        switch(gid){
+        switch(this.gid){
             case 1:
                 return "m";
             case 2:
