@@ -24,34 +24,51 @@ public class Klasse {
 
     @XmlElement
     private Integer points;
-
-	public Klasse() {}
 	
+	//Konstruktoren
+	public Klasse() {}
 	public Klasse(String name){
 		this.name = name;
 	}
-
 	public Klasse(Integer kid, String name){
 		this.kid = kid;
 		this.name = name;
 	}
 
-	public static ResultSet getRSgetAll(Connection conn) throws SQLException{		
-		return conn.prepareStatement("Call KlassenAnzeigen();").executeQuery();
-		
-	}
 	
-	public static ResultSet getRSgetOne(Connection conn, String did) throws SQLException{			 
+	/**
+	 * 
+	 * Alle Klassen aus der Datenbank abfragen
+	 * 
+	 * <em>Die Connection muss vom Caller geschlosen werden.</em>
+	 * 
+	 * @param conn die zu nutzende Datenbankverbindung
+	 * @return a {@link java.sql.ResultSet}
+	 */
+	public static ResultSet getRSgetAll(Connection conn) throws SQLException{		
+		return conn.prepareStatement("Call KlassenAnzeigen();").executeQuery();	
+	}
+
+	
+	/**
+	 * 
+	 * Eine Klasse aus der Datenbank abfragen
+	 * 
+	 * <em>Die Connection muss vom Caller geschlosen werden.</em>
+	 * 
+	 * @param conn die zu nutzende Datenbankverbindung
+	 * @param kid die ID der Klasse
+	 * @return a {@link java.sql.ResultSet}
+	 */
+	public static ResultSet getRSgetOne(Connection conn, String kid) throws SQLException{			 
 
 		PreparedStatement ps = conn.prepareStatement("Call KlasseAnzeigen(?)");
-		ps.setString(1, did);
+		ps.setString(1, kid);
 
 		return ps.executeQuery();
 	}
 	
 
-	
-	
     /**
      * Ruft eine Klasse aus der Datenbank ab.
      *
@@ -67,9 +84,7 @@ public class Klasse {
         return getOne(conn, kid, true);
     }
 	
-	
-	
-	
+		
     /**
      * Ruft eine Klasse aus der Datenbank ab.
      *
@@ -96,9 +111,7 @@ public class Klasse {
             throw new NotFoundException(String.format("Keine Klasse zu ID \"%s\" gefunden!", kid));
 	}
 	
-	
-	
-	
+		
     /**
      * Ruft alle Klassen aus der Datenbank ab.
      *
@@ -120,7 +133,15 @@ public class Klasse {
 		return returner;
 	}
 	
-	
+	/**
+	 * 
+	 * Erstellt aus einem ResultSet eine Klasse
+	 * 
+   * @param con die zu nutzende Datenbankverbindung 
+	 * @param rs das ResultSet
+	 * @return Klasse aus dem Resulstset
+	 * @throws SQLException
+	 */
     private static Klasse fromResultSet(Connection con, ResultSet rs) throws SQLException {
 
         Klasse klasse = new Klasse();
@@ -151,24 +172,23 @@ public class Klasse {
 			klasse.kid = rs.getInt(1);
 		}
 	}
-	
 	public static void getRSputAnmeldung(Connection conn, int sid, int did) throws SQLException {
 		PreparedStatement ps = conn.prepareStatement("Call AnmeldungAnlegen(?, ?);");
 		ps.setInt(1, sid);
 		ps.setInt(2, did);
 		ps.execute();
 	}
-	
 	public static void getRSdelete(Connection conn, String kid) throws SQLException{	
 		PreparedStatement ps = conn.prepareStatement("Call KlasseLoeschen(?)");
 		ps.setString(1,kid);
 		ps.execute();
     }	
 
+	
+	//Standard Getter
     public Integer getKid() {
         return kid;
     }
-
     public String getName() {
         return name;
     }
