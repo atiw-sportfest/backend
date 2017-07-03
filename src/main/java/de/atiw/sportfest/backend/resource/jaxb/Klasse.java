@@ -5,11 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import de.atiw.sportfest.backend.resource.jaxb.Disziplin.NotFoundException;
+import javax.ws.rs.NotFoundException;
+
 import de.atiw.sportfest.backend.rules.Regel;
 
 @XmlRootElement
@@ -21,6 +22,10 @@ public class Klasse {
 	@XmlElement
 	private String name;
 
+    @XmlElement
+    private Integer points;
+
+	public Klasse() {}
 	
 	//Konstruktoren
 	public Klasse() {}
@@ -97,7 +102,7 @@ public class Klasse {
         Klasse one = null;
 
 		if(rs.next())
-            one = fromResultSet(rs);
+            one = fromResultSet(conn, rs);
 
         if(close)
             conn.close();
@@ -123,7 +128,7 @@ public class Klasse {
 		ResultSet rs = getRSgetAll(conn);
 
 		while(rs.next())
-            returner.add(fromResultSet(rs));
+            returner.add(fromResultSet(conn, rs));
 
         conn.close();
 
@@ -134,18 +139,23 @@ public class Klasse {
 	 * 
 	 * Erstellt aus einem ResultSet eine Klasse
 	 * 
+   * @param con die zu nutzende Datenbankverbindung 
 	 * @param rs das ResultSet
 	 * @return Klasse aus dem Resulstset
 	 * @throws SQLException
 	 */
-    private static Klasse fromResultSet(ResultSet rs) throws SQLException {
-
-        int i = 1;
+    private static Klasse fromResultSet(Connection con, ResultSet rs) throws SQLException {
 
         Klasse klasse = new Klasse();
+        int i = 1;
 
         klasse.kid = rs.getInt(i++);
         klasse.name = rs.getString(i++);
+        klasse.points = 0;
+
+        for(Leistung l : Leistung.getAll(con, klasse.kid, false))
+            if(l.getPunkte() != null)
+                klasse.points += l.getPunkte();
 
         return klasse;
     }
@@ -183,5 +193,9 @@ public class Klasse {
     }
     public String getName() {
         return name;
+    }
+
+    public Integer getPoints(){
+        return points;
     }
 }

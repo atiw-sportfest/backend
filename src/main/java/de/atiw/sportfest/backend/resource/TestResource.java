@@ -1,5 +1,6 @@
 package de.atiw.sportfest.backend.resource;
 
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -7,12 +8,14 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -23,6 +26,7 @@ import javax.ws.rs.core.Response;
 import de.atiw.sportfest.backend.ExceptionResponse;
 import de.atiw.sportfest.backend.auth.Secured;
 import de.atiw.sportfest.backend.resource.jaxb.Disziplin;
+import de.atiw.sportfest.backend.resource.jaxb.Leistung;
 import de.atiw.sportfest.backend.rules.EvaluationParameters;
 import de.atiw.sportfest.backend.rules.Regel;
 import de.atiw.sportfest.backend.rules.Typ;
@@ -60,9 +64,8 @@ public class TestResource {
 
         try {
 
-            Disziplin d = makeTestDisziplin();
-
-            return Response.ok(d.getErsteRegel().evaluate(d.getVariablen().toArray(new Variable[0]), new Object[]{ "m", 1.2f })).build();
+            Disziplin d = Disziplin.getOne(db.getConnection(), "1000");
+            return Response.ok(d.getErsteRegel().evaluate(d.getVariablen(), new Object[]{ "m", 1.2f })).build();
 
         } catch(Exception e){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
@@ -77,33 +80,13 @@ public class TestResource {
 
         try {
 
-            return Response.ok(makeTestDisziplin()).build();
+            return Response.ok(Disziplin.getOne(db.getConnection(), "1000")).build();
 
         } catch(Exception e){
 
             return ExceptionResponse.internalServerError(e);
 
         }
-    }
-
-    private Disziplin makeTestDisziplin() throws SQLException, Disziplin.NotFoundException {
-
-        Zustand m = new Zustand("Männlich", "", "m"),
-                w = new Zustand("Weiblich", "", "w");
-
-        Typ geschlechtT = new Typ("Geschlecht", "", String.class, Arrays.asList(new Zustand[]{m, w})),
-            integerT = new Typ(int.class),
-            floatT = new Typ(float.class);
-
-        Variable geschlecht = new Variable("Geschlecht", "", "geschlecht", geschlechtT),
-                 counter = new Variable("Counter", "", "counter", integerT),
-                 weite = new Variable("Weite", "", "weite", floatT);
-
-        Disziplin d = Disziplin.getOne(db.getConnection(), "1000");
-
-        d.setVariablen(Arrays.asList(new Variable[]{ geschlecht, weite }));
-
-        return d;
     }
 
     @GET
@@ -131,6 +114,36 @@ public class TestResource {
             throw new InternalServerErrorException(e);
         }
     }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("leistung")
+    public Leistung testLeistungUpload(Leistung leistung) {
+        return leistung;
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("reflection")
+    public Response testReflection(TestType test) throws Exception {
+
+        if(test.convert){
+
+            Class<?> type = Class.forName(test.className);
+            Method method = type.getDeclaredMethod(test.convertMethod, String.class);
+
+            return Response.ok(method.invoke(null, test.string)).build();
+        } else {
+            return Response.ok(test.string).build();
+        }
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("test2")
+    public Response test2(ValueTest test) throws Exception {
+        return Response.ok(test.aTest).build();
+    }
 }
 
 @XmlRootElement
@@ -138,10 +151,37 @@ class ValueTest {
 
     @XmlElement
     Integer i;
+
     @XmlElement
     Boolean b;
+
     @XmlElement
     Float f;
+
+    @XmlTransient
+    String aTest;
+
+    @XmlElement
+    private void setTest(Integer test){
+        this.aTest = Integer.toString(test);
+    }
+
+}
+
+@XmlRootElement
+class TestType{
+
+    @XmlElement
+    String className;
+
+    @XmlElement
+    String convertMethod;
+
+    @XmlElement
+    String string;
+
+    @XmlElement
+    Boolean convert;
 
 }
 

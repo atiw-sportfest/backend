@@ -1,10 +1,13 @@
 package de.atiw.sportfest.backend.rules;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,6 +37,9 @@ public class Typ {
     @XmlElement
     private Class<?> typ;
 
+    @XmlElement
+    private String convertMethod;
+
     public Typ() {
     }
 
@@ -42,12 +48,15 @@ public class Typ {
     }
 
     public Typ(Class<?> typ){
-        this("", "", typ, null);
+        this("", "", typ, (List<Zustand>) null);
     }
     public Typ(String name, String desc, String typ, List<Zustand> zustaende) throws ClassNotFoundException {
         this(name, desc, resolveJavaType(typ), zustaende);
     }
 
+    public Typ(String name, String desc, Class<?> typ, Zustand ...zustaende) {
+        this(name, desc, typ, Arrays.asList(zustaende));
+    }
     public Typ(String name, String desc, Class<?> typ, List<Zustand> zustaende) {
         this.name = name;
         this.desc = desc;
@@ -61,10 +70,25 @@ public class Typ {
             case "String":
                 return String.class;
             case "int":
-                return int.class;
+                return Integer.class;
         }
 
         return Class.forName(typ);
+    }
+
+    public Object getValue(String wert) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+
+        if(convertMethod != null){
+
+            Method method = typ.getDeclaredMethod(convertMethod, String.class);
+
+            return method.invoke(null, wert);
+        } else return wert;
+
+    }
+
+    public Object translateToJavaType(String string){
+        return null;
     }
 
     public String getName() {
@@ -271,6 +295,7 @@ public class Typ {
             typ.name = rs.getString(i++);
             typ.desc = rs.getString(i++);
             typ.typ = resolveJavaType(rs.getString(i++));
+            typ.convertMethod = rs.getString(i++);
 
             typ.zustaende = Zustand.getAll(con, typ.tid, false);
 

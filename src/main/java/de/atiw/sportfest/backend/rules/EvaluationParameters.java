@@ -1,6 +1,8 @@
 package de.atiw.sportfest.backend.rules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class EvaluationParameters {
 
@@ -9,6 +11,10 @@ public class EvaluationParameters {
     private ArrayList<Class<?>> types;
 
     public EvaluationParameters(String expression, Variable ...vars){
+        this(expression, Arrays.asList(vars));
+    }
+
+    public EvaluationParameters(String expression, List<Variable> vars){
 
         parameters = new ArrayList<>();
         types = new ArrayList<>();

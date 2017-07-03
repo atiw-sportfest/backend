@@ -5,15 +5,18 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
-
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -25,8 +28,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import javax.xml.bind.annotation.XmlRootElement;
 
 import de.atiw.sportfest.backend.ExceptionResponse;
 import de.atiw.sportfest.backend.auth.Role;
@@ -64,8 +65,8 @@ public class UserResource {
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Path("/login")
-	public Response login(@FormParam("username") String username, @FormParam("password") String password) {
-		return Response.ok("please use /backend/authentication").build();
+	public Response login(@FormParam("username") String username, @FormParam("password") String password) throws URISyntaxException {
+		return Response.temporaryRedirect(new URI("/backend/authentication")).build();
 	}
 
 	@POST
@@ -92,10 +93,11 @@ public class UserResource {
 		try {
 			role = new TokenParser(token.substring("Bearer ".length())).verify().getClaims().get("role", String.class)
 					;
-			username = new TokenParser(token.substring("Bearer ".length())).verify().getClaims().getAudience();
+			username = new TokenParser(token.substring("Bearer ".length())).verify().getClaims().get("username", String.class);
 
 		} catch (Exception e1) {
 			e1.printStackTrace();
+		
 			return e1.getMessage() + " wow";
 			// return Response.status(Response.Status.CONFLICT).build();
 		}
@@ -144,7 +146,7 @@ public class UserResource {
 				ps.setInt(3, roleint);
 				rs = ps.executeQuery();
 			} catch (SQLException e) {
-				
+
 				e.printStackTrace();
 				return "problem";
 			}finally{

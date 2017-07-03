@@ -84,11 +84,11 @@ public class Disziplin {
      * @param did die ID der Disziplin
      * @return a {@link java.sql.ResultSet}
      */
-	public static ResultSet getRSgetOne(Connection conn, String did) throws SQLException{
+	public static ResultSet getRSgetOne(Connection conn, int did) throws SQLException{
 
 		PreparedStatement ps = conn.prepareStatement("Call DisziplinAnzeigen(?)");
 
-		ps.setString(1, did);
+		ps.setInt(1, did);
 
 		return ps.executeQuery();
 	}
@@ -160,18 +160,24 @@ public class Disziplin {
      * @throws Disziplin.NotFoundException wenn die zu bearbeitende Disziplin nicht vorhanden ist.
      * @throws FalseInputException 
      */
-	public static void edit(Connection conn, Disziplin disziplin) throws SQLException, NotFoundException, BadRequestException {
+	public static Disziplin edit(Connection conn, Disziplin disziplin) throws SQLException, NotFoundException, BadRequestException {
+
+        Disziplin orig;
+        PreparedStatement ps;
 
         try {
 
-            Disziplin orig = Disziplin.getOne(conn, Integer.toString(disziplin.did), false);
+            orig = Disziplin.getOne(conn, Integer.toString(disziplin.did), false);
 
-            PreparedStatement ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?,?)");
+            Variable.updateAssignments(conn, disziplin.did, orig.variablen, disziplin.variablen, false);
+
+            ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?,?)");
 
             ps.setInt(1, orig.did); // Never change id
 
             ps.setString(2, disziplin.name != null ? disziplin.name : orig.name);
             ps.setString(3, disziplin.beschreibung != null ? disziplin.beschreibung : orig.beschreibung);
+
             if(disziplin.minTeilnehmer > 0)
                 ps.setInt(4, disziplin.minTeilnehmer != null ? disziplin.minTeilnehmer : orig.minTeilnehmer);
             else	
@@ -186,19 +192,18 @@ public class Disziplin {
             ps.execute();
 
             if(disziplin.regeln != null)
-                Regel.createOrEdit(conn, orig.did, disziplin.regeln);
+                Regel.createOrEdit(conn, orig.did, disziplin.regeln, false);
 
-        } finally {
-            if(!conn.isClosed()) // could already be closed by Regel.createOrEdit
-                conn.close();
-        }
+            return getOne(conn, Integer.toString(disziplin.did));
+
+        } finally { conn.close(); }
 	}
 
-    public static void edit(Connection con, String did, Disziplin disziplin) throws SQLException, NotFoundException, NumberFormatException, BadRequestException {
+    public static Disziplin edit(Connection con, String did, Disziplin disziplin) throws SQLException, NotFoundException, NumberFormatException, BadRequestException {
 
         disziplin.did = Integer.parseInt(did);
 
-        edit(con, disziplin);
+        return edit(con, disziplin);
     }
 
     /**
@@ -247,7 +252,7 @@ public class Disziplin {
      * @return die gefundene Disziplin
      * @throws Disziplin.NotFoundException wenn keine Disziplin mit dieser ID gefunden wurde.
      */
-	public static Disziplin getOne(Connection conn, String did, boolean close) throws SQLException, NotFoundException {
+	public static Disziplin getOne(Connection conn, int did, boolean close) throws SQLException, NotFoundException {
 
 		ResultSet rs = getRSgetOne(conn, did);
         Disziplin one = null;
@@ -261,8 +266,12 @@ public class Disziplin {
         if(one != null)
             return one;
         else
-            throw new NotFoundException(String.format("Keine Disziplin zu ID \"%s\" gefunden!", did));
+            throw new NotFoundException(String.format("Keine Disziplin zu ID \"%d\" gefunden!", did));
 	}
+
+	public static Disziplin getOne(Connection conn, String did, boolean close) throws SQLException, NotFoundException {
+        return getOne(conn, Integer.parseInt(did), close);
+    }
 
     /**
      * Ruft alle Disziplin aus der Datenbank ab.
@@ -356,13 +365,13 @@ public class Disziplin {
         this.variablen = variablen;
     }
 
-    public static class NotFoundException extends Exception {
+    @XmlTransient
+    public String getName(){
+        return this.name;
+    }
 
-        private static final long serialVersionUID = 1L;
-
-        public NotFoundException(String message){
-            super(message);
-        }
-
+    @XmlTransient
+    public Integer getDid(){
+        return this.did;
     }
 }
