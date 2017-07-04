@@ -33,6 +33,72 @@ Format: JSON
 
 ## PUT /disziplin
 
+Format: `application/json`
+
+Data:
+
+    {
+        "name": "Weitsprung",
+        "beschreibung": "Weit springen",
+        "minTeilnehmer": 0,
+        "maxTeilnehmer": 4,
+        "aktiviert": true,
+        "teamleistung": false,
+        "variablen": [
+            {
+                "name": "Weite",
+                "desc": "Gesprungene Weite in m",
+                "expressionParameter": "weite",
+                "typ": {
+                    "tid": 103
+                }
+            }
+        ],
+        "regeln": [
+            {
+                "index": 0,
+                "expression": "geschlecht == \"m\" && weite >= 2.4",
+                "points": 10
+            },
+            {
+                "index": 1,
+                "expression": "geschlecht == \"m\" && weite >= 1.2",
+                "points": 5
+            },
+            {
+                "index": 2,
+                "expression": "geschlecht == \"m\" && weite >= 0.6",
+                "points": 2
+            },
+            {
+                "index": 3,
+                "expression": "geschlecht == \"m\" && weite >= 0.3",
+                "points": 1
+            },
+            {
+                "index": 4,
+                "expression": "geschlecht == \"w\" && weite >= 1.2",
+                "points": 10
+            },
+            {
+                "index": 5,
+                "expression": "geschlecht == \"w\" && weite >= 0.6",
+                "points": 5
+            },
+            {
+                "index": 6,
+                "expression": "geschlecht == \"w\" && weite >= 0.3",
+                "points": 2
+            },
+            {
+                "index": 7,
+                "expression": "geschlecht == \"w\" && weite >= 0.15",
+                "points": 1
+            }
+        ],
+        "kontrahentenAnzahl": 0
+    }
+
 ## POST /disziplin/{did}
 
 ## PUT /leistung
