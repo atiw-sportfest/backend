@@ -189,6 +189,54 @@ public class UserResource {
 		return response;
 
 	}
+	
+	
+	@POST
+	@Path("/setpw")
+	@Secured({ Role.admin })
+	public Response setUser(@FormParam("name") String username, @FormParam("role") String role, @FormParam("password") String password ) {
+		Connection conn = null;
+		PreparedStatement ps;
+		ResultSet rs;
+		int roleint = 3;
+		switch (role) {
+		case "admin":
+			roleint = 1;
+			break;
+		case "schiedsrichter":
+			roleint = 2;
+			break;
+		default:
+			break;
+		}
+		try {
+			conn = db.getConnection();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			// Code geht
+			ps = conn.prepareStatement("Call BenutzerAnlegen(?,?,?);");
+			ps.setString(1, username);
+			ps.setString(2, password); // Atiw2017
+			ps.setInt(3, roleint);
+			rs = ps.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return Response.status(Response.Status.CONFLICT).build();
+
+		}
+		finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+
+			}
+		}
+
+		return Response.ok("user created").build();
+	}
 
 	@POST
 	@Secured({ Role.admin })
@@ -233,7 +281,7 @@ public class UserResource {
 			}
 		}
 
-		return Response.ok("user created, pw:Atiw2017").build();
+		return Response.ok("user created").build();
 	}
 
 	@DELETE
