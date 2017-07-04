@@ -224,7 +224,7 @@ public class Leistung {
 
             ls.verify(); // throws BadRequestException
 
-            prep = con.prepareStatement("CALL LeistungAnlegen(?, ?, ?, ?)"); // did, kid, sid, tstp
+            prep = con.prepareStatement("CALL LeistungAnlegen(?, ?, ?, ?, ?)"); // did, kid, sid, tstp, versus
 
             prep.setInt(i++, ls.did);
             prep.setInt(i++, ls.kid);
