@@ -71,3 +71,22 @@ Data:
 }
 ```
 
+## PUT /leistung/versus
+
+Format: `application/json`
+
+Mehrer Leistungen anlegen, die zusammengehören. (Bspw. bei den Teams die gegeneinander gespielt haben).
+
+Data (Liste mit Disziplinen, siehe `PUT /leistung`):
+
+    [
+        {
+            "did": 1337,
+            "...": "..."
+        },
+        {
+            "did": 1337,
+            "...": "..."
+        }
+    ]
+

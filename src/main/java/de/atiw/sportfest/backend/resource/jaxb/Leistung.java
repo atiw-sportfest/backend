@@ -48,6 +48,9 @@ public class Leistung {
     @XmlElement
 	private Timestamp timestamp;
 
+    @XmlElement
+    private Integer versus;
+
     
     private final static String pattern = "yyyy-MM-dd hh:mm:ss";
 	
@@ -193,6 +196,7 @@ public class Leistung {
             prep.setInt(i++, leistung.kid != null ? leistung.kid : orig.kid);
             prep.setInt(i++, leistung.sid != null ? leistung.sid: orig.sid);
             prep.setTimestamp(i++, leistung.timestamp != null ? leistung.timestamp : orig.timestamp);
+            prep.setInt(i++, leistung.versus != null ? leistung.versus : orig.versus);
 
             Ergebnis.updateErgebnisse(con, orig.lid, leistung.ergebnisse, false);
 
@@ -202,6 +206,11 @@ public class Leistung {
 
         } finally { if(close) con.close(); }
 
+    }
+
+    public static Leistung create(Connection con, Leistung ls, int versus, boolean close) throws SQLException, InternalServerErrorException, BadRequestException {
+        ls.versus = versus;
+        return create(con, ls, close);
     }
 
     public static Leistung create(Connection con, Leistung ls, boolean close) throws SQLException, InternalServerErrorException, BadRequestException {
@@ -221,6 +230,7 @@ public class Leistung {
             prep.setInt(i++, ls.kid);
             prep.setInt(i++, ls.sid);
             prep.setTimestamp(i++, ls.timestamp);
+            prep.setInt(i++, ls.versus);
 
             rs = prep.executeQuery();
 
@@ -270,6 +280,9 @@ public class Leistung {
         l.sid = rs.wasNull() ? null : l.sid;
 
         l.timestamp = rs.getTimestamp(i++);
+
+        l.versus = rs.getInt(i++);
+        l.versus = rs.wasNull() ? null : l.versus;
 
         l.ergebnisse = Ergebnis.getAll(con, Integer.toString(l.lid), false);
 
