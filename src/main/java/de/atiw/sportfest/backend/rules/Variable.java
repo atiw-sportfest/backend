@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -162,7 +163,12 @@ public class Variable {
     }
 
     public static Variable create(Connection con, Variable var, boolean close) throws SQLException, InternalServerErrorException {
+        return create(con, Arrays.asList(new Variable[]{ var }), close).get(0);
+    }
 
+    public static List<Variable> create(Connection con, List<Variable> vars, boolean close) throws SQLException, InternalServerErrorException {
+
+        List<Variable> ret = new ArrayList<>();
         PreparedStatement prep;
         ResultSet rs;
         int i = 1;
@@ -171,19 +177,24 @@ public class Variable {
 
             prep = con.prepareStatement("CALL VariableAnlegen(?, ?, ?, ?)"); // var_name, var_descr, var_exprParam, typ_id
 
-            prep.setString(i++, var.name);
-            prep.setString(i++, var.desc);
-            prep.setString(i++, var.expressionParameter);
+            for(Variable var : vars){
 
-            prep.setInt(i++, var.typ.getTypID());
+                prep.setString(i++, var.name);
+                prep.setString(i++, var.desc);
+                prep.setString(i++, var.expressionParameter);
 
-            rs = prep.executeQuery();
+                prep.setInt(i++, var.typ.getTypID());
 
-            if(rs.next())
-                return fromResultSet(con, rs);
-            else
-                throw new InternalServerErrorException("Die Datenbank hat das erstellte Objekt nicht zurückgegeben ?!");
+                rs = prep.executeQuery();
 
+                if(rs.next())
+                    ret.add(fromResultSet(con, rs));
+                else
+                    throw new InternalServerErrorException("Die Datenbank hat das erstellte Objekt nicht zurückgegeben ?!");
+
+            }
+
+            return ret;
 
         } finally { if(close) con.close(); }
     
