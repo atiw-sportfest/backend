@@ -8,9 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -29,6 +29,7 @@ import de.atiw.sportfest.backend.ExceptionResponse;
 import de.atiw.sportfest.backend.auth.Role;
 import de.atiw.sportfest.backend.auth.Secured;
 import de.atiw.sportfest.backend.resource.jaxb.Klasse;
+import de.atiw.sportfest.backend.resource.jaxb.Leistung;
 import de.atiw.sportfest.backend.resource.jaxb.Schueler;
 
 @Path("/schueler")
@@ -36,6 +37,13 @@ public class SchuelerResource{
 
 	@Resource(name="jdbc/sportfest")
     DataSource db;
+
+	@GET
+	@Path("/{sid:\\d+}/leistungen")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    public List<Leistung> getLeistungen(@PathParam("sid") int sid) throws SQLException {
+        return Leistung.getAllSchueler(db.getConnection(), sid, true);
+    }
 
 	@GET
 	@Path("/{sid}")
