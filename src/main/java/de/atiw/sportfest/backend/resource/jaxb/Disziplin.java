@@ -102,7 +102,7 @@ public class Disziplin {
      * @param disziplin die abzulegende Disziplin
      * @throws falseInputException 
      */
-	public static int create(Connection conn, Disziplin disziplin) throws SQLException, BadRequestException, InternalServerErrorException {
+	public static Disziplin create(Connection conn, Disziplin disziplin) throws SQLException, BadRequestException, InternalServerErrorException {
 
         ResultSet rs;
         PreparedStatement ps;
@@ -140,7 +140,9 @@ public class Disziplin {
 
             Regel.create(conn, did, disziplin.regeln, false);
 
-            return did;
+            Variable.updateAssignments(conn, did, null, Variable.create(conn, disziplin.variablen, false), false);
+
+            return getOne(conn, did, false);
 
         } finally { conn.close(); }
 

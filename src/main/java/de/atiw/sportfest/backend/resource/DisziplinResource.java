@@ -64,10 +64,9 @@ public class DisziplinResource {
     @PUT
     @Secured({ Role.admin })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-    public Response putDisziplin(Disziplin disziplin) throws SQLException, BadRequestException {
+    public Disziplin putDisziplin(Disziplin disziplin) throws SQLException, BadRequestException {
 
-        Disziplin.create(db.getConnection(), disziplin);
-        return Response.ok().build();
+        return Disziplin.create(db.getConnection(), disziplin);
     }
     
     @POST
