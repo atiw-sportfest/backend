@@ -139,6 +139,14 @@ public class Leistung {
 
     }
 
+    public static List<Leistung> getAllSchueler(Connection con, int sid, boolean close) throws SQLException {
+
+        PreparedStatement prep = con.prepareStatement("CALL LeistungenEinesSchuelersAnzeigen(?)"); // sid
+        prep.setInt(1, sid);
+
+        return getAll(con, prep, close);
+
+    }
 
     public static List<Leistung> getAll(Connection con, String query, boolean close) throws SQLException {
         return getAll(con, con.prepareStatement(query), close);
