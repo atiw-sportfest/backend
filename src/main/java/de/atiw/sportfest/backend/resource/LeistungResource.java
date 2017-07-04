@@ -3,6 +3,7 @@ package de.atiw.sportfest.backend.resource;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.print.attribute.standard.RequestingUserName;
@@ -34,6 +35,8 @@ public class LeistungResource {
 	
 	@Resource(name="jdbc/sportfest")
     DataSource db;
+
+    Random random = new Random();
 	
     @GET
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
@@ -57,6 +60,24 @@ public class LeistungResource {
         return Leistung.create(db.getConnection(), leistung, true);
     }
     
+    @PUT
+    @Secured({ Role.admin, Role.schiedsrichter })
+    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    @Path("versus")
+	public List<Leistung> createLeistung(List<Leistung> leistungen) throws SQLException, InternalServerErrorException {
+
+        List<Leistung> ret = new ArrayList<>();
+
+        int versus = random.nextInt(Integer.MAX_VALUE);
+
+        for(Leistung leistung : leistungen){
+            ret.add(Leistung.create(db.getConnection(), leistung, versus, true));
+        }
+
+        return ret;
+    }
+
     @POST
     @Secured({ Role.admin, Role.schiedsrichter })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
