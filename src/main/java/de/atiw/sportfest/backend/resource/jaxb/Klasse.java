@@ -151,7 +151,7 @@ public class Klasse {
         klasse.name = rs.getString(i++);
         klasse.points = 0;
 
-        for(Leistung l : Leistung.getAll(con, klasse.kid, false))
+        for(Leistung l : Leistung.getAllKlasse(con, klasse.kid, false))
             if(l.getPunkte() != null)
                 klasse.points += l.getPunkte();
 
