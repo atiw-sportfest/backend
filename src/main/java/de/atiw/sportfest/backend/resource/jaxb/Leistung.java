@@ -127,35 +127,33 @@ public class Leistung {
 	}
 
 	public static List<Leistung> getAll(Connection conn, boolean close) throws SQLException {
+        return getAll(conn, "CALL LeistungenAnzeigen()", close);
+	}
 
-		ResultSet rs;
-        PreparedStatement prep;
-        ArrayList<Leistung> all = new ArrayList<>();
+    public static List<Leistung> getAllKlasse(Connection con, int kid, boolean close) throws SQLException {
 
-        try {
+        PreparedStatement prep = con.prepareStatement("CALL LeistungenEinerKlasseAnzeigen(?)"); // kid
+        prep.setInt(1, kid);
 
-            prep = conn.prepareStatement("CALL LeistungenAnzeigen()");
+        return getAll(con, prep, close);
 
-            rs = prep.executeQuery();
+    }
 
-            while(rs.next())
-                all.add(fromResultSet(conn, rs));
 
-            return all;
-        } finally { if(close) conn.close(); }
+    public static List<Leistung> getAll(Connection con, String query, boolean close) throws SQLException {
+        return getAll(con, con.prepareStatement(query), close);
+    }
 
-	}    
+    public static List<Leistung> getAll(Connection con, PreparedStatement prep) throws SQLException {
+        return getAll(con, prep, true);
+    }
 
-    public static List<Leistung> getAll(Connection con, int kid, boolean close) throws SQLException {
+    public static List<Leistung> getAll(Connection con, PreparedStatement prep, boolean close) throws SQLException {
 
-        PreparedStatement prep;
         ResultSet rs;
         List<Leistung> leistungen = new ArrayList<>();
 
         try {
-
-            prep = con.prepareStatement("CALL LeistungenEinerKlasseAnzeigen(?)"); // kid
-            prep.setInt(1, kid);
 
             rs = prep.executeQuery();
 
@@ -165,6 +163,7 @@ public class Leistung {
             return leistungen;
 
         } finally { if(close) con.close(); }
+
     }
 
     public static Leistung edit(Connection con, String lid, Leistung leistung, boolean close) throws SQLException, NotFoundException {
