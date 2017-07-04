@@ -32,6 +32,7 @@ import de.atiw.sportfest.backend.auth.Secured;
 import de.atiw.sportfest.backend.resource.jaxb.Klasse;
 import de.atiw.sportfest.backend.resource.jaxb.Disziplin;
 import de.atiw.sportfest.backend.resource.jaxb.Klasse;
+import de.atiw.sportfest.backend.resource.jaxb.Leistung;
 import de.atiw.sportfest.backend.resource.jaxb.Schueler;
 import excel.exports.DBToExcelDisziplin;
 import excel.exports.DBToExcelExporter;
@@ -45,6 +46,13 @@ public class KlasseResource {
 	@Resource(name="jdbc/sportfest")
     DataSource db;
 	
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Path("/{kid:\\d+}/leistungen")
+	public List<Leistung> getLeistungen(@PathParam("kid") int kid) throws SQLException {
+        return Leistung.getAllKlasse(db.getConnection(), kid, true);
+	}
+
 	@GET
 	@Path("/{kid}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
