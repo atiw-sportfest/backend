@@ -179,6 +179,8 @@ public class Variable {
 
             for(Variable var : vars){
 
+                i = 1;
+
                 prep.setString(i++, var.name);
                 prep.setString(i++, var.desc);
                 prep.setString(i++, var.expressionParameter);
