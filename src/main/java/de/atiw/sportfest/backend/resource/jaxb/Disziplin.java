@@ -222,12 +222,20 @@ public class Disziplin {
 
 	public static void delete(Connection conn, int did, boolean close) throws SQLException{
 
+        Disziplin d;
 		PreparedStatement ps;
 
         try {
 
+            d = getOne(conn, did, false);
+
             ps = conn.prepareStatement("Call DisziplinLoeschen(?)");
             ps.setInt(1, did);
+
+            Variable.updateAssignments(conn, did, d.variablen, null /* new */, false);
+
+            for(Regel regel : d.regeln)
+                Regel.delete(conn, regel, false);
 
             ps.execute();
 
