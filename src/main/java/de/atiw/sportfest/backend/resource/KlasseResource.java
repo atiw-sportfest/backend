@@ -54,10 +54,24 @@ public class KlasseResource {
 	}
 
 	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Path("/leistungen/{did}")
+	public List<Klasse> getKlassenMitLeistungEinerDisziplin(@PathParam("did") String did) throws SQLException {
+        return Klasse.getAllKlassenLeistungDisziplin(db.getConnection(), did);
+	}
+
+	@GET
 	@Path("/{kid}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
     public Klasse getKlasse(@PathParam("kid") String kid) throws SQLException {
         return Klasse.getOne(db.getConnection(), kid);
+    }
+
+	@GET
+	@Path("/anmeldung/{did}")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    public ArrayList<Klasse> getKlassenMitAnmeldungen(@PathParam("did") String did) throws SQLException {
+        return Klasse.getAllAnmeldungen(db.getConnection(), did);
     }
 	
 	@GET
