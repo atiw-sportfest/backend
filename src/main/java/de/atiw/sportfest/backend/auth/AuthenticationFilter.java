@@ -46,15 +46,21 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             // Validate the token
             claims = new TokenParser(requestContext).verify().getClaims(); // throws exception if invalid
 
+        } catch(TokenParser.TokenException e){
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build());
+            return;
         } catch (Exception e){
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity(e).type(MediaType.APPLICATION_JSON).build());
+            return;
         }
 
         if(claims == null)
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("Your claims are empty.").type(MediaType.TEXT_PLAIN).build());
 
-        if(claims != null && !claims.getAudience().equals(hsr.getRemoteAddr()))
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity("You (" + hsr.getRemoteAddr() + ") are not the audience of this token (" + claims.getAudience() + ").").type(MediaType.TEXT_PLAIN).build());
+        else if(!claims.getAudience().equals(hsr.getRemoteAddr()))
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
+                    .entity(String.format("You (%s) are not the audience of this token (%s).",
+                            hsr.getRemoteAddr(), claims.getAudience())).type(MediaType.TEXT_PLAIN).build());
     }
 }
 
