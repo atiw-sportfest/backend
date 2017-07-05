@@ -84,12 +84,6 @@ Add this to `$CATALINA_BASE/conf/context.xml` (replace `USER`, `PASSWORD`, `HOST
 
 See also [Tomcat JNDI Resources How-To](https://tomcat.apache.org/tomcat-8.0-doc/jndi-resources-howto.html#JDBC_Data_Sources), [JNDI Resources Examples (MySQL)](https://tomcat.apache.org/tomcat-8.0-doc/jndi-datasource-examples-howto.html#MySQL_DBCP_Example).
 
-## JWT Token Secret
-
-You will need to add a secret for the JWT token to the `$CATALINA_BASE/conf/context.xml`:
-
-     <Environment name="jwt_secret" value="[SECRET]" type="java.lang.String" />
-
 ## Get Insomnia Workspace
 
 Insomnia -> Import/Export -> Import from URL -> https://github.com/atiw-sportfest/backend/raw/master-new/meta/Insomnia.json

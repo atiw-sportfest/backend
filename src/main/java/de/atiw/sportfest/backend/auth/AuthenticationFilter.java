@@ -10,7 +10,6 @@ import io.jsonwebtoken.SignatureException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Resource;
 
 import javax.annotation.Priority;
 
@@ -37,9 +36,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     @Context
     HttpServletRequest hsr;
 
-    @Resource(name="jwt_secret")
-    private String secret;
-
     @Override
     public void filter(ContainerRequestContext requestContext) throws NotAuthorizedException {
 
@@ -48,7 +44,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         try {
 
             // Validate the token
-            claims = new TokenParser(requestContext, secret).verify().getClaims(); // throws exception if invalid
+            claims = new TokenParser(requestContext).verify().getClaims(); // throws exception if invalid
 
         } catch(TokenParser.TokenException e){
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build());
