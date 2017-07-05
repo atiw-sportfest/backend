@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.sql.DataSource;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
@@ -65,6 +66,7 @@ public class Variable {
         return typ;
     }
 
+    @XmlTransient
     public Integer getVarId(){
         return var_id;
     }
