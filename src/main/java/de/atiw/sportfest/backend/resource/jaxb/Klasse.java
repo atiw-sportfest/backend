@@ -49,6 +49,18 @@ public class Klasse {
 		return conn.prepareStatement("Call KlassenAnzeigen();").executeQuery();	
 	}
 
+	public static ResultSet getRSgetAllAnmeldungen(Connection conn, int did) throws SQLException{		
+		PreparedStatement ps = conn.prepareStatement("Call KlassenAnzeigenMitAnmeldung(?);");
+		ps.setInt(1, did);
+		return ps.executeQuery();	
+	}
+
+	public static ResultSet getRSgetAllLeistungenDisziplin(Connection conn, int did) throws SQLException{		
+		PreparedStatement ps = conn.prepareStatement("Call KlassenAnzeigenMitLeistungAnDisziplin(?);");
+		ps.setInt(1, did);
+		return ps.executeQuery();	
+	}
+
 	
 	/**
 	 * 
@@ -132,7 +144,32 @@ public class Klasse {
 
 		return returner;
 	}
+
+	public static ArrayList<Klasse> getAllAnmeldungen(Connection conn, String did) throws SQLException{
+
+		ArrayList<Klasse> returner = new ArrayList<>();
+		ResultSet rs = getRSgetAllAnmeldungen(conn, Integer.parseInt(did));
+
+		while(rs.next())
+            returner.add(fromResultSet(conn, rs));
+
+        conn.close();
+
+		return returner;
+	}
 	
+	public static ArrayList<Klasse> getAllKlassenLeistungDisziplin(Connection conn, String did) throws SQLException{
+		ArrayList<Klasse> returner = new ArrayList<>();
+		ResultSet rs = getRSgetAllLeistungenDisziplin(conn, Integer.parseInt(did));
+
+		while(rs.next())
+            returner.add(fromResultSet(conn, rs));
+
+        conn.close();
+
+		return returner;
+	}
+
 	/**
 	 * 
 	 * Erstellt aus einem ResultSet eine Klasse
