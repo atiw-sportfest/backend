@@ -217,27 +217,28 @@ public class Regel {
         createOrEdit(con, did, regeln, true);
     }
 
-    public static void createOrEdit(Connection con, int did, Regel regel, boolean close) throws SQLException, InternalServerErrorException {
+    public static Regel createOrEdit(Connection con, int did, Regel regel, boolean close) throws SQLException, InternalServerErrorException {
 
         Regel orig;
 
         if(regel.rid == null)
-            create(con, did, regel, close);
+            return create(con, did, regel, close);
         else if ( (orig = getOne(con, regel.rid, false)) != null)
-            edit(con, regel, orig, close);
+            return edit(con, regel, orig, close);
         else
-            create(con, did, regel, close);
+            return create(con, did, regel, close);
 
     }
 
-    public static void createOrEdit(Connection con, int did, Regel regel) throws SQLException, InternalServerErrorException{
-        createOrEdit(con, did, regel, true);
+    public static Regel createOrEdit(Connection con, int did, Regel regel) throws SQLException, InternalServerErrorException{
+        return createOrEdit(con, did, regel, true);
     }
 
-    public static int create(Connection con, int did, List<Regel> regeln, boolean close) throws SQLException, InternalServerErrorException {
+    public static List<Regel> create(Connection con, int did, List<Regel> regeln, boolean close) throws SQLException, InternalServerErrorException {
 
         PreparedStatement prep;
-        ResultSet rs = null;
+        List<Regel> ret = new ArrayList<>();
+        ResultSet rs;
         int i = 1;
 
         try {
@@ -255,23 +256,25 @@ public class Regel {
 
                 rs = prep.executeQuery();
 
+                if(rs != null && rs.next())
+                    ret.add(getOne(con, rs.getInt(1), false));
+                else
+                    throw new InternalServerErrorException("Keine LAST_INSERT_ID ?!");
+
             }
 
-            if(rs != null && rs.next())
-                return i;
-            else
-                throw new InternalServerErrorException("Keine LAST_INSERT_ID ?!");
+            return ret;
 
         } finally { if(close) con.close(); }
 
     }
 
-    public static int create(Connection con, int did, List<Regel> regeln) throws SQLException {
+    public static List<Regel> create(Connection con, int did, List<Regel> regeln) throws SQLException {
         return create(con, did, regeln, true);
     }
 
-    public static int create(Connection con, int did, Regel regel, boolean close) throws SQLException {
-        return create(con, did, Arrays.asList(new Regel[]{ regel }), close);
+    public static Regel create(Connection con, int did, Regel regel, boolean close) throws SQLException {
+        return create(con, did, Arrays.asList(new Regel[]{ regel }), close).get(0);
     }
 
     public static Regel edit(Connection con, Regel regel, boolean close) throws SQLException {
