@@ -23,7 +23,7 @@ public class TokenParser {
 
         // Check if the HTTP Authorization header is present and formatted correctly
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new TokenException("Authorization header must be provided");
+            throw new TokenException("Authorization header must be provided!");
         }
 
         // Extract the token from the HTTP Authorization header
@@ -44,14 +44,14 @@ public class TokenParser {
     public Claims getClaims(){
         return claims;
     }
-}
 
-class TokenException extends Exception {
+    public class TokenException extends Exception {
 
-    private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-    public TokenException(String msg){
-        super(msg);
+        public TokenException(String msg){
+            super(msg);
+        }
+
     }
-
 }
