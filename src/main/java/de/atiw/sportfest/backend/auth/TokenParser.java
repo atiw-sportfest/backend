@@ -3,10 +3,15 @@ package de.atiw.sportfest.backend.auth;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
+import javax.annotation.Resource;
+
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.HttpHeaders;
 
 public class TokenParser {
+
+    @Resource(name="jwt_secret")
+    private String secret;
 
     private String token;
     private Claims claims;
@@ -16,6 +21,9 @@ public class TokenParser {
     }
 
     public TokenParser(ContainerRequestContext requestContext) throws Exception {
+
+        if(secret == null)
+            throw new TokenException("JWT secret is empty!");
 
         // Get the HTTP Authorization header from the request
         String authorizationHeader =
@@ -33,7 +41,7 @@ public class TokenParser {
 
     public TokenParser verify() throws Exception {
 
-        claims = Jwts.parser().setSigningKey("secret".getBytes()).parseClaimsJws(token).getBody(); // throws exception if invalid
+        claims = Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody(); // throws exception if invalid
 
         if(claims.getExpiration() == null)
             throw new TokenException("Token is missing 'exp'!");
