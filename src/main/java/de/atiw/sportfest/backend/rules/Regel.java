@@ -197,17 +197,30 @@ public class Regel {
 
     public static void createOrEdit(Connection con, int did, List<Regel> regeln, boolean close) throws SQLException, InternalServerErrorException {
         
+        List<Regel> diff;
+        List<Integer> coe;
+
         try {
 
-            List<Regel> diff = getAll(con, did, false);
-            diff.removeAll(regeln);
+            // coe - createOrEdit
+            coe = new ArrayList<>();
 
-            // Regeln die nicht mehr vorhanden sind löschen
-            for(Regel regel : diff)
-                delete(con, regel, false);
+            // pre-fill diff with existing rules
+            diff = getAll(con, did, false);
 
             for(Regel regel : regeln)
-                createOrEdit(con, did, regel, false);
+                coe.add(createOrEdit(con, did, regel, false).rid);
+
+            diff.removeAll(coe);
+
+            // Regeln die nicht mehr vorhanden sind
+            // und auch nicht verändert wurden löschen
+
+            for(Regel regel : diff){
+                if(!coe.contains(regel.rid))
+                    delete(con, regel, false);
+            }
+
         } finally { if(close) con.close(); }
 
         
@@ -291,6 +304,9 @@ public class Regel {
     }
 
     public static Regel edit(Connection con, Regel regel, Regel orig, boolean close) throws SQLException {
+
+        if(regel.rid != null && regel.expression == null && regel.index == null && regel.points == null)
+            return orig;
 
         PreparedStatement prep = con.prepareStatement("CALL RegelBearbeiten(?, ?, ?, ?)"); // rid, expr, idx, points
         int i = 1;
