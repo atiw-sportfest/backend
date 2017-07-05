@@ -140,7 +140,7 @@ public class Disziplin {
 
             Regel.create(conn, did, disziplin.regeln, false);
 
-            Variable.updateAssignments(conn, did, null, Variable.create(conn, disziplin.variablen, false), false);
+            Variable.updateAssignments(conn, did, null /* existing */, Variable.create(conn, disziplin.variablen, false), false);
 
             return getOne(conn, did, false);
 
