@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javax.annotation.Resource;
 
 import javax.annotation.Priority;
 
@@ -34,6 +35,9 @@ public class AuthorizationFilter implements ContainerRequestFilter {
     @Context
     private ResourceInfo resourceInfo;
 
+    @Resource(name="jwt_secret")
+    private String secret;
+
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
 
@@ -51,7 +55,7 @@ public class AuthorizationFilter implements ContainerRequestFilter {
 
         try {
 
-            claims = new TokenParser(requestContext).verify().getClaims();
+            claims = new TokenParser(requestContext, secret).verify().getClaims();
 
             // Check if the user is allowed to execute the method
             // The method annotations override the class annotations
