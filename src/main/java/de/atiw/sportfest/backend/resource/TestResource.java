@@ -39,9 +39,6 @@ public class TestResource {
     @Resource(name="jdbc/sportfest")
     DataSource db;
 
-    @Resource(name="jwt_secret")
-    String secret;
-
     @GET
     @Path("cdi")
     public String getStatus(){
@@ -146,13 +143,6 @@ public class TestResource {
     @Path("test2")
     public Response test2(ValueTest test) throws Exception {
         return Response.ok(test.aTest).build();
-    }
-
-    @GET
-    @Path("secret")
-    public void testToken(){
-        if(secret == null)
-            throw new InternalServerErrorException("JWT-Token is unset!");
     }
 }
 
