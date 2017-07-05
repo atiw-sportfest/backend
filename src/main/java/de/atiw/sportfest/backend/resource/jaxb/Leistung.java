@@ -133,10 +133,10 @@ public class Leistung {
         return getAll(conn, "CALL LeistungenAnzeigen()", close);
 	}
 
-    public static List<Leistung> getAllOfDisziplin(Connection con, String did, boolean close) throws SQLException {
-        return getAllOfDisziplin(con, Integer.parseInt(did), close);
+    public static List<Leistung> getAllDisziplin(Connection con, String did, boolean close) throws SQLException {
+        return getAllDisziplin(con, Integer.parseInt(did), close);
     }
-    public static List<Leistung> getAllOfDisziplin(Connection con, int did, boolean close) throws SQLException {
+    public static List<Leistung> getAllDisziplin(Connection con, int did, boolean close) throws SQLException {
 
         PreparedStatement prep = con.prepareStatement("CALL LeistungenEinerDisziplinAnzeigen(?)"); // kid
         prep.setInt(1, did);
