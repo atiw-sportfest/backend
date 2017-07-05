@@ -51,6 +51,12 @@ public class LeistungResource {
             return Leistung.getOne(db.getConnection(), lid ,true);
     }
     
+    @GET
+    @Path("/disziplin/{did:\\d+}")
+    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    public List<Leistung> getLeistungenEinerDisziplin(@PathParam("did") String did) throws SQLException, NotFoundException {
+        return Leistung.getAllOfDisziplin(db.getConnection(), did ,true);
+    }
     
     @PUT
     @Secured({ Role.admin, Role.schiedsrichter })
