@@ -10,7 +10,6 @@ import javax.ws.rs.core.HttpHeaders;
 
 public class TokenParser {
 
-    @Resource(name="jwt_secret")
     private String secret;
 
     private String token;
@@ -20,10 +19,12 @@ public class TokenParser {
         this.token = token;
     }
 
-    public TokenParser(ContainerRequestContext requestContext) throws Exception {
+    public TokenParser(ContainerRequestContext requestContext, String secret) throws Exception {
 
         if(secret == null)
-            throw new TokenException("JWT secret is empty!");
+            throw new TokenException("JWT secret is empty! See README how to configure JWT secret.");
+
+        this.secret = secret;
 
         // Get the HTTP Authorization header from the request
         String authorizationHeader =
