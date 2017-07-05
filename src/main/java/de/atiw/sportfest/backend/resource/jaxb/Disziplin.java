@@ -217,15 +217,35 @@ public class Disziplin {
      * @param did die ID der zu löschenden Disziplin
      */
 	public static void delete(Connection conn, String did) throws SQLException{
+        delete(conn, did, false);
+    }
 
-		PreparedStatement ps = conn.prepareStatement("Call DisziplinLoeschen(?)");
+	public static void delete(Connection conn, int did, boolean close) throws SQLException{
 
-		ps.setString(1,did);
+        Disziplin d;
+		PreparedStatement ps;
 
-		ps.execute();
+        try {
 
-        conn.close();
+            d = getOne(conn, did, false);
+
+            ps = conn.prepareStatement("Call DisziplinLoeschen(?)");
+            ps.setInt(1, did);
+
+            Variable.updateAssignments(conn, did, d.variablen, null /* new */, false);
+
+            for(Regel regel : d.regeln)
+                Regel.delete(conn, regel, false);
+
+            ps.execute();
+
+        } finally { if(close) conn.close(); }
+
 	}
+
+    public static void delete(Connection con, String did, boolean close) throws SQLException {
+        delete(con, Integer.parseInt(did), close);
+    }
 
     /**
      * Ruft eine Disziplin aus der Datenbank ab.
