@@ -18,53 +18,15 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import de.atiw.sportfest.backend.rules.Typ;
-import de.atiw.sportfest.backend.rules.Variable;
 
-@Path("/variable")
-public class VariableResource {
+@Path("/typ")
+public class TypResource {
 
     @Resource(name="jdbc/sportfest")
     DataSource db;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Variable> listVariablen() throws SQLException {
-        return Variable.getAll(db.getConnection());
-    }
-
-    @PUT
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Variable createVariable(Variable variable) throws SQLException {
-        return Variable.create(db.getConnection(), variable);
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{vid:\\d+}")
-    public Variable readVariable(@PathParam("vid") String vid) throws SQLException, NotFoundException {
-        return Variable.getOne(db.getConnection(), vid);
-    }
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/{vid:\\d+}")
-    public Variable updateVariable(@PathParam("vid") String vid, Variable var) throws SQLException, NotFoundException {
-        return Variable.edit(db.getConnection(), vid, var);
-    }
-
-    @DELETE
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/{vid:\\d+}")
-    public Response deleteVariable(@PathParam("vid") String vid) throws SQLException, NotFoundException {
-        Variable.delete(db.getConnection(), vid);
-        return Response.ok().build();
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/typ")
     public List<Typ> listTypen() throws SQLException {
         return Typ.getAll(db.getConnection());
     }
@@ -72,14 +34,13 @@ public class VariableResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/typ")
     public Typ createTyp(Typ variable) throws SQLException {
         return Typ.create(db.getConnection(), variable);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/typ/{tid:\\d+}")
+    @Path("/{tid:\\d+}")
     public Typ readTyp(@PathParam("tid") String tid) throws SQLException, NotFoundException {
         return Typ.getOne(db.getConnection(), tid);
     }
@@ -87,14 +48,14 @@ public class VariableResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/typ/{tid:\\d+}")
+    @Path("/{tid:\\d+}")
     public Typ updateTyp(@PathParam("tid") String tid, Typ tar) throws SQLException, NotFoundException {
         return Typ.edit(db.getConnection(), tid, tar);
     }
 
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/typ/{tid:\\d+}")
+    @Path("/{tid:\\d+}")
     public Response deleteTyp(@PathParam("tid") String tid) throws SQLException, NotFoundException {
         Typ.delete(db.getConnection(), tid);
         return Response.ok().build();
