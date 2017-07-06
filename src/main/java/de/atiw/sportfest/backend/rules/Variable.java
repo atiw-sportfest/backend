@@ -208,7 +208,7 @@ public class Variable {
         return create(con, var, true);
     }
 
-    public static Variable edit(Connection con, String vid, Variable var, boolean close) throws SQLException, NotFoundException {
+    public static Variable edit(Connection con, Variable var, boolean close) throws SQLException, NotFoundException {
 
         Variable orig;
         PreparedStatement prep;
@@ -217,7 +217,7 @@ public class Variable {
 
         try {
 
-            orig = getOne(con, vid, false);
+            orig = getOne(con, var.var_id, false);
 
             prep = con.prepareStatement("CALL VariableBearbeiten(?, ?, ?, ?, ?)"); // var_id, var_name, var_descr, var_exprParam, typ_id
 
@@ -240,7 +240,10 @@ public class Variable {
     }
 
     public static Variable edit(Connection con, String vid, Variable var) throws SQLException, NotFoundException {
-        return edit(con, vid, var, true);
+
+        var.var_id = Integer.parseInt(vid);
+
+        return edit(con, var, true);
     }
 
     public static void delete(Connection con, String vid, boolean close) throws SQLException, WebApplicationException {
