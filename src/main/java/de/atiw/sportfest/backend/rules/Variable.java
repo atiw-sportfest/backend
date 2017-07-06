@@ -106,21 +106,7 @@ public class Variable {
     }
 
     public static List<Variable> getAll(Connection con, boolean close) throws SQLException {
-
-        List<Variable> all = new ArrayList<>();
-        ResultSet rs;
-
-        try {
-
-            rs = con.prepareStatement("CALL VariablenAnzeigen()").executeQuery();
-
-            while(rs.next())
-                all.add(fromResultSet(con, rs));
-
-            return all;
-
-        } finally { if(close) con.close(); }
-
+            return getAll(con, con.prepareStatement("CALL VariablenAnzeigen()"), close);
     }
 
     public static List<Variable> getAll(Connection con) throws SQLException {
@@ -129,14 +115,18 @@ public class Variable {
 
     public static List<Variable> getAll(Connection con, int did, boolean close) throws SQLException {
 
+            PreparedStatement prep = con.prepareStatement("CALL VariablenEinerDisziplinAnzeigen(?)");
+            prep.setInt(1, did);
+
+            return getAll(con, prep, close);
+    }
+
+    public static List<Variable> getAll(Connection con, PreparedStatement prep, boolean close) throws SQLException {
+
         List<Variable> all = new ArrayList<>();
-        PreparedStatement prep;
         ResultSet rs;
 
         try {
-
-            prep = con.prepareStatement("CALL VariablenEinerDisziplinAnzeigen(?)");
-            prep.setInt(1, did);
 
             rs = prep.executeQuery();
 
