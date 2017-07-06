@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.sql.DataSource;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -105,21 +107,7 @@ public class Variable {
     }
 
     public static List<Variable> getAll(Connection con, boolean close) throws SQLException {
-
-        List<Variable> all = new ArrayList<>();
-        ResultSet rs;
-
-        try {
-
-            rs = con.prepareStatement("CALL VariablenAnzeigen()").executeQuery();
-
-            while(rs.next())
-                all.add(fromResultSet(con, rs));
-
-            return all;
-
-        } finally { if(close) con.close(); }
-
+            return getAll(con, con.prepareStatement("CALL VariablenAnzeigen()"), close);
     }
 
     public static List<Variable> getAll(Connection con) throws SQLException {
@@ -128,14 +116,18 @@ public class Variable {
 
     public static List<Variable> getAll(Connection con, int did, boolean close) throws SQLException {
 
+            PreparedStatement prep = con.prepareStatement("CALL VariablenEinerDisziplinAnzeigen(?)");
+            prep.setInt(1, did);
+
+            return getAll(con, prep, close);
+    }
+
+    public static List<Variable> getAll(Connection con, PreparedStatement prep, boolean close) throws SQLException {
+
         List<Variable> all = new ArrayList<>();
-        PreparedStatement prep;
         ResultSet rs;
 
         try {
-
-            prep = con.prepareStatement("CALL VariablenEinerDisziplinAnzeigen(?)");
-            prep.setInt(1, did);
 
             rs = prep.executeQuery();
 
@@ -148,27 +140,68 @@ public class Variable {
 
     }
 
-    public static Variable createOrGet(Connection con, Variable var, boolean close) throws SQLException, InternalServerErrorException {
+    public static List<Variable> createOrEdit(Connection con, int did, List<Variable> vars, boolean close) throws SQLException, InternalServerErrorException {
+
+        List<Variable> diff, coe;
+        List<Integer> coeIds;
+        Variable coeV;
+
+        try {
+
+            // coe - createOrEdit
+            coe = new ArrayList<>();
+            coeIds = new ArrayList<>();
+
+            // pre-fill diff with existing rules
+            diff = getAll(con, did, false);
+
+            for(Variable var : vars) {
+
+                coeV = createOrEdit(con, did, var, false);
+
+                coe.add(coeV);
+                coeIds.add(coeV.var_id);
+
+            }
+
+            diff.removeAll(coe);
+
+            // Variablen die nicht mehr vorhanden sind
+            // und auch nicht verändert wurden löschen
+
+            for(Variable var : diff){
+                if(!coeIds.contains(var.var_id))
+                    delete(con, var.var_id, false);
+            }
+
+            return coe;
+
+        } finally { if(close) con.close(); }
+
+    }
+
+    public static Variable createOrEdit(Connection con, int disz_id, Variable var, boolean close) throws SQLException, InternalServerErrorException {
 
         Variable orig;
 
         try {
 
             if(var.var_id == null)
-                return create(con, var, false);
-            else if ( (orig = getOne(con, Integer.toString(var.var_id), false)) != null)
-                return orig;
+                return create(con, disz_id, var, false);
+            else if ( (orig = getOne(con, var.var_id, false)) != null)
+                return edit(con, var, orig, false);
             else
-                return create(con, var, false);
+                return create(con, disz_id, var, false);
 
         } finally { if(close) con.close(); }
+
     }
 
-    public static Variable create(Connection con, Variable var, boolean close) throws SQLException, InternalServerErrorException {
-        return create(con, Arrays.asList(new Variable[]{ var }), close).get(0);
+    public static Variable create(Connection con, int disz_id, Variable var, boolean close) throws SQLException, InternalServerErrorException {
+        return create(con, disz_id, Arrays.asList(new Variable[]{ var }), close).get(0);
     }
 
-    public static List<Variable> create(Connection con, List<Variable> vars, boolean close) throws SQLException, InternalServerErrorException {
+    public static List<Variable> create(Connection con, int disz_id, List<Variable> vars, boolean close) throws SQLException, InternalServerErrorException {
 
         List<Variable> ret = new ArrayList<>();
         PreparedStatement prep;
@@ -177,7 +210,7 @@ public class Variable {
 
         try {
 
-            prep = con.prepareStatement("CALL VariableAnlegen(?, ?, ?, ?)"); // var_name, var_descr, var_exprParam, typ_id
+            prep = con.prepareStatement("CALL VariableAnlegen(?, ?, ?, ?, ?, ?)"); // var_name, var_descr, var_exprParam, typ_id, disz_id, var_sortIndex
 
             for(Variable var : vars){
 
@@ -188,6 +221,9 @@ public class Variable {
                 prep.setString(i++, var.expressionParameter);
 
                 prep.setInt(i++, var.typ.getTypID());
+                prep.setInt(i++, disz_id);
+
+                prep.setNull(i++, Types.INTEGER); // TODO
 
                 rs = prep.executeQuery();
 
@@ -204,22 +240,19 @@ public class Variable {
     
     }
 
-    public static Variable create(Connection con, Variable var) throws SQLException, InternalServerErrorException {
-        return create(con, var, true);
+    public static Variable create(Connection con, int disz_id, Variable var) throws SQLException, InternalServerErrorException {
+        return create(con, disz_id, var, true);
     }
 
-    public static Variable edit(Connection con, String vid, Variable var, boolean close) throws SQLException, NotFoundException {
+    public static Variable edit(Connection con, Variable var, Variable orig, boolean close) throws SQLException, NotFoundException {
 
-        Variable orig;
         PreparedStatement prep;
         ResultSet rs;
         int i = 1;
 
         try {
 
-            orig = getOne(con, vid, false);
-
-            prep = con.prepareStatement("CALL VariableBearbeiten(?, ?, ?, ?, ?)"); // var_id, var_name, var_descr, var_exprParam, typ_id
+            prep = con.prepareStatement("CALL VariableBearbeiten(?, ?, ?, ?, ?, ?)"); // var_id, var_name, var_descr, var_exprParam, typ_id, var_sortIndex
 
             prep.setInt(i++, orig.var_id);;
 
@@ -228,7 +261,9 @@ public class Variable {
             prep.setString(i++, var.expressionParameter != null ? var.expressionParameter : orig.expressionParameter);
 
             prep.setInt(i++, var.typ != null ? var.typ.getTypID() : orig.typ.getTypID());
-            
+
+            prep.setNull(i++, Types.INTEGER); // TODO
+
             rs = prep.executeQuery();
 
             if(rs.next())
@@ -240,97 +275,50 @@ public class Variable {
     }
 
     public static Variable edit(Connection con, String vid, Variable var) throws SQLException, NotFoundException {
-        return edit(con, vid, var, true);
+
+        var.var_id = Integer.parseInt(vid);
+
+        return edit(con, var, getOne(con, vid, false), true);
     }
 
-    public static void delete(Connection con, String vid, boolean close) throws SQLException, WebApplicationException {
+    public static void delete(Connection con, int vid) throws SQLException {
+        delete(con, vid, true);
+    }
 
+    public static void delete(Connection con, int vid, boolean close) throws SQLException {
+        delete(con, Arrays.asList(new Integer[]{ vid }), close);
+    }
+
+    public static void delete(Connection con, List<Integer> var_ids, boolean close) throws SQLException {
         PreparedStatement prep;
         ResultSet rs;
         int i = 1;
 
         try {
 
-            prep = con.prepareStatement("SELECT disz_id FROM disziplin_variable WHERE var_id = ?");
-            prep.setInt(i++, Integer.parseInt(vid));
+            prep = con.prepareStatement("CALL VariableEntfernen(?)"); // var_id
 
-            rs = prep.executeQuery();
+            for(int var_id : var_ids){
 
-            if(rs.next()){
-
-                StringBuilder sb = new StringBuilder("Variable wird noch in folgenden/r Disziplin verwendet: ").append(rs.getInt(1));
-
-                while(rs.next())
-                    sb.append(", ").append(rs.getInt(1));
-
-                throw new WebApplicationException(sb.toString(), Response.Status.CONFLICT);
-            } // else continue
-
-            i = 1;
-
-            prep = con.prepareStatement("CALL VariableEntfernen(?)");
-            prep.setInt(i++, Integer.parseInt(vid));
-
-            prep.execute();
-
-        } finally { if(close) con.close(); }
-    }
-
-    public static void updateAssignments(Connection con, int did, List<Variable> existing, List<Variable> nevv, boolean close) throws SQLException, NotFoundException {
-
-        PreparedStatement prep;
-        List<Variable> deleted;
-        Logger logger = Logger.getLogger("updateAssignments");
-
-        if(existing == null)
-            existing = new ArrayList<>();
-
-        if(nevv == null)
-            nevv = new ArrayList<>();
-
-        try {
-
-            // deleted = existing - new
-            deleted = new ArrayList<>(existing); // this should copy the elements
-            deleted.removeAll(nevv);
-
-            // new - existing = added
-            nevv.removeAll(existing);
-
-            prep = con.prepareStatement("CALL VariableVonDisziplinEntfernen(?, ?)"); // var_id, did
-
-            for (Variable del : deleted){
-
-                logger.info(String.format("Removing var-assignment for %d", del.var_id));
-
-                getOne(con, del.var_id, false); // throws NotFoundException
-
-                prep.setInt(1, del.var_id);
-                prep.setInt(2, did);
-
+                prep.setInt(i++, var_id);
                 prep.execute();
 
-            }
-
-            prep = con.prepareStatement("CALL VariableZuDisziplinZuordnen(?, ?)"); // var_id, did
-
-            for(Variable add : nevv){
-
-                logger.info(String.format("Adding var-assignment for %d", add.var_id));
-
-                getOne(con, add.var_id, false); // throws NotFoundException
-
-                prep.setInt(1, add.var_id);
-                prep.setInt(2, did);
-
-                prep.execute();
+                i = 1;
             }
 
         } finally { if(close) con.close(); }
     }
 
-    public static void delete(Connection con, String vid) throws SQLException, NotFoundException {
-        delete(con, vid, true);
+    public static void deleteVars(Connection con, List<Variable> vars, boolean close) throws SQLException {
+        delete(con, vars.stream().map((v) -> v.var_id).collect(Collectors.toList()), close);
+    }
+
+    public static List<Variable> deleteDisziplin(Connection con, int disz_id, boolean close) throws SQLException {
+
+        PreparedStatement prep = con.prepareStatement("CALL VariablenEinerDisziplinEntfernen(?)"); // disz_id
+        prep.setInt(1, disz_id);
+
+        return getAll(con, prep, close);
     }
 
     private static Variable fromResultSet(Connection con, ResultSet rs) throws SQLException, InternalServerErrorException {

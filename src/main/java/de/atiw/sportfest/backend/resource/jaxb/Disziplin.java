@@ -139,8 +139,7 @@ public class Disziplin {
                 throw new InternalServerErrorException("Keine LAST_INSERT_ID ?!");
 
             Regel.create(conn, did, disziplin.regeln, false);
-
-            Variable.updateAssignments(conn, did, null /* existing */, Variable.create(conn, disziplin.variablen, false), false);
+            Variable.create(conn, did, disziplin.variablen, false);
 
             return getOne(conn, did, false);
 
@@ -171,7 +170,7 @@ public class Disziplin {
 
             orig = Disziplin.getOne(conn, Integer.toString(disziplin.did), false);
 
-            Variable.updateAssignments(conn, disziplin.did, orig.variablen, disziplin.variablen, false);
+            Variable.createOrEdit(conn, disziplin.did, disziplin.variablen, false);
 
             ps = conn.prepareStatement("Call DisziplinBearbeiten(?,?,?,?,?,?,?,?)");
 
@@ -232,7 +231,7 @@ public class Disziplin {
             ps = conn.prepareStatement("Call DisziplinLoeschen(?)");
             ps.setInt(1, did);
 
-            Variable.updateAssignments(conn, did, d.variablen, null /* new */, false);
+            Variable.deleteDisziplin(conn, did, false);
 
             for(Regel regel : d.regeln)
                 Regel.delete(conn, regel, false);
