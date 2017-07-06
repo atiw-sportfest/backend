@@ -148,7 +148,7 @@ public class Variable {
 
     }
 
-    public static Variable createOrGet(Connection con, Variable var, boolean close) throws SQLException, InternalServerErrorException {
+    public static Variable createOrEdit(Connection con, Variable var, boolean close) throws SQLException, InternalServerErrorException {
 
         Variable orig;
 
@@ -157,11 +157,12 @@ public class Variable {
             if(var.var_id == null)
                 return create(con, var, false);
             else if ( (orig = getOne(con, Integer.toString(var.var_id), false)) != null)
-                return orig;
+                return edit(con, var, orig, false);
             else
                 return create(con, var, false);
 
         } finally { if(close) con.close(); }
+
     }
 
     public static Variable create(Connection con, Variable var, boolean close) throws SQLException, InternalServerErrorException {
