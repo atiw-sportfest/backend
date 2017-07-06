@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -242,7 +243,11 @@ public class Leistung {
             prep.setInt(i++, ls.kid);
             prep.setInt(i++, ls.sid);
             prep.setTimestamp(i++, ls.timestamp);
-            prep.setInt(i++, ls.versus);
+
+            if(ls.versus == null)
+                prep.setNull(i++, Types.INTEGER);
+            else
+                prep.setInt(i++, ls.versus);
 
             rs = prep.executeQuery();
 
