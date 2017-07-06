@@ -27,7 +27,7 @@ public class ErrorEntity {
     }
 
     public static Response fromWebAppEx(WebApplicationException ex){
-        return Response.fromResponse(ex.getResponse()).entity(new ErrorEntity(ex)).type(MediaType.APPLICATION_JSON).build();
+        return Response.fromResponse(ex.getResponse()).entity(new ExceptionResponse(ex)).type(MediaType.APPLICATION_JSON).build();
     }
 
 }
