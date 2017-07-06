@@ -1,13 +1,13 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-07-06T17:55:11.874Z",
+	"__export_date": "2017-07-06T20:51:12.323Z",
 	"__export_source": "insomnia.desktop.app:v5.3.6",
 	"resources": [
 		{
 			"_id": "wrk_493eaf128fc041eea1c1cde823d135f9",
 			"parentId": null,
-			"modified": 1498142875213,
+			"modified": 1499367935639,
 			"created": 1497942846111,
 			"name": "Sportfest Backend",
 			"description": "",
@@ -17,7 +17,7 @@
 		{
 			"_id": "env_2d27ab66056b4153ac06a6ad3ca22e7c",
 			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
-			"modified": 1499273391993,
+			"modified": 1499367972775,
 			"created": 1497942950037,
 			"name": "Base Environment",
 			"data": {
@@ -28,7 +28,7 @@
 		{
 			"_id": "jar_69db35499a1f4bef96ad53d9703095a3",
 			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
-			"modified": 1498113817934,
+			"modified": 1499367935633,
 			"created": 1497943006642,
 			"name": "Default Jar",
 			"cookies": [],
@@ -37,7 +37,7 @@
 		{
 			"_id": "fld_dcc631abe7b944c3b60d62695fe9d025",
 			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
-			"modified": 1498113817932,
+			"modified": 1499367935631,
 			"created": 1497954191237,
 			"name": "#2 TestResource",
 			"description": "",
@@ -48,7 +48,7 @@
 		{
 			"_id": "fld_ebb070e9fa9e4c61a7729502b551b571",
 			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
-			"modified": 1498113817929,
+			"modified": 1499367935629,
 			"created": 1497954434087,
 			"name": "#9 KlasseResource",
 			"description": "",
@@ -59,7 +59,7 @@
 		{
 			"_id": "fld_bf9ce79a1f2b4314a7a3a268faa8e7df",
 			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
-			"modified": 1498113817926,
+			"modified": 1499367935628,
 			"created": 1497954528677,
 			"name": "#8 ErgebnisResource",
 			"description": "",
@@ -70,7 +70,7 @@
 		{
 			"_id": "fld_e5ff38c46655468eb8f0c8a72bda12e5",
 			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
-			"modified": 1498678162187,
+			"modified": 1499367935626,
 			"created": 1497954694676,
 			"name": "Disziplin",
 			"description": "",
@@ -81,7 +81,7 @@
 		{
 			"_id": "fld_23c784d69456493585380dc6efca1af0",
 			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
-			"modified": 1498113817922,
+			"modified": 1499367935618,
 			"created": 1497954775257,
 			"name": "#6 SchuelerResource",
 			"description": "",
@@ -92,7 +92,7 @@
 		{
 			"_id": "fld_e89e35ab5b1c44659917f958607ea364",
 			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
-			"modified": 1498113817920,
+			"modified": 1499367935527,
 			"created": 1497954790274,
 			"name": "#4 UserResource",
 			"description": "",
@@ -101,20 +101,20 @@
 			"_type": "request_group"
 		},
 		{
-			"_id": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
+			"_id": "fld_f5789259d40a4a269e4a0e157d33f99d",
 			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
-			"modified": 1498684063608,
-			"created": 1498684063608,
-			"name": "Variable",
+			"modified": 1499374103339,
+			"created": 1498691519399,
+			"name": "Typ",
 			"description": "",
 			"environment": {},
-			"metaSortKey": -1498684063608,
+			"metaSortKey": -1498702965545.5,
 			"_type": "request_group"
 		},
 		{
 			"_id": "fld_b92cf22d176c4eb4b87fdeea2fc2ab3b",
 			"parentId": "wrk_493eaf128fc041eea1c1cde823d135f9",
-			"modified": 1498721867483,
+			"modified": 1499367934979,
 			"created": 1498721867483,
 			"name": "Leistung",
 			"description": "",
@@ -125,18 +125,18 @@
 		{
 			"_id": "env_7bec37c0aaee40de809280e5bf87d50f",
 			"parentId": "env_2d27ab66056b4153ac06a6ad3ca22e7c",
-			"modified": 1498578223186,
+			"modified": 1499367958399,
 			"created": 1498578115683,
 			"name": "Global",
 			"data": {
-				"token": "http://172.20.3.18:8080/backend"
+				"backend": "http://172.20.3.18:8080/backend"
 			},
 			"_type": "environment"
 		},
 		{
 			"_id": "env_e5eba96740344c20890ce3169f8c6739",
 			"parentId": "env_2d27ab66056b4153ac06a6ad3ca22e7c",
-			"modified": 1498578252870,
+			"modified": 1499367934968,
 			"created": 1498578243857,
 			"name": "Local",
 			"data": {
@@ -147,7 +147,7 @@
 		{
 			"_id": "req_a230bfbaa0a540a0b5a894b4e9b702b6",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1498578452721,
+			"modified": 1499367934932,
 			"created": 1497954173403,
 			"url": "{{backend}}/test/rules",
 			"name": "Rules",
@@ -167,7 +167,7 @@
 		{
 			"_id": "req_6e75fcaba78c4c669c02497b7394ce8b",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1499252602283,
+			"modified": 1499367934911,
 			"created": 1497954263903,
 			"url": "{{backend}}/test/",
 			"name": "Hello World",
@@ -201,7 +201,7 @@
 		{
 			"_id": "req_7e8823414c1f406682f9513f12fedb01",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1498504230823,
+			"modified": 1499367934888,
 			"created": 1498414365706,
 			"url": "http://localhost:8080/backend/test/disziplin",
 			"name": "Disziplin",
@@ -221,7 +221,7 @@
 		{
 			"_id": "req_6aac70bf1d6c480da8a2004a1207f547",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1498578274800,
+			"modified": 1499367934886,
 			"created": 1498504240421,
 			"url": "{{backend}}/test/value",
 			"name": "Value",
@@ -241,7 +241,7 @@
 		{
 			"_id": "req_03c7d71e7e6c41318edf901e94d4395c",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1498675755820,
+			"modified": 1499367934882,
 			"created": 1498516278066,
 			"url": "{{ backend  }}/test/value",
 			"name": "Value",
@@ -270,7 +270,7 @@
 		{
 			"_id": "req_22aec566435249a99656740af1088b56",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1498599623338,
+			"modified": 1499367934880,
 			"created": 1498586690669,
 			"url": "{{backend}}/test/variable/2000",
 			"name": "Variable",
@@ -297,7 +297,7 @@
 		{
 			"_id": "req_49292e706cc6478b86c33d8681b3df65",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1498652346398,
+			"modified": 1499367934853,
 			"created": 1498650211316,
 			"url": "{{ backend  }}/test/post/disziplin",
 			"name": "Upload Disziplin",
@@ -332,7 +332,7 @@
 		{
 			"_id": "req_1728950f26234ae880bac04fb94ea1dc",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1499252590760,
+			"modified": 1499367934833,
 			"created": 1498731937856,
 			"url": "{{backend}}/test/leistung",
 			"name": "Leistung",
@@ -366,7 +366,7 @@
 		{
 			"_id": "req_68fbbabe89194be098e6b96bb90530d8",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1498858396572,
+			"modified": 1499367934789,
 			"created": 1498857759222,
 			"url": "{{backend}}/test/reflection",
 			"name": "Test Reflection",
@@ -395,7 +395,7 @@
 		{
 			"_id": "req_a480a28509114d9bbd5aaadb9808e331",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1498858851540,
+			"modified": 1499367934736,
 			"created": 1498858741849,
 			"url": "{{ backend  }}/test/test2",
 			"name": "Value 2",
@@ -424,7 +424,7 @@
 		{
 			"_id": "req_6669b827477e46ec989efcdc2f26ee9c",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1499013097976,
+			"modified": 1499367934710,
 			"created": 1499013039332,
 			"url": "{{backend}}/test/leistung",
 			"name": "Leistung",
@@ -453,7 +453,7 @@
 		{
 			"_id": "req_8f485d121711473fba5edf7c7e4a6dda",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1499104039135,
+			"modified": 1499367934697,
 			"created": 1499104017399,
 			"url": "{{backend}}/test/leistung",
 			"name": "Leistung List",
@@ -482,9 +482,9 @@
 		{
 			"_id": "req_83bb4ca2d2de41219917c7e22366dbba",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1499252605158,
+			"modified": 1499374190186,
 			"created": 1499168133722,
-			"url": "{{backend}}/test/",
+			"url": "{{backend}}/test/cdi",
 			"name": "CDI",
 			"description": "",
 			"method": "GET",
@@ -508,7 +508,7 @@
 		{
 			"_id": "req_6f36f23869fb41658c8af14248969cbd",
 			"parentId": "fld_dcc631abe7b944c3b60d62695fe9d025",
-			"modified": 1499252636805,
+			"modified": 1499367934626,
 			"created": 1499252619070,
 			"url": "{{backend}}/test/secret",
 			"name": "Token Secret",
@@ -534,7 +534,7 @@
 		{
 			"_id": "req_7f58e3ec55ec422b9d97fbc0b04d1ed8",
 			"parentId": "fld_ebb070e9fa9e4c61a7729502b551b571",
-			"modified": 1499015023486,
+			"modified": 1499367934582,
 			"created": 1497954448750,
 			"url": "{{backend}}/klasse",
 			"name": "klasse",
@@ -560,7 +560,7 @@
 		{
 			"_id": "req_9ae1d85616454d32914ae3d7bafb1d9d",
 			"parentId": "fld_ebb070e9fa9e4c61a7729502b551b571",
-			"modified": 1498849108551,
+			"modified": 1499367934579,
 			"created": 1497954479016,
 			"url": "{{backend}}/klasse/1234",
 			"name": "klasse/ {kid}",
@@ -586,7 +586,7 @@
 		{
 			"_id": "req_371d878bccdb4e3ead7e2c77fb1cd5e2",
 			"parentId": "fld_ebb070e9fa9e4c61a7729502b551b571",
-			"modified": 1498578602346,
+			"modified": 1499367934573,
 			"created": 1497954480578,
 			"url": "{{backend}}/klasse",
 			"name": "klasse",
@@ -618,7 +618,7 @@
 		{
 			"_id": "req_8b21188c663e40bca9958d609e3f62a8",
 			"parentId": "fld_ebb070e9fa9e4c61a7729502b551b571",
-			"modified": 1499159753030,
+			"modified": 1499367934571,
 			"created": 1499159731860,
 			"url": "{{backend}}/klasse/1234/leistungen",
 			"name": "Read Leistungen",
@@ -644,7 +644,7 @@
 		{
 			"_id": "req_55e1b7d7ef9248ff8461b8f71910694f",
 			"parentId": "fld_bf9ce79a1f2b4314a7a3a268faa8e7df",
-			"modified": 1498598023560,
+			"modified": 1499367934543,
 			"created": 1497954535992,
 			"url": "{{backend}}/ergebnis/",
 			"name": "ergebnis/ {did}",
@@ -664,7 +664,7 @@
 		{
 			"_id": "req_bf6c385da86b4894afcad09fe5e5bc17",
 			"parentId": "fld_bf9ce79a1f2b4314a7a3a268faa8e7df",
-			"modified": 1498578575745,
+			"modified": 1499367934515,
 			"created": 1497954557498,
 			"url": "{{backend}}/ergebnis/1/1",
 			"name": "ergebnis/ {did} / {eid}",
@@ -687,7 +687,7 @@
 		{
 			"_id": "req_272abf204e5d48c0af31d5dd2061a9c5",
 			"parentId": "fld_bf9ce79a1f2b4314a7a3a268faa8e7df",
-			"modified": 1498578580108,
+			"modified": 1499367934481,
 			"created": 1497954559191,
 			"url": "{{backend}}/ergebnis/1",
 			"name": "ergebnis/ {did}",
@@ -710,7 +710,7 @@
 		{
 			"_id": "req_afd2119af5e04ccea62291120744197a",
 			"parentId": "fld_bf9ce79a1f2b4314a7a3a268faa8e7df",
-			"modified": 1498578584664,
+			"modified": 1499367934465,
 			"created": 1497954560877,
 			"url": "{{backend}}/ergebnis/1",
 			"name": "ergebnis/ {did / {eid}",
@@ -733,7 +733,7 @@
 		{
 			"_id": "req_a5feadbee4a34bd38bfd9e6d9273b8ee",
 			"parentId": "fld_e5ff38c46655468eb8f0c8a72bda12e5",
-			"modified": 1499250537092,
+			"modified": 1499367934419,
 			"created": 1497954722593,
 			"url": "{{backend}}/disziplin",
 			"name": "List",
@@ -753,15 +753,15 @@
 		{
 			"_id": "req_c10859f5a5754c41aa4c407b887fe245",
 			"parentId": "fld_e5ff38c46655468eb8f0c8a72bda12e5",
-			"modified": 1499282021100,
+			"modified": 1499373704377,
 			"created": 1497954739294,
-			"url": "{{backend}}/disziplin/1347",
+			"url": "{{backend}}/disziplin/1342",
 			"name": "Update",
 			"description": "",
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"did\": 1347,\n\t\"name\": \"Weitsprung\",\n\t\"beschreibung\": \"Weit springen\",\n\t\"minTeilnehmer\": 2,\n\t\"maxTeilnehmer\": 2,\n\t\"aktiviert\": true,\n\t\"teamleistung\": false,\n\t\"variablen\": [\n\t\t{\n\t\t\t\"var_id\": 2006\n\t\t}\n\t],\n\t\"regeln\": [\n\t\t{\n\t\t\t\"rid\": 111,\n\t\t\t\"index\": 7,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 0.15\",\n\t\t\t\"points\": 1\n\t\t},\n\t\t{\n\t\t\t\"rid\": 112,\n\t\t\t\"index\": 6,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 0.3\",\n\t\t\t\"points\": 2\n\t\t},\n\t\t{\n\t\t\t\"rid\": 113,\n\t\t\t\"index\": 5,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 0.6\",\n\t\t\t\"points\": 5\n\t\t},\n\t\t{\n\t\t\t\"rid\": 114,\n\t\t\t\"index\": 4,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 1.2\",\n\t\t\t\"points\": 10\n\t\t},\n\t\t{\n\t\t\t\"rid\": 115,\n\t\t\t\"index\": 3,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 0.3\",\n\t\t\t\"points\": 1\n\t\t},\n\t\t{\n\t\t\t\"rid\": 116,\n\t\t\t\"index\": 2,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 0.6\",\n\t\t\t\"points\": 2\n\t\t},\n\t\t{\n\t\t\t\"rid\": 117,\n\t\t\t\"index\": 1,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 1.2\",\n\t\t\t\"points\": 5\n\t\t},\n\t\t{\n\t\t\t\"rid\": 118,\n\t\t\t\"index\": 0,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 2.4\",\n\t\t\t\"points\": 10\n\t\t}\n\t],\n\t\"kontrahentenAnzahl\": 0\n}"
+				"text": "{\n\t\"did\": 1342,\n\t\"name\": \"Weitsprung\",\n\t\"beschreibung\": \"Weit springen\",\n\t\"minTeilnehmer\": 2,\n\t\"maxTeilnehmer\": 2,\n\t\"aktiviert\": true,\n\t\"teamleistung\": false,\n\t\"variablen\": [\n\t\t{\n\t\t\t\"name\": \"stz\",\n\t\t\t\"desc\": \"stz\",\n\t\t\t\"expressionParameter\": \"stz\",\n\t\t\t\"typ\": {\n\t\t\t\t\"tid\": 102\n\t\t\t}\n\t\t}\n\t],\n\t\"regeln\": [\n\t\t{\n\t\t\t\"rid\": 42,\n\t\t\t\"index\": 1,\n\t\t\t\"expression\": \"regel1\",\n\t\t\t\"points\": 5\n\t\t},\n\t\t{\n\t\t\t\"rid\": 41,\n\t\t\t\"index\": 0,\n\t\t\t\"expression\": \"regel0\",\n\t\t\t\"points\": 10\n\t\t}\n\t],\n\t\"kontrahentenAnzahl\": 0\n}"
 			},
 			"parameters": [],
 			"headers": [
@@ -790,9 +790,9 @@
 		{
 			"_id": "req_711bc7cc96324ac59d0161501e2a0a05",
 			"parentId": "fld_e5ff38c46655468eb8f0c8a72bda12e5",
-			"modified": 1499277141998,
+			"modified": 1499373650554,
 			"created": 1498049900017,
-			"url": "{{backend}}/disziplin/1347",
+			"url": "{{backend}}/disziplin/1342",
 			"name": "Read",
 			"description": "",
 			"method": "GET",
@@ -817,7 +817,7 @@
 		{
 			"_id": "req_5cdde8cbb9dd483eaa2851999fd0b423",
 			"parentId": "fld_e5ff38c46655468eb8f0c8a72bda12e5",
-			"modified": 1499165179371,
+			"modified": 1499373615076,
 			"created": 1498494160878,
 			"url": "{{backend}}/disziplin",
 			"name": "Create",
@@ -825,7 +825,7 @@
 			"method": "PUT",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"name\": \"Weitsprung\",\n\t\"beschreibung\": \"Weit springen\",\n\t\"minTeilnehmer\": 2,\n\t\"maxTeilnehmer\": 2,\n\t\"aktiviert\": true,\n\t\"teamleistung\": false,\n\t\"variablen\": [\n\t\t{\n\t\t\t\"name\": \"Weite\",\n\t\t\t\"desc\": \"Gesprungene Weite in m\",\n\t\t\t\"expressionParameter\": \"weite\",\n\t\t\t\"typ\": {\n\t\t\t\t\"tid\": 103\n\t\t\t}\n\t\t}\n\t],\n\t\"regeln\": [\n\t\t{\n\t\t\t\"index\": 0,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 2.4\",\n\t\t\t\"points\": 10\n\t\t},\n\t\t{\n\t\t\t\"index\": 1,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 1.2\",\n\t\t\t\"points\": 5\n\t\t},\n\t\t{\n\t\t\t\"index\": 2,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 0.6\",\n\t\t\t\"points\": 2\n\t\t},\n\t\t{\n\t\t\t\"index\": 3,\n\t\t\t\"expression\": \"geschlecht == \\\"m\\\" && weite >= 0.3\",\n\t\t\t\"points\": 1\n\t\t},\n\t\t{\n\t\t\t\"index\": 4,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 1.2\",\n\t\t\t\"points\": 10\n\t\t},\n\t\t{\n\t\t\t\"index\": 5,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 0.6\",\n\t\t\t\"points\": 5\n\t\t},\n\t\t{\n\t\t\t\"index\": 6,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 0.3\",\n\t\t\t\"points\": 2\n\t\t},\n\t\t{\n\t\t\t\"index\": 7,\n\t\t\t\"expression\": \"geschlecht == \\\"w\\\" && weite >= 0.15\",\n\t\t\t\"points\": 1\n\t\t}\n\t],\n\t\"kontrahentenAnzahl\": 0\n}"
+				"text": "{\n\t\"name\": \"Weitsprung\",\n\t\"beschreibung\": \"Weit springen\",\n\t\"minTeilnehmer\": 2,\n\t\"maxTeilnehmer\": 2,\n\t\"aktiviert\": true,\n\t\"teamleistung\": false,\n\t\"variablen\": [\n\t\t{\n\t\t\t\"name\": \"Weite\",\n\t\t\t\"desc\": \"Gesprungene Weite in m\",\n\t\t\t\"expressionParameter\": \"weite\",\n\t\t\t\"typ\": {\n\t\t\t\t\"tid\": 103\n\t\t\t}\n\t\t}\n\t],\n\t\"regeln\": [\n\t\t{\n\t\t\t\"index\": 0,\n\t\t\t\"expression\": \"regel0\",\n\t\t\t\"points\": 10\n\t\t},\n\t\t{\n\t\t\t\"index\": 1,\n\t\t\t\"expression\": \"regel1\",\n\t\t\t\"points\": 5\n\t\t}\n\t],\n\t\"kontrahentenAnzahl\": 0\n}"
 			},
 			"parameters": [],
 			"headers": [
@@ -854,9 +854,9 @@
 		{
 			"_id": "req_b60a6782fe5c4929a7ee0d48514efac6",
 			"parentId": "fld_e5ff38c46655468eb8f0c8a72bda12e5",
-			"modified": 1499277130782,
+			"modified": 1499373746258,
 			"created": 1498678024256,
-			"url": "{{backend}}/disziplin/1346",
+			"url": "{{backend}}/disziplin/1342",
 			"name": "Delete",
 			"description": "",
 			"method": "DELETE",
@@ -883,7 +883,7 @@
 		{
 			"_id": "req_3f26e9ad50f54a39a0cb683287dde8df",
 			"parentId": "fld_23c784d69456493585380dc6efca1af0",
-			"modified": 1498578547251,
+			"modified": 1499367934409,
 			"created": 1497942949899,
 			"url": "{{backend}}/klasse",
 			"name": "SchuelerResource",
@@ -906,7 +906,7 @@
 		{
 			"_id": "req_68e15e4eb959425ebd2b7be5388178c5",
 			"parentId": "fld_23c784d69456493585380dc6efca1af0",
-			"modified": 1498726798289,
+			"modified": 1499367934376,
 			"created": 1498726772535,
 			"url": "{{backend}}/schueler",
 			"name": "List",
@@ -929,7 +929,7 @@
 		{
 			"_id": "req_dc8bec8ce96c4e47b6bce3b8080bff65",
 			"parentId": "fld_23c784d69456493585380dc6efca1af0",
-			"modified": 1499160088741,
+			"modified": 1499367934337,
 			"created": 1499159773170,
 			"url": "{{backend}}/schueler/3041/leistungen",
 			"name": "Read Leistungen",
@@ -959,7 +959,7 @@
 		{
 			"_id": "req_4161db6fb774415fa91307ba20d40959",
 			"parentId": "fld_23c784d69456493585380dc6efca1af0",
-			"modified": 1499159805917,
+			"modified": 1499367934276,
 			"created": 1499159800005,
 			"url": "{{backend}}/schueler/3041",
 			"name": "Read",
@@ -982,7 +982,7 @@
 		{
 			"_id": "req_54e4142738874cb19313671c5d8e453d",
 			"parentId": "fld_e89e35ab5b1c44659917f958607ea364",
-			"modified": 1498697865342,
+			"modified": 1499367934272,
 			"created": 1497954804588,
 			"url": "{{backend}}/authentication/",
 			"name": "User Login",
@@ -1024,7 +1024,7 @@
 		{
 			"_id": "req_95f0778b419043a1be3e27bd4b5eba04",
 			"parentId": "fld_e89e35ab5b1c44659917f958607ea364",
-			"modified": 1499271375593,
+			"modified": 1499367934266,
 			"created": 1497954855638,
 			"url": "{{backend}}/user/privileges",
 			"name": "user/privileges",
@@ -1047,7 +1047,7 @@
 		{
 			"_id": "req_df7af5f0b4214a73b22e7c542e2f020e",
 			"parentId": "fld_e89e35ab5b1c44659917f958607ea364",
-			"modified": 1499271370622,
+			"modified": 1499367934263,
 			"created": 1497954858255,
 			"url": "{{backend}}/user",
 			"name": "user",
@@ -1070,7 +1070,7 @@
 		{
 			"_id": "req_343bb3598c914500bad83dce79bef88d",
 			"parentId": "fld_e89e35ab5b1c44659917f958607ea364",
-			"modified": 1498698819273,
+			"modified": 1499367934260,
 			"created": 1497954866312,
 			"url": "{{backend}}/user/",
 			"name": "user",
@@ -1093,7 +1093,7 @@
 		{
 			"_id": "req_861752f15a894264b6c891ed66d932e1",
 			"parentId": "fld_e89e35ab5b1c44659917f958607ea364",
-			"modified": 1498578543041,
+			"modified": 1499367934257,
 			"created": 1497954895725,
 			"url": "{{backend}}/user/1",
 			"name": "user/ {uid}",
@@ -1116,7 +1116,7 @@
 		{
 			"_id": "req_6d183375d4ce4774bebc2e55c75f74aa",
 			"parentId": "fld_e89e35ab5b1c44659917f958607ea364",
-			"modified": 1498698149446,
+			"modified": 1499367934255,
 			"created": 1498698097386,
 			"url": "{{backend}}/authentication/gast",
 			"name": "Gast Login",
@@ -1143,22 +1143,11 @@
 			"_type": "request"
 		},
 		{
-			"_id": "fld_f5789259d40a4a269e4a0e157d33f99d",
-			"parentId": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
-			"modified": 1498691526789,
-			"created": 1498691519399,
-			"name": "Typ",
-			"description": "",
-			"environment": {},
-			"metaSortKey": -1498515480478,
-			"_type": "request_group"
-		},
-		{
-			"_id": "req_92aee7ca70664011bf20f9094c989e45",
-			"parentId": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
-			"modified": 1498684508954,
-			"created": 1498684082132,
-			"url": "{{backend}}/variable",
+			"_id": "req_87aee2ffa9da41fc964be495a1209127",
+			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
+			"modified": 1499372286054,
+			"created": 1498691535477,
+			"url": "{{ backend  }}/typ",
 			"name": "List",
 			"description": "",
 			"method": "GET",
@@ -1166,7 +1155,7 @@
 			"parameters": [],
 			"headers": [],
 			"authentication": {},
-			"metaSortKey": -1498684082133,
+			"metaSortKey": -1498691535477,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -1174,11 +1163,11 @@
 			"_type": "request"
 		},
 		{
-			"_id": "req_23b48397734d4448b649011750be5685",
-			"parentId": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
-			"modified": 1498687992211,
-			"created": 1498684512424,
-			"url": "{{backend}}/variable/2000",
+			"_id": "req_05cad49cceb64a4da84f3961c0fccf68",
+			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
+			"modified": 1499374119577,
+			"created": 1498691567749,
+			"url": "{{ backend  }}/typ/100",
 			"name": "Read",
 			"description": "",
 			"method": "GET",
@@ -1186,7 +1175,7 @@
 			"parameters": [],
 			"headers": [],
 			"authentication": {},
-			"metaSortKey": -1498627881598,
+			"metaSortKey": -1498687808805,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -1194,28 +1183,28 @@
 			"_type": "request"
 		},
 		{
-			"_id": "req_a7f3025c2a09496c9eadc3e225435ed0",
-			"parentId": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
-			"modified": 1498687954022,
-			"created": 1498687674179,
-			"url": "{{backend}}/variable/",
+			"_id": "req_09092845365b4bf2b163bcd208848a54",
+			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
+			"modified": 1499374115880,
+			"created": 1498691635933,
+			"url": "{{ backend  }}/typ/",
 			"name": "Create",
 			"description": "",
 			"method": "PUT",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"name\": \"Weite 2\",\n\t\"desc\": \"Weite in cm 2\",\n\t\"expressionParameter\": \"w\",\n\t\"typ\": {\n\t\t\"tid\": 100\n\t}\n}"
+				"text": "{\n\t\"name\": \"Test\",\n\t\"zustaende\": [\n\t\t{\n\t\t\t\"name\": \"a\",\n\t\t\t\"value\": \"a\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"b\",\n\t\t\t\"value\": \"b\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"c\",\n\t\t\t\"value\": \"c\"\n\t\t}\n\t],\n\t\"typ\": \"java.lang.Exception\"\n}"
 			},
 			"parameters": [],
 			"headers": [
 				{
 					"name": "Content-Type",
 					"value": "application/json",
-					"id": "pair_6db5380415bb4d5a95b63d60fe772d66"
+					"id": "pair_a8a10263a1b24606a522d9abae1bb456"
 				}
 			],
 			"authentication": {},
-			"metaSortKey": -1498639121705,
+			"metaSortKey": -1498689672141,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -1223,28 +1212,28 @@
 			"_type": "request"
 		},
 		{
-			"_id": "req_a22c588195b44733a24bb0e78069bf42",
-			"parentId": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
-			"modified": 1498989931336,
-			"created": 1498687674912,
-			"url": "{{backend}}/variable/2000",
+			"_id": "req_e50589db7aad4efcb1cb24c03407d976",
+			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
+			"modified": 1499374126283,
+			"created": 1498691812814,
+			"url": "{{ backend  }}/typ/100",
 			"name": "Update",
 			"description": "",
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"var_id\": 2000,\n\t\"name\": \"Weite\",\n\t\"desc\": \"Weite in cm\",\n\t\"expressionParameter\": \"weite\",\n\t\"typ\": {\n\t\t\"tid\": 100,\n\t\t\"name\": \"Ganzzahl\",\n\t\t\"desc\": \"Einfacher Zahlewert\",\n\t\t\"zustaende\": [],\n\t\t\"typ\": \"java.lang.Integer\",\n\t\t\"convertMethod\": \"parseInt\"\n\t}\n}"
+				"text": "{\n\t\"tid\": 100,\n\t\"name\": \"Ganzzahl\",\n\t\"desc\": \"Einfacher Zahlewert\",\n\t\"zustaende\": [],\n\t\"typ\": \"java.lang.Integer\",\n\t\"convertMethod\": \"parseInt\"\n}"
 			},
 			"parameters": [],
 			"headers": [
 				{
 					"name": "Content-Type",
 					"value": "application/json",
-					"id": "pair_03f64a9edec84ebea214df2f8707c0eb"
+					"id": "pair_13a2e7e9dbf5471cbeade4cfdaf5ee5d"
 				}
 			],
 			"authentication": {},
-			"metaSortKey": -1498616641491,
+			"metaSortKey": -1498685945469,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -1252,11 +1241,11 @@
 			"_type": "request"
 		},
 		{
-			"_id": "req_d5cf107179b34192946cace2ef428536",
-			"parentId": "fld_eeb58b68bde1400ab42fe8caac2af5c5",
-			"modified": 1498687975819,
-			"created": 1498687694807,
-			"url": "{{backend}}/variable/2010",
+			"_id": "req_ab5474fe6ad545b98828a1d3fd447538",
+			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
+			"modified": 1499374129879,
+			"created": 1498691860651,
+			"url": "{{backend}}/typ/107",
 			"name": "Delete",
 			"description": "",
 			"method": "DELETE",
@@ -1264,7 +1253,7 @@
 			"parameters": [],
 			"headers": [],
 			"authentication": {},
-			"metaSortKey": -1498515480528,
+			"metaSortKey": -1498685013801,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -1274,7 +1263,7 @@
 		{
 			"_id": "req_d726615aedd842969d6b66f27e05a345",
 			"parentId": "fld_b92cf22d176c4eb4b87fdeea2fc2ab3b",
-			"modified": 1498724390419,
+			"modified": 1499367934235,
 			"created": 1498721873172,
 			"url": "{{backend}}/leistung/",
 			"name": "List",
@@ -1300,7 +1289,7 @@
 		{
 			"_id": "req_674dd337d1e7449ba224c6b102042168",
 			"parentId": "fld_b92cf22d176c4eb4b87fdeea2fc2ab3b",
-			"modified": 1498993588083,
+			"modified": 1499367934227,
 			"created": 1498724390568,
 			"url": "{{backend}}/leistung/1018",
 			"name": "Read",
@@ -1331,7 +1320,7 @@
 		{
 			"_id": "req_d52f5ec41e9d4104a389380fdbe8aa90",
 			"parentId": "fld_b92cf22d176c4eb4b87fdeea2fc2ab3b",
-			"modified": 1499283371045,
+			"modified": 1499367934224,
 			"created": 1498724440049,
 			"url": "{{backend}}/leistung/",
 			"name": "Create",
@@ -1368,7 +1357,7 @@
 		{
 			"_id": "req_4998e37546fa4c0db9a5053047426c45",
 			"parentId": "fld_b92cf22d176c4eb4b87fdeea2fc2ab3b",
-			"modified": 1499270786236,
+			"modified": 1499367934220,
 			"created": 1498725549341,
 			"url": "{{backend}}/leistung/1001",
 			"name": "Update",
@@ -1405,7 +1394,7 @@
 		{
 			"_id": "req_8f81c077b57348ef99a0c26129dd75fa",
 			"parentId": "fld_b92cf22d176c4eb4b87fdeea2fc2ab3b",
-			"modified": 1499013952100,
+			"modified": 1499367934213,
 			"created": 1498725554454,
 			"url": "{{backend}}/leistung/1015",
 			"name": "Delete",
@@ -1434,7 +1423,7 @@
 		{
 			"_id": "req_987fda03765c4c278b119c81ef5044fe",
 			"parentId": "fld_b92cf22d176c4eb4b87fdeea2fc2ab3b",
-			"modified": 1499160278570,
+			"modified": 1499367934207,
 			"created": 1499160222204,
 			"url": "{{backend}}/leistung/versus",
 			"name": "Create w/ Versus",
@@ -1462,124 +1451,6 @@
 				"token": "{{ token  }}"
 			},
 			"metaSortKey": -1498710496536.375,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"_type": "request"
-		},
-		{
-			"_id": "req_87aee2ffa9da41fc964be495a1209127",
-			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
-			"modified": 1498723718782,
-			"created": 1498691535477,
-			"url": "{{ backend  }}/variable/typ",
-			"name": "List",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1498691535477,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"_type": "request"
-		},
-		{
-			"_id": "req_05cad49cceb64a4da84f3961c0fccf68",
-			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
-			"modified": 1498988259649,
-			"created": 1498691567749,
-			"url": "{{ backend  }}/variable/typ/100",
-			"name": "Read",
-			"description": "",
-			"method": "GET",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1498687808805,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"_type": "request"
-		},
-		{
-			"_id": "req_09092845365b4bf2b163bcd208848a54",
-			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
-			"modified": 1498696276164,
-			"created": 1498691635933,
-			"url": "{{ backend  }}/variable/typ/",
-			"name": "Create",
-			"description": "",
-			"method": "PUT",
-			"body": {
-				"mimeType": "application/json",
-				"text": "{\n\t\"name\": \"Test\",\n\t\"zustaende\": [\n\t\t{\n\t\t\t\"name\": \"a\",\n\t\t\t\"value\": \"a\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"b\",\n\t\t\t\"value\": \"b\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"c\",\n\t\t\t\"value\": \"c\"\n\t\t}\n\t],\n\t\"typ\": \"java.lang.Exception\"\n}"
-			},
-			"parameters": [],
-			"headers": [
-				{
-					"name": "Content-Type",
-					"value": "application/json",
-					"id": "pair_a8a10263a1b24606a522d9abae1bb456"
-				}
-			],
-			"authentication": {},
-			"metaSortKey": -1498689672141,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"_type": "request"
-		},
-		{
-			"_id": "req_e50589db7aad4efcb1cb24c03407d976",
-			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
-			"modified": 1498988277894,
-			"created": 1498691812814,
-			"url": "{{ backend  }}/variable/typ/100",
-			"name": "Update",
-			"description": "",
-			"method": "POST",
-			"body": {
-				"mimeType": "application/json",
-				"text": "{\n\t\"tid\": 100,\n\t\"name\": \"Ganzzahl\",\n\t\"desc\": \"Einfacher Zahlewert\",\n\t\"zustaende\": [],\n\t\"typ\": \"java.lang.Integer\",\n\t\"convertMethod\": \"parseInt\"\n}"
-			},
-			"parameters": [],
-			"headers": [
-				{
-					"name": "Content-Type",
-					"value": "application/json",
-					"id": "pair_13a2e7e9dbf5471cbeade4cfdaf5ee5d"
-				}
-			],
-			"authentication": {},
-			"metaSortKey": -1498685945469,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"_type": "request"
-		},
-		{
-			"_id": "req_ab5474fe6ad545b98828a1d3fd447538",
-			"parentId": "fld_f5789259d40a4a269e4a0e157d33f99d",
-			"modified": 1498696820932,
-			"created": 1498691860651,
-			"url": "{{backend}}/variable/typ/107",
-			"name": "Delete",
-			"description": "",
-			"method": "DELETE",
-			"body": {},
-			"parameters": [],
-			"headers": [],
-			"authentication": {},
-			"metaSortKey": -1498685013801,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
