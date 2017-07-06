@@ -97,6 +97,32 @@ public class SchuelerResource{
 	}
 
 	@GET
+    @Path("/leistung/disziplin/{did}")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getSchuelerMitLeistungEinerDisziplin(@PathParam("did") String did){
+		Response response = null;
+		Connection connection = null;
+    	try {
+    		ArrayList<Schueler> returner = new ArrayList<Schueler>();
+    		connection = this.db.getConnection();
+			ResultSet rs = Schueler.getRSgetAllWithLeistungOfDisziplin(connection, did);
+			while(rs.next()){
+				returner.add(new Schueler(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5)));
+			}
+			response = Response.ok(returner).build();
+		} catch (Exception e) {
+			response = ExceptionResponse.internalServerError(e);
+		}finally {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+    	return response;
+	}
+
+	@GET
     @Path("/klasse/{kid}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getSchuelerEinerKlasse(@PathParam("kid") String kid){
