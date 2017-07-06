@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.sql.DataSource;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -240,37 +241,44 @@ public class Variable {
         return edit(con, var, getOne(con, vid, false), true);
     }
 
-    public static void delete(Connection con, String vid, boolean close) throws SQLException, WebApplicationException {
+    public static void delete(Connection con, int vid) throws SQLException {
+        delete(con, vid, true);
+    }
 
+    public static void delete(Connection con, int vid, boolean close) throws SQLException {
+        delete(con, Arrays.asList(new Integer[]{ vid }), close);
+    }
+
+    public static void delete(Connection con, List<Integer> var_ids, boolean close) throws SQLException {
         PreparedStatement prep;
         ResultSet rs;
         int i = 1;
 
         try {
 
-            prep = con.prepareStatement("SELECT disz_id FROM disziplin_variable WHERE var_id = ?");
-            prep.setInt(i++, Integer.parseInt(vid));
+            prep = con.prepareStatement("CALL VariableEntfernen(?)"); // var_id
 
-            rs = prep.executeQuery();
+            for(int var_id : var_ids){
 
-            if(rs.next()){
+                prep.setInt(i++, var_id);
+                prep.execute();
 
-                StringBuilder sb = new StringBuilder("Variable wird noch in folgenden/r Disziplin verwendet: ").append(rs.getInt(1));
-
-                while(rs.next())
-                    sb.append(", ").append(rs.getInt(1));
-
-                throw new WebApplicationException(sb.toString(), Response.Status.CONFLICT);
-            } // else continue
-
-            i = 1;
-
-            prep = con.prepareStatement("CALL VariableEntfernen(?)");
-            prep.setInt(i++, Integer.parseInt(vid));
-
-            prep.execute();
+                i = 1;
+            }
 
         } finally { if(close) con.close(); }
+    }
+
+    public static void deleteVars(Connection con, List<Variable> vars, boolean close) throws SQLException {
+        delete(con, vars.stream().map((v) -> v.var_id).collect(Collectors.toList()), close);
+    }
+
+    public static List<Variable> deleteDisziplin(Connection con, int disz_id, boolean close) throws SQLException {
+
+        PreparedStatement prep = con.prepareStatement("CALL VariablenEinerDisziplinEntfernen(?)"); // disz_id
+        prep.setInt(1, disz_id);
+
+        return getAll(con, prep, close);
     }
 
     public static void updateAssignments(Connection con, int did, List<Variable> existing, List<Variable> nevv, boolean close) throws SQLException, NotFoundException {
@@ -326,9 +334,6 @@ public class Variable {
         } finally { if(close) con.close(); }
     }
 
-    public static void delete(Connection con, String vid) throws SQLException, NotFoundException {
-        delete(con, vid, true);
-    }
 
     private static Variable fromResultSet(Connection con, ResultSet rs) throws SQLException, InternalServerErrorException {
 
