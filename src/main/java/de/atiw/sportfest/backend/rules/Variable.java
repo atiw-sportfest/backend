@@ -140,6 +140,46 @@ public class Variable {
 
     }
 
+    public static List<Variable> createOrEdit(Connection con, int did, List<Variable> vars, boolean close) throws SQLException, InternalServerErrorException {
+
+        List<Variable> diff, coe;
+        List<Integer> coeIds;
+        Variable coeV;
+
+        try {
+
+            // coe - createOrEdit
+            coe = new ArrayList<>();
+            coeIds = new ArrayList<>();
+
+            // pre-fill diff with existing rules
+            diff = getAll(con, did, false);
+
+            for(Variable var : vars) {
+
+                coeV = createOrEdit(con, did, var, false);
+
+                coe.add(coeV);
+                coeIds.add(coeV.var_id);
+
+            }
+
+            diff.removeAll(coe);
+
+            // Variablen die nicht mehr vorhanden sind
+            // und auch nicht verändert wurden löschen
+
+            for(Variable var : diff){
+                if(!coeIds.contains(var.var_id))
+                    delete(con, var.var_id, false);
+            }
+
+            return coe;
+
+        } finally { if(close) con.close(); }
+
+    }
+
     public static Variable createOrEdit(Connection con, int disz_id, Variable var, boolean close) throws SQLException, InternalServerErrorException {
 
         Variable orig;
@@ -170,7 +210,7 @@ public class Variable {
 
         try {
 
-            prep = con.prepareStatement("CALL VariableAnlegen(?, ?, ?, ?, ?)"); // var_name, var_descr, var_exprParam, typ_id, disz_id, var_sortIndex
+            prep = con.prepareStatement("CALL VariableAnlegen(?, ?, ?, ?, ?, ?)"); // var_name, var_descr, var_exprParam, typ_id, disz_id, var_sortIndex
 
             for(Variable var : vars){
 
@@ -280,60 +320,6 @@ public class Variable {
 
         return getAll(con, prep, close);
     }
-
-    public static void updateAssignments(Connection con, int did, List<Variable> existing, List<Variable> nevv, boolean close) throws SQLException, NotFoundException {
-
-        PreparedStatement prep;
-        List<Variable> deleted;
-        Logger logger = Logger.getLogger("updateAssignments");
-
-        if(existing == null)
-            existing = new ArrayList<>();
-
-        if(nevv == null)
-            nevv = new ArrayList<>();
-
-        try {
-
-            // deleted = existing - new
-            deleted = new ArrayList<>(existing); // this should copy the elements
-            deleted.removeAll(nevv);
-
-            // new - existing = added
-            nevv.removeAll(existing);
-
-            prep = con.prepareStatement("CALL VariableVonDisziplinEntfernen(?, ?)"); // var_id, did
-
-            for (Variable del : deleted){
-
-                logger.info(String.format("Removing var-assignment for %d", del.var_id));
-
-                getOne(con, del.var_id, false); // throws NotFoundException
-
-                prep.setInt(1, del.var_id);
-                prep.setInt(2, did);
-
-                prep.execute();
-
-            }
-
-            prep = con.prepareStatement("CALL VariableZuDisziplinZuordnen(?, ?)"); // var_id, did
-
-            for(Variable add : nevv){
-
-                logger.info(String.format("Adding var-assignment for %d", add.var_id));
-
-                getOne(con, add.var_id, false); // throws NotFoundException
-
-                prep.setInt(1, add.var_id);
-                prep.setInt(2, did);
-
-                prep.execute();
-            }
-
-        } finally { if(close) con.close(); }
-    }
-
 
     private static Variable fromResultSet(Connection con, ResultSet rs) throws SQLException, InternalServerErrorException {
 
