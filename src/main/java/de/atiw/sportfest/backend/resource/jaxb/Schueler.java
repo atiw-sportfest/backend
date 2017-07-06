@@ -97,6 +97,12 @@ public class Schueler {
 		ps.setString(1, kid);
 		return ps.executeQuery();
 	}
+
+	public static ResultSet getRSgetAllWithLeistungOfDisziplin(Connection conn, String did) throws SQLException {
+		PreparedStatement ps = conn.prepareStatement("Call SchuelerAnzeigenMitLeistungAnDisziplin(?);");
+		ps.setString(1, did);
+		return ps.executeQuery();
+	}
 	
 	public static ResultSet getRSgetAllOfKlasseAndDisziplin(Connection conn, String kid, String did) throws SQLException {
 		PreparedStatement ps = conn.prepareStatement("Call AnmeldungenEinerDisziplinUndKlasseAnzeigen(?, ?);");

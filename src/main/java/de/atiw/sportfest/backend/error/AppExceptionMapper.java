@@ -15,7 +15,7 @@ public class AppExceptionMapper implements ExceptionMapper<Exception> {
         if(ex instanceof WebApplicationException)
             return ErrorEntity.fromWebAppEx((WebApplicationException) ex);
         else
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(ex).type(MediaType.APPLICATION_JSON).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ExceptionResponse(ex)).type(MediaType.APPLICATION_JSON).build();
 	}
 
 }
