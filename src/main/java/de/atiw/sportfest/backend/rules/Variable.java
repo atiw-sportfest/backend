@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -148,28 +149,28 @@ public class Variable {
 
     }
 
-    public static Variable createOrEdit(Connection con, Variable var, boolean close) throws SQLException, InternalServerErrorException {
+    public static Variable createOrEdit(Connection con, int disz_id, Variable var, boolean close) throws SQLException, InternalServerErrorException {
 
         Variable orig;
 
         try {
 
             if(var.var_id == null)
-                return create(con, var, false);
-            else if ( (orig = getOne(con, Integer.toString(var.var_id), false)) != null)
+                return create(con, disz_id, var, false);
+            else if ( (orig = getOne(con, var.var_id, false)) != null)
                 return edit(con, var, orig, false);
             else
-                return create(con, var, false);
+                return create(con, disz_id, var, false);
 
         } finally { if(close) con.close(); }
 
     }
 
-    public static Variable create(Connection con, Variable var, boolean close) throws SQLException, InternalServerErrorException {
-        return create(con, Arrays.asList(new Variable[]{ var }), close).get(0);
+    public static Variable create(Connection con, int disz_id, Variable var, boolean close) throws SQLException, InternalServerErrorException {
+        return create(con, disz_id, Arrays.asList(new Variable[]{ var }), close).get(0);
     }
 
-    public static List<Variable> create(Connection con, List<Variable> vars, boolean close) throws SQLException, InternalServerErrorException {
+    public static List<Variable> create(Connection con, int disz_id, List<Variable> vars, boolean close) throws SQLException, InternalServerErrorException {
 
         List<Variable> ret = new ArrayList<>();
         PreparedStatement prep;
@@ -178,7 +179,7 @@ public class Variable {
 
         try {
 
-            prep = con.prepareStatement("CALL VariableAnlegen(?, ?, ?, ?)"); // var_name, var_descr, var_exprParam, typ_id
+            prep = con.prepareStatement("CALL VariableAnlegen(?, ?, ?, ?, ?)"); // var_name, var_descr, var_exprParam, typ_id, disz_id, var_sortIndex
 
             for(Variable var : vars){
 
@@ -189,6 +190,9 @@ public class Variable {
                 prep.setString(i++, var.expressionParameter);
 
                 prep.setInt(i++, var.typ.getTypID());
+                prep.setInt(i++, disz_id);
+
+                prep.setNull(i++, Types.INTEGER); // TODO
 
                 rs = prep.executeQuery();
 
@@ -205,8 +209,8 @@ public class Variable {
     
     }
 
-    public static Variable create(Connection con, Variable var) throws SQLException, InternalServerErrorException {
-        return create(con, var, true);
+    public static Variable create(Connection con, int disz_id, Variable var) throws SQLException, InternalServerErrorException {
+        return create(con, disz_id, var, true);
     }
 
     public static Variable edit(Connection con, Variable var, Variable orig, boolean close) throws SQLException, NotFoundException {
@@ -217,7 +221,7 @@ public class Variable {
 
         try {
 
-            prep = con.prepareStatement("CALL VariableBearbeiten(?, ?, ?, ?, ?)"); // var_id, var_name, var_descr, var_exprParam, typ_id
+            prep = con.prepareStatement("CALL VariableBearbeiten(?, ?, ?, ?, ?, ?)"); // var_id, var_name, var_descr, var_exprParam, typ_id, var_sortIndex
 
             prep.setInt(i++, orig.var_id);;
 
@@ -226,7 +230,9 @@ public class Variable {
             prep.setString(i++, var.expressionParameter != null ? var.expressionParameter : orig.expressionParameter);
 
             prep.setInt(i++, var.typ != null ? var.typ.getTypID() : orig.typ.getTypID());
-            
+
+            prep.setNull(i++, Types.INTEGER); // TODO
+
             rs = prep.executeQuery();
 
             if(rs.next())
