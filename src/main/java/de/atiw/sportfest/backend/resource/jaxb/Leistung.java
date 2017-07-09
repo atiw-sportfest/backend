@@ -49,6 +49,8 @@ public class Leistung {
     @XmlElement
     private Integer versus;
 
+    private static final Logger logger = Logger.getLogger(Leistung.class.getName());
+
 	public Leistung() {}
 	
     public Leistung(Integer lid, Integer did, Integer kid, Integer sid){
@@ -275,8 +277,6 @@ public class Leistung {
     }
 
     private static Leistung fromResultSet(Connection con, ResultSet rs) throws SQLException, InternalServerErrorException {
-
-        Logger logger = Logger.getLogger("Leistung fromResultSet");
 
         Leistung l = new Leistung();
         List<Variable> vars = new ArrayList<>();
