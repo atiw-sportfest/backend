@@ -49,6 +49,9 @@ public class Variable {
             new Typ("Geschlecht", "", String.class,
                 new Zustand("", "", "m"), new Zustand("", "", "w")));
 
+    public static final Variable Counter = new Variable("", "", "counter",
+            new Typ("Counter", "Anzahl der erfolgreichen Regelausführungen", int.class));
+
     public Variable(){}
 
     public Variable(String name, String desc, String expressionParameter, Typ typ) {
