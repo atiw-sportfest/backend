@@ -1,6 +1,7 @@
 package de.atiw.sportfest.backend.resource;
 
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -58,6 +59,16 @@ public class LeistungResource {
         return Leistung.getAllDisziplin(db.getConnection(), did ,true);
     }
     
+    @GET
+    @Path("/disziplin/{did:\\d+}/sorted")
+    @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+    public List<Leistung> getLeistungenEinerDisziplinSorted(@PathParam("did") String did) throws SQLException, NotFoundException {
+
+        Connection con = db.getConnection();
+
+        return Disziplin.getOne(con, did, false).getLeistungenSorted(db.getConnection(), true);
+    }
+
     @PUT
     @Secured({ Role.admin, Role.schiedsrichter })
     @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
