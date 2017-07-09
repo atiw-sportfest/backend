@@ -43,6 +43,9 @@ public class Regel {
     @XmlTransient
     private Regel next;
 
+    @XmlTransient
+    private int counter = 0;
+
     public Regel() {
     }
 
@@ -77,6 +80,18 @@ public class Regel {
 
     public int evaluate(List<Variable> vars, List<Object> values) throws CompileException, InvocationTargetException {
        return RegelEvaluator.instance.evaluate(new EvaluationParameters(expression, vars), values) ? points : next != null ? next.evaluate(vars, values) : 0;
+    }
+
+    /**
+     * <code>counter</code>-Variable für diese und nachfolgende Regeln zurücksetzen.
+     */
+    public void resetCounters(){
+
+        this.counter = 0;
+
+        if(next != null)
+            next.resetCounters();
+
     }
 
     /**
