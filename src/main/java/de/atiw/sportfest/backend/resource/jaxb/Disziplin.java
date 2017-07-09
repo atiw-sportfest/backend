@@ -342,7 +342,7 @@ public class Disziplin {
     @XmlTransient
     public Regel getErsteRegel() {
 
-        Regel regel;
+        Regel regel = null;
 
         // Erste Regel kann entweder am Anfang oder Ende stehen.
         // Erstmal versuchen dort zu finden.
@@ -354,15 +354,18 @@ public class Disziplin {
 
         if(regeln != null && regeln.size() > 0)
             if( ( regel = regeln.get(regeln.size()-1) ) != null && regel.isFirst())
-                return regel;
+                ; // regel = regel
             else if( ( regel = regeln.get(0) ) != null && regel.isFirst())
-                return regel;
+                ; // regel = regel
             else
                 for(Regel regel_ : regeln)
                     if(regel_ != null && regel_.isFirst())
-                        return regel_;
+                        regel = regel_;
 
-        return null;
+        if(regel != null)
+            regel.resetCounters();
+
+        return regel;
     }
 
     @XmlTransient
