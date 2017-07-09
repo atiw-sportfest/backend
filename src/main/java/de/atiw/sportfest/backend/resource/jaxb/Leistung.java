@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -334,4 +335,53 @@ public class Leistung {
     public Integer getPunkte(){
         return punkte;
     }
+
+    /**
+     * Deep-sort Ergebnisse.
+     *
+     * Ergebnisse nach ihren Werten sortieren, auf allen Ebenen.
+     * @return Die sortierten Ergebnisse als {@link java.util.List}
+     */
+    @XmlTransient
+    public static List<Leistung> getErgebnisDeepSorted(List<Variable> vars, List<Leistung> leistungen, int level){
+
+        if(leistungen.size() == 0)
+            return new ArrayList<>();
+
+        if(level >= vars.size())
+            return leistungen;
+
+        Object key;
+        List<Object> keys;
+        Map<Object, List<Leistung>> map = new HashMap<>();
+
+        for(Leistung l : leistungen){
+
+            try {
+
+                key = l.ergebnisse.get(level).getWert();
+
+                if(!map.containsKey(key))
+                    map.put(key, new ArrayList<>());
+
+                map.get(key).add(l);
+
+            } catch(InvocationTargetException | NoSuchMethodException | IllegalAccessException e){
+                throw new InternalServerErrorException("Konnte Wert nicht auslesen!", e);
+            }
+
+        }
+
+        keys = new ArrayList<>(map.keySet());
+        keys.sort(vars.get(level)::wertCompare);
+
+        leistungen = new ArrayList<>();
+
+        for(Object key_ : keys)
+            leistungen.addAll(getErgebnisDeepSorted(vars, map.get(key_), level+1));
+
+        return leistungen;
+
+    }
+
 }

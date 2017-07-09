@@ -306,5 +306,12 @@ public class Typ {
         }
 
     }
+
+    public int wertCompare(Object o1, Object o2) {
+
+        try { return (int) typ.getDeclaredMethod("compareTo", typ).invoke(o1, o2); }
+        catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e){ return 0; }
+    }
+
 }
 

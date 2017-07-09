@@ -40,6 +40,9 @@ public class Variable {
     private Typ typ;
 
     @XmlElement
+    private Boolean sortAsc;
+
+    @XmlElement
     private Integer sortIndex;
 
     public static final Variable Geschlecht = new Variable("", "", "geschlecht",
@@ -74,6 +77,11 @@ public class Variable {
     @XmlTransient
     public Integer getVarId(){
         return var_id;
+    }
+
+    @XmlTransient
+    public boolean isSortedAsc(){
+        return sortAsc;
     }
 
     public static Variable getOne(Connection con, int vid, boolean close) throws SQLException, NotFoundException {
@@ -213,7 +221,7 @@ public class Variable {
 
         try {
 
-            prep = con.prepareStatement("CALL VariableAnlegen(?, ?, ?, ?, ?, ?)"); // var_name, var_descr, var_exprParam, typ_id, disz_id, var_sortIndex
+            prep = con.prepareStatement("CALL VariableAnlegen(?, ?, ?, ?, ?, ?, ?)"); // var_name, var_descr, var_exprParam, typ_id, disz_id, var_sortIndex, var_sortAsc
 
             for(Variable var : vars){
 
@@ -227,6 +235,7 @@ public class Variable {
                 prep.setInt(i++, disz_id);
 
                 prep.setInt(i++, var.sortIndex);
+                prep.setBoolean(i++, var.sortAsc);
 
                 rs = prep.executeQuery();
 
@@ -255,7 +264,7 @@ public class Variable {
 
         try {
 
-            prep = con.prepareStatement("CALL VariableBearbeiten(?, ?, ?, ?, ?, ?)"); // var_id, var_name, var_descr, var_exprParam, typ_id, var_sortIndex
+            prep = con.prepareStatement("CALL VariableBearbeiten(?, ?, ?, ?, ?, ?, ?)"); // var_id, var_name, var_descr, var_exprParam, typ_id, var_sortIndex, var_sortAsc
 
             prep.setInt(i++, orig.var_id);;
 
@@ -266,6 +275,7 @@ public class Variable {
             prep.setInt(i++, var.typ != null ? var.typ.getTypID() : orig.typ.getTypID());
 
             prep.setNull(i++, var.sortIndex);
+            prep.setBoolean(i++, var.sortAsc);
 
             rs = prep.executeQuery();
 
@@ -336,8 +346,16 @@ public class Variable {
         var.typ = Typ.getOne(con, rs.getInt(i++), false);
         i++; // disz_id
         var.sortIndex = rs.getInt(i++);
+        var.sortAsc = rs.getBoolean(i++);
 
         return var;
+
+    }
+
+    public int wertCompare(Object o1, Object o2) {
+
+        int ret = typ.wertCompare(o1, o2);
+        return sortAsc ? ret : -ret;
 
     }
 
