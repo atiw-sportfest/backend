@@ -5,12 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+
 import java.sql.Types;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
@@ -47,22 +45,15 @@ public class Leistung {
     private Integer punkte;
 
     @XmlElement
-	private Timestamp timestamp;
-
-    @XmlElement
     private Integer versus;
 
-    
-    private final static String pattern = "yyyy-MM-dd hh:mm:ss";
-	
 	public Leistung() {}
 	
-    public Leistung(Integer lid, Integer did, Integer kid, Integer sid, Timestamp timestamp){
+    public Leistung(Integer lid, Integer did, Integer kid, Integer sid){
     	this.lid = lid;
     	this.did = did;
     	this.kid = kid;
     	this.sid = sid;
-    	this.timestamp = timestamp;
     }
 
 	public static ResultSet getRSgetAll(Connection conn) throws SQLException{		
@@ -77,31 +68,28 @@ public class Leistung {
 	}
 	
 	public static void putSchuelerleistung(Connection conn, Leistung leistung) throws SQLException{	
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern); 
 		PreparedStatement ps = conn.prepareStatement("Call LeistungSchuelerAnlegen(?,?,?)");
 		ps.setInt(1, leistung.did);
 		ps.setInt(2, leistung.sid);
-		ps.setString(3, simpleDateFormat.format(leistung.timestamp));
+        ps.setNull(3, Types.TIMESTAMP);
 		ps.executeQuery();
 	}
 	
 	public static void putKlassenleistung(Connection conn, Leistung leistung) throws SQLException{	
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern); 
 		PreparedStatement ps = conn.prepareStatement("Call LeistungKlasseAnlegen(?,?,?)");
 		ps.setInt(1, leistung.did);
 		ps.setInt(2, leistung.kid);
-		ps.setString(3, simpleDateFormat.format(leistung.timestamp));
+        ps.setNull(3, Types.TIMESTAMP);
 		ps.executeQuery();
 	}
 	
 	public static void post(Connection conn, Leistung leistung) throws SQLException {	
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern); 
 		PreparedStatement ps = conn.prepareStatement("Call LeistungAendern(?,?,?,?,?,?)");
 		ps.setInt(1, leistung.lid);
 		ps.setInt(2, leistung.did);
 		ps.setInt(3, leistung.kid);
 		ps.setInt(4, leistung.sid);
-		ps.setString(5, simpleDateFormat.format(leistung.timestamp));
+        ps.setNull(5, Types.TIMESTAMP);
 		ps.executeQuery();
 	}
 	
@@ -197,7 +185,6 @@ public class Leistung {
     public static Leistung edit(Connection con, String lid, Leistung leistung, Leistung orig, boolean close) throws SQLException, NotFoundException {
 
         PreparedStatement prep;
-        ResultSet rs;
         int i = 1;
 
         try {
@@ -208,7 +195,7 @@ public class Leistung {
             prep.setInt(i++, leistung.did != null ? leistung.did : orig.did);
             prep.setInt(i++, leistung.kid != null ? leistung.kid : orig.kid);
             prep.setInt(i++, leistung.sid != null ? leistung.sid: orig.sid);
-            prep.setTimestamp(i++, leistung.timestamp != null ? leistung.timestamp : orig.timestamp);
+            prep.setNull(i++, Types.TIMESTAMP);
             prep.setInt(i++, leistung.versus != null ? leistung.versus : orig.versus);
 
             Ergebnis.updateErgebnisse(con, orig.lid, leistung.ergebnisse, false);
@@ -241,8 +228,12 @@ public class Leistung {
 
             prep.setInt(i++, ls.did);
             prep.setInt(i++, ls.kid);
-            prep.setInt(i++, ls.sid);
-            prep.setTimestamp(i++, ls.timestamp);
+            if(ls.sid == null){
+                prep.setNull(i++, Types.INTEGER);
+            }else{
+                prep.setInt(i++, ls.sid);
+            }
+            prep.setNull(i++, Types.TIMESTAMP);
 
             if(ls.versus == null)
                 prep.setNull(i++, Types.INTEGER);
@@ -296,7 +287,7 @@ public class Leistung {
         l.sid = rs.getInt(i++);
         l.sid = rs.wasNull() ? null : l.sid;
 
-        l.timestamp = rs.getTimestamp(i++);
+        i++; //timestamp
 
         l.versus = rs.getInt(i++);
         l.versus = rs.wasNull() ? null : l.versus;
