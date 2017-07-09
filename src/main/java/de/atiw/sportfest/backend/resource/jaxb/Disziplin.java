@@ -382,4 +382,30 @@ public class Disziplin {
         return Leistung.getErgebnisDeepSorted(getVariablenSorted(), ret, 0);
 
     }
+
+    @XmlTransient
+    public List<Leistung> getLeistungen(Connection con, boolean close) throws SQLException {
+
+        try {
+
+            List<Leistung> leistungen = getLeistungenSorted(con, false),
+                ret = new ArrayList<>();
+
+            for(RegelSatz rs : regelsaetze){
+
+                Regel ersteRegel = rs.getErsteRegel();
+
+                for(Leistung l: leistungen)
+                    ret.add(l.evaluateRegel(con, ersteRegel));
+
+                leistungen = ret;
+                ret = new ArrayList<>();
+
+            }
+
+            return leistungen;
+
+        } finally { if(close) con.close(); }
+
+    }
 }
