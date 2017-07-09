@@ -352,6 +352,13 @@ public class Variable {
 
     }
 
+    public int wertCompare(Object o1, Object o2) {
+
+        int ret = typ.wertCompare(o1, o2);
+        return sortAsc ? ret : -ret;
+
+    }
+
     public static int indexCompare(Variable v1, Variable v2) {
 
         int result;
