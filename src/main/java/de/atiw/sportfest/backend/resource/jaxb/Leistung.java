@@ -23,6 +23,7 @@ import javax.ws.rs.NotFoundException;
 
 import org.codehaus.commons.compiler.CompileException;
 
+import de.atiw.sportfest.backend.rules.Regel;
 import de.atiw.sportfest.backend.rules.Variable;
 
 @XmlRootElement
@@ -279,9 +280,6 @@ public class Leistung {
     private static Leistung fromResultSet(Connection con, ResultSet rs) throws SQLException, InternalServerErrorException {
 
         Leistung l = new Leistung();
-        List<Variable> vars = new ArrayList<>();
-        List<Object> vals = new ArrayList<>();
-        Disziplin d;
         int i = 1;
 
         l.lid = rs.getInt(i++);
@@ -298,20 +296,32 @@ public class Leistung {
 
         l.ergebnisse = Ergebnis.getAll(con, Integer.toString(l.lid), false);
 
+        return l;
+
+    }
+
+    public void verify() throws BadRequestException {
+        if(ergebnisse == null && did == null && kid == null)
+            throw new BadRequestException("Ergebnisse, Klassen-Id und Disziplin-ID müssen immer gesetzt sein!");
+    }
+
+    public Leistung evaluateRegel(Connection con, Regel r) throws SQLException {
+
+        List<Variable> vars = new ArrayList<>();
+        List<Object> vals = new ArrayList<>();
+
+        punkte = punkte == null ? 0 : punkte;
+
         vars.add(Variable.Geschlecht);
 
-        if(l.sid != null)
-            vals.add(Schueler.getOne(con, Integer.toString(l.sid), false).getGeschlecht());
+        if(sid != null)
+            vals.add(Schueler.getOne(con, Integer.toString(sid), false).getGeschlecht());
         else
             vals.add("");
 
-        d = Disziplin.getOne(con, l.did, false);
-
-        logger.info(String.format("Disziplin: %s (%d)", d.getName(), d.getDid()));
-
         try {
 
-            for(Ergebnis ergebnis : l.ergebnisse){
+            for(Ergebnis ergebnis : ergebnisse){
 
                 logger.info("Adding ergebnis... " + ergebnis.getVariable().getExpressionParameter() + ": " + ergebnis.getWert());
 
@@ -320,10 +330,10 @@ public class Leistung {
 
             }
 
-            if(l.ergebnisse.size() > 0)
-                l.punkte = d.getPoints(vars, vals);
+            if(ergebnisse.size() > 0)
+                punkte += r.evaluate(vars, vals);
             else
-                logger.info(String.format("Leistung %d ohne Ergebnisse...", l.lid));
+                logger.info(String.format("Leistung %d ohne Ergebnisse...", lid));
 
         } catch(NoSuchMethodException | IllegalAccessException e){
             throw new InternalServerErrorException("Konnte Wert nicht übersetzen!", e);
@@ -333,13 +343,8 @@ public class Leistung {
             throw new InternalServerErrorException(e);
         }
 
-        return l;
+        return this;
 
-    }
-
-    public void verify() throws BadRequestException {
-        if(ergebnisse == null && did == null && kid == null)
-            throw new BadRequestException("Ergebnisse, Klassen-Id und Disziplin-ID müssen immer gesetzt sein!");
     }
 
     @XmlTransient
