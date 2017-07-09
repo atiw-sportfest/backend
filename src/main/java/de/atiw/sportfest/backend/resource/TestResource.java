@@ -1,8 +1,11 @@
 package de.atiw.sportfest.backend.resource;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
@@ -22,6 +25,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.codehaus.commons.compiler.CompileException;
 
 import de.atiw.sportfest.backend.ExceptionResponse;
 import de.atiw.sportfest.backend.auth.Secured;
@@ -60,16 +65,27 @@ public class TestResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     @Path("rules")
-    public Response testRules(){
+    public List<Integer> testRules() throws SQLException, CompileException, InvocationTargetException {
 
-        try {
+        Disziplin d = Disziplin.getOne(db.getConnection(), "1000");
+        Regel regel = d.getErsteRegel();
 
-            Disziplin d = Disziplin.getOne(db.getConnection(), "1000");
-            return Response.ok(d.getErsteRegel().evaluate(d.getVariablen(), Arrays.asList(new Object[]{ "m", 1.2f }))).build();
+        ArrayList<Integer> pts = new ArrayList<>();
+        ArrayList<Variable> vars = new ArrayList<>();
+        ArrayList<Object> vals = new ArrayList<>();
 
-        } catch(Exception e){
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
-        }
+        vars.add(Variable.Geschlecht);
+        vals.add("m");
+
+        vars.addAll(d.getVariablen());
+        vals.addAll(Arrays.asList(new Object[]{ 1.2f }));
+
+        pts.add(regel.evaluate(vars, vals));
+        pts.add(regel.evaluate(vars, vals));
+        pts.add(regel.evaluate(vars, vals));
+        pts.add(regel.evaluate(vars, vals));
+
+        return pts;
 
     }
 
