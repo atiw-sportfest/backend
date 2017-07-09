@@ -207,7 +207,7 @@ public class Regel {
      *
      * Setzt {@code Regel.next}.
      */
-    public static List<Regel> getAll(Connection con, Integer did, boolean close) throws SQLException {
+    public static List<Regel> getAll(Connection con, Integer rsatz_id, boolean close) throws SQLException {
 
         ResultSet rs;
         PreparedStatement prep;
@@ -217,8 +217,8 @@ public class Regel {
 
         try {
 
-            prep = con.prepareStatement("CALL RegelnEinerDisziplinAnzeigen(?)"); // Regeln kommen rückwärst, also max. Index -> min Index.
-            prep.setInt(i++, did);
+            prep = con.prepareStatement("CALL RegelnEinesRegelsatzesAnzeigen(?)"); // Regeln kommen rückwärst, also max. Index -> min Index.
+            prep.setInt(i++, rsatz_id);
 
             rs = prep.executeQuery();
 
