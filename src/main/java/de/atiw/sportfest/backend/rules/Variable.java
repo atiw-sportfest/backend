@@ -49,8 +49,7 @@ public class Variable {
             new Typ("Geschlecht", "", String.class,
                 new Zustand("", "", "m"), new Zustand("", "", "w")));
 
-    public static final Variable Counter = new Variable("", "", "counter",
-            new Typ("Counter", "Anzahl der erfolgreichen Regelausführungen", int.class));
+    public static final Variable Counter = new Variable("", "Anzahl der erfolgreichen Regelausführungen", "counter", Typ.Int);
 
     public static final Variable Punkte = new Variable("", "Bisher erreichte Punkte", "punkte", Typ.Int);
 

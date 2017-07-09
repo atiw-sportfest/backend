@@ -118,7 +118,7 @@ public class Regel {
      */
     public void resetCounters(){
 
-        this.counter = 0;
+        this.counter = 1;
 
         if(next != null)
             next.resetCounters();
