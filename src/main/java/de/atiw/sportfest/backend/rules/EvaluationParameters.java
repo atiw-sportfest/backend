@@ -3,6 +3,7 @@ package de.atiw.sportfest.backend.rules;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class EvaluationParameters {
 
@@ -19,7 +20,10 @@ public class EvaluationParameters {
         parameters = new ArrayList<>();
         types = new ArrayList<>();
 
+        Logger logger = Logger.getLogger("EvaluationParameters");
+
         for(Variable var : vars){
+            logger.info("Adding " + var.getExpressionParameter());
             parameters.add(var.getExpressionParameter());
             types.add(var.getTyp().getTyp());
         }

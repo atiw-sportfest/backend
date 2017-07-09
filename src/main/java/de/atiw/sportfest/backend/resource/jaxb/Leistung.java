@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -275,6 +276,8 @@ public class Leistung {
 
     private static Leistung fromResultSet(Connection con, ResultSet rs) throws SQLException, InternalServerErrorException {
 
+        Logger logger = Logger.getLogger("Leistung fromResultSet");
+
         Leistung l = new Leistung();
         List<Variable> vars = new ArrayList<>();
         List<Object> vals = new ArrayList<>();
@@ -304,15 +307,23 @@ public class Leistung {
 
         d = Disziplin.getOne(con, l.did, false);
 
+        logger.info(String.format("Disziplin: %s (%d)", d.getName(), d.getDid()));
+
         try {
 
             for(Ergebnis ergebnis : l.ergebnisse){
+
+                logger.info("Adding ergebnis... " + ergebnis.getVariable().getExpressionParameter() + ": " + ergebnis.getWert());
+
                 vals.add(ergebnis.getWert());
                 vars.add(ergebnis.getVariable());
+
             }
 
             if(d.getErsteRegel() != null && l.ergebnisse.size() > 0)
                 l.punkte = d.getErsteRegel().evaluate(vars, vals);
+            else
+                logger.info(String.format("Disziplin \"%s\" (%d) ohne Regel...", d.getName(), d.getDid()));
 
         } catch(NoSuchMethodException | IllegalAccessException e){
             throw new InternalServerErrorException("Konnte Wert nicht übersetzen!", e);

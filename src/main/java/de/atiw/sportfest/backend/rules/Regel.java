@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -45,6 +46,9 @@ public class Regel {
 
     @XmlTransient
     private int counter = 0;
+
+    @XmlTransient
+    private static final Logger logger = Logger.getLogger("Regel");
 
     public Regel() {
     }
@@ -96,6 +100,11 @@ public class Regel {
             return evaluate(new ArrayList<>(vars), new ArrayList<>(vals));
 
         }
+
+        logger.info(String.format("Evaluate %s", expression));
+
+        for(int i = 0; i < vars.size(); i++)
+            logger.info(String.format("Var %s val %s", vars.get(i).getExpressionParameter(), vals.get(i)));
 
         if(( success = RegelEvaluator.instance.evaluate(new EvaluationParameters(expression, vars), vals) ))
             counter++;
