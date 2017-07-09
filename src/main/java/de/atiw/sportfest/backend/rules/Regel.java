@@ -43,6 +43,9 @@ public class Regel {
     @XmlTransient
     private Regel next;
 
+    @XmlTransient
+    private int counter = 0;
+
     public Regel() {
     }
 
@@ -75,8 +78,42 @@ public class Regel {
         return this.index == 0;
     }
 
-    public int evaluate(List<Variable> vars, List<Object> values) throws CompileException, InvocationTargetException {
-       return RegelEvaluator.instance.evaluate(new EvaluationParameters(expression, vars), values) ? points : next != null ? next.evaluate(vars, values) : 0;
+    public int evaluate(List<Variable> vars, List<Object> vals) throws CompileException, InvocationTargetException {
+
+        boolean success;
+
+        try {
+
+            if(vars.get(vars.size() - 1) != Variable.Counter){
+                vars.add(Variable.Counter);
+                vals.add((Integer) counter);
+            } else vals.set(vals.size() - 1, (Integer) counter);
+
+        } catch(UnsupportedOperationException e){
+
+            // The list maybe does not support #add and/or #set.
+            // ArrayList implements both, so continue with that.
+            return evaluate(new ArrayList<>(vars), new ArrayList<>(vals));
+
+        }
+
+        if(( success = RegelEvaluator.instance.evaluate(new EvaluationParameters(expression, vars), vals) ))
+            counter++;
+
+        return success ? points : next != null ? next.evaluate(vars, vals) : 0;
+
+    }
+
+    /**
+     * <code>counter</code>-Variable für diese und nachfolgende Regeln zurücksetzen.
+     */
+    public void resetCounters(){
+
+        this.counter = 0;
+
+        if(next != null)
+            next.resetCounters();
+
     }
 
     /**
