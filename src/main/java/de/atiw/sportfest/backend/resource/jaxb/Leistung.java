@@ -312,6 +312,9 @@ public class Leistung {
 
         punkte = punkte == null ? 0 : punkte;
 
+        vars.add(Variable.Punkte);
+        vals.add(punkte);
+
         vars.add(Variable.Geschlecht);
 
         if(sid != null)
