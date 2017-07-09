@@ -2,6 +2,7 @@ package de.atiw.sportfest.backend.rules;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -17,10 +18,11 @@ public enum RegelEvaluator {
 
     private static String[] paramsAT= new String[0];
     private static Class<?>[] typesAT = new Class<?>[0];
+    private static Object[] valsAT = new Object[0];
 
     private Map<EvaluationParameters, ExpressionEvaluator> eeCache = new HashMap<>();
 
-    public boolean evaluate(EvaluationParameters params, Object values[]) throws CompileException, InvocationTargetException {
+    public boolean evaluate(EvaluationParameters params, List<Object> values) throws CompileException, InvocationTargetException {
 
         ExpressionEvaluator ee;
         String expression = params.getExpression();
@@ -40,7 +42,7 @@ public enum RegelEvaluator {
 
         }
 
-        return (boolean) ee.evaluate(values);
+        return (boolean) ee.evaluate(values.toArray(valsAT));
     }
 
 }
