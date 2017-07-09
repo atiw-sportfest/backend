@@ -395,4 +395,11 @@ public class Disziplin {
     public Integer getDid(){
         return this.did;
     }
+
+    @XmlTransient
+    public List<Variable> getVariablenSorted(){
+        List<Variable> vars = new ArrayList<>(variablen);
+        vars.sort(Variable::indexCompare);
+        return vars;
+    }
 }
