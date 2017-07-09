@@ -320,10 +320,10 @@ public class Leistung {
 
             }
 
-            if(d.getErsteRegel() != null && l.ergebnisse.size() > 0)
-                l.punkte = d.getErsteRegel().evaluate(vars, vals);
+            if(l.ergebnisse.size() > 0)
+                l.punkte = d.getPoints(vars, vals);
             else
-                logger.info(String.format("Disziplin \"%s\" (%d) ohne Regel...", d.getName(), d.getDid()));
+                logger.info(String.format("Leistung %d ohne Ergebnisse...", l.lid));
 
         } catch(NoSuchMethodException | IllegalAccessException e){
             throw new InternalServerErrorException("Konnte Wert nicht übersetzen!", e);
