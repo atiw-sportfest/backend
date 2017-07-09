@@ -331,6 +331,7 @@ public class Variable {
         var.desc = rs.getString(i++);
         var.expressionParameter = rs.getString(i++);
         var.typ = Typ.getOne(con, rs.getInt(i++), false);
+        i++; // disz_id
 
         return var;
 
