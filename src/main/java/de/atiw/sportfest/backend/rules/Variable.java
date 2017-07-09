@@ -52,6 +52,8 @@ public class Variable {
     public static final Variable Counter = new Variable("", "", "counter",
             new Typ("Counter", "Anzahl der erfolgreichen Regelausführungen", int.class));
 
+    public static final Variable Punkte = new Variable("", "Bisher erreichte Punkte", "punkte", Typ.Int);
+
     public Variable(){}
 
     private Variable(String name, String desc, String expressionParameter, Typ typ) {
