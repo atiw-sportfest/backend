@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-import de.atiw.sportfest.backend.ExceptionResponse;
+import de.atiw.sportfest.backend.error.ExceptionResponse;
 import de.atiw.sportfest.backend.auth.Secured;
 
 @Secured
