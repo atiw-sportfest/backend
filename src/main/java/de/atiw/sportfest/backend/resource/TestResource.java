@@ -68,7 +68,6 @@ public class TestResource {
     public List<Integer> testRules() throws SQLException, CompileException, InvocationTargetException {
 
         Disziplin d = Disziplin.getOne(db.getConnection(), "1000");
-        Regel regel = d.getErsteRegel();
 
         ArrayList<Integer> pts = new ArrayList<>();
         ArrayList<Variable> vars = new ArrayList<>();
@@ -80,10 +79,10 @@ public class TestResource {
         vars.addAll(d.getVariablen());
         vals.addAll(Arrays.asList(new Object[]{ 1.2f }));
 
-        pts.add(regel.evaluate(vars, vals));
-        pts.add(regel.evaluate(vars, vals));
-        pts.add(regel.evaluate(vars, vals));
-        pts.add(regel.evaluate(vars, vals));
+        pts.add(d.getPoints(vars, vals));
+        pts.add(d.getPoints(vars, vals));
+        pts.add(d.getPoints(vars, vals));
+        pts.add(d.getPoints(vars, vals));
 
         return pts;
 

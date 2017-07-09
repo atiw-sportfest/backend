@@ -1,5 +1,6 @@
 package de.atiw.sportfest.backend.resource.jaxb;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,8 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotFoundException;
+
+import org.codehaus.commons.compiler.CompileException;
 
 import de.atiw.sportfest.backend.rules.Regel;
 import de.atiw.sportfest.backend.rules.Variable;
@@ -378,7 +381,10 @@ public class Disziplin {
             this.regeln.add(regel);
             regel = regel.getNext();
         } while(regel != null && regel.getNext() != null);
+    }
 
+    public int getPoints(List<Variable> vars, List<Object> vals) throws CompileException, InvocationTargetException {
+        return getErsteRegel().evaluate(vars, vals);
     }
 
     public List<Variable> getVariablen() {
