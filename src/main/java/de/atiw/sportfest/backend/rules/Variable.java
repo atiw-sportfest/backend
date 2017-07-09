@@ -39,6 +39,9 @@ public class Variable {
     @XmlElement
     private Typ typ;
 
+    @XmlElement
+    private Integer sortIndex;
+
     public static final Variable Geschlecht = new Variable("", "", "geschlecht",
             new Typ("Geschlecht", "", String.class,
                 new Zustand("", "", "m"), new Zustand("", "", "w")));
@@ -223,7 +226,7 @@ public class Variable {
                 prep.setInt(i++, var.typ.getTypID());
                 prep.setInt(i++, disz_id);
 
-                prep.setNull(i++, Types.INTEGER); // TODO
+                prep.setInt(i++, var.sortIndex);
 
                 rs = prep.executeQuery();
 
@@ -262,7 +265,7 @@ public class Variable {
 
             prep.setInt(i++, var.typ != null ? var.typ.getTypID() : orig.typ.getTypID());
 
-            prep.setNull(i++, Types.INTEGER); // TODO
+            prep.setNull(i++, var.sortIndex);
 
             rs = prep.executeQuery();
 
@@ -332,6 +335,7 @@ public class Variable {
         var.expressionParameter = rs.getString(i++);
         var.typ = Typ.getOne(con, rs.getInt(i++), false);
         i++; // disz_id
+        var.sortIndex = rs.getInt(i++);
 
         return var;
 
