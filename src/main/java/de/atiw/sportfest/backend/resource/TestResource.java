@@ -65,7 +65,7 @@ public class TestResource {
         try {
 
             Disziplin d = Disziplin.getOne(db.getConnection(), "1000");
-            return Response.ok(d.getErsteRegel().evaluate(d.getVariablen(), new Object[]{ "m", 1.2f })).build();
+            return Response.ok(d.getErsteRegel().evaluate(d.getVariablen(), Arrays.asList(new Object[]{ "m", 1.2f }))).build();
 
         } catch(Exception e){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
