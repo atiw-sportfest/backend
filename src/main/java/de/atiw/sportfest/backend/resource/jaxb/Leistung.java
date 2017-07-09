@@ -71,6 +71,7 @@ public class Leistung {
 		PreparedStatement ps = conn.prepareStatement("Call LeistungSchuelerAnlegen(?,?,?)");
 		ps.setInt(1, leistung.did);
 		ps.setInt(2, leistung.sid);
+        ps.setNull(3, Types.TIMESTAMP);
 		ps.executeQuery();
 	}
 	
@@ -78,6 +79,7 @@ public class Leistung {
 		PreparedStatement ps = conn.prepareStatement("Call LeistungKlasseAnlegen(?,?,?)");
 		ps.setInt(1, leistung.did);
 		ps.setInt(2, leistung.kid);
+        ps.setNull(3, Types.TIMESTAMP);
 		ps.executeQuery();
 	}
 	
