@@ -402,4 +402,13 @@ public class Disziplin {
         vars.sort(Variable::indexCompare);
         return vars;
     }
+
+    @XmlTransient
+    public List<Leistung> getLeistungenSorted(Connection con, boolean close) throws SQLException {
+
+        List<Leistung> ret = new ArrayList<>(Leistung.getAllDisziplin(con, this.did, close));
+
+        return Leistung.getErgebnisDeepSorted(getVariablenSorted(), ret, 0);
+
+    }
 }
