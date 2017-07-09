@@ -87,6 +87,7 @@ public class Leistung {
 		ps.setInt(2, leistung.did);
 		ps.setInt(3, leistung.kid);
 		ps.setInt(4, leistung.sid);
+        ps.setNull(5, Types.TIMESTAMP);
 		ps.executeQuery();
 	}
 	
