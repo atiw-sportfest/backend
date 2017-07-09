@@ -16,9 +16,9 @@ public enum RegelEvaluator {
 
     private static Logger logger = Logger.getLogger("RegelEvaluator");
 
-    private static String[] paramsAT= new String[0];
-    private static Class<?>[] typesAT = new Class<?>[0];
-    private static Object[] valsAT = new Object[0];
+    private static final String[] paramsAT= new String[0];
+    private static final Class<?>[] typesAT = new Class<?>[0];
+    private static final Object[] valsAT = new Object[0];
 
     private Map<EvaluationParameters, ExpressionEvaluator> eeCache = new HashMap<>();
 

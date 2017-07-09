@@ -54,7 +54,7 @@ public class Variable {
 
     public Variable(){}
 
-    public Variable(String name, String desc, String expressionParameter, Typ typ) {
+    private Variable(String name, String desc, String expressionParameter, Typ typ) {
         this.name = name;
         this.desc = desc;
         this.expressionParameter = expressionParameter;
