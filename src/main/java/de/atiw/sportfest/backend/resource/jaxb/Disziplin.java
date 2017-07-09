@@ -18,6 +18,7 @@ import javax.ws.rs.NotFoundException;
 import org.codehaus.commons.compiler.CompileException;
 
 import de.atiw.sportfest.backend.rules.Regel;
+import de.atiw.sportfest.backend.rules.RegelSatz;
 import de.atiw.sportfest.backend.rules.Variable;
 
 @XmlRootElement
@@ -48,10 +49,10 @@ public class Disziplin {
     private List<Variable> variablen;
 
     @XmlElement
-    private List<Regel> regeln;
-    
-    @XmlElement
     private Integer kontrahentenAnzahl;
+
+    @XmlElement
+    private List<RegelSatz> regelsaetze;
 
 	public Disziplin(){}
 
@@ -141,7 +142,6 @@ public class Disziplin {
             else
                 throw new InternalServerErrorException("Keine LAST_INSERT_ID ?!");
 
-            Regel.create(conn, did, disziplin.regeln, false);
             Variable.create(conn, did, disziplin.variablen, false);
 
             return getOne(conn, did, false);
@@ -195,9 +195,6 @@ public class Disziplin {
 
             ps.execute();
 
-            if(disziplin.regeln != null)
-                Regel.createOrEdit(conn, orig.did, disziplin.regeln, false);
-
             return getOne(conn, Integer.toString(disziplin.did));
 
         } finally { conn.close(); }
@@ -235,9 +232,6 @@ public class Disziplin {
             ps.setInt(1, did);
 
             Variable.deleteDisziplin(conn, did, false);
-
-            for(Regel regel : d.regeln)
-                Regel.delete(conn, regel, false);
 
             ps.execute();
 
@@ -336,55 +330,23 @@ public class Disziplin {
 
         d.kontrahentenAnzahl = rs.getInt(i++);
 
-        d.regeln = Regel.getAll(conn, d.did, false);
         d.variablen = Variable.getAll(conn, d.did, false);
+        d.regelsaetze = RegelSatz.getAll(conn, d.did, false);
 
         return d;
     }
 
     @XmlTransient
-    public Regel getErsteRegel() {
-
-        Regel regel = null;
-
-        // Erste Regel kann entweder am Anfang oder Ende stehen.
-        // Erstmal versuchen dort zu finden.
-        // Wenn das alles nix bringt, versuchen die erste Regel in der Liste zu finden.
-
-        // Erst am Ende, wie wenn aus der DB,
-        // dann am Anfang,
-        // dann alles durchsuchen
-
-        if(regeln != null && regeln.size() > 0)
-            if( ( regel = regeln.get(regeln.size()-1) ) != null && regel.isFirst())
-                ; // regel = regel
-            else if( ( regel = regeln.get(0) ) != null && regel.isFirst())
-                ; // regel = regel
-            else
-                for(Regel regel_ : regeln)
-                    if(regel_ != null && regel_.isFirst())
-                        regel = regel_;
-
-        if(regel != null)
-            regel.resetCounters();
-
-        return regel;
-    }
-
-    @XmlTransient
-    public void setRegeln(Regel ersteRegel) {
-
-        Regel regel = ersteRegel;
-        this.regeln = new ArrayList<>();
-
-        do {
-            this.regeln.add(regel);
-            regel = regel.getNext();
-        } while(regel != null && regel.getNext() != null);
-    }
-
     public int getPoints(List<Variable> vars, List<Object> vals) throws CompileException, InvocationTargetException {
-        return getErsteRegel().evaluate(vars, vals);
+
+        int ret = 0;
+
+        for(RegelSatz rsatz : regelsaetze)
+            if(!rsatz.requiresSorted())
+                ret += rsatz.getErsteRegel().evaluate(vars, vals);
+
+        return ret;
+
     }
 
     public List<Variable> getVariablen() {
