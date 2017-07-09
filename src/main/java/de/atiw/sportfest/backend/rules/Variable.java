@@ -340,5 +340,19 @@ public class Variable {
         return var;
 
     }
+
+    public static int indexCompare(Variable v1, Variable v2) {
+
+        int result;
+
+        if(v1.sortIndex != null && v2.sortIndex != null)
+            result = v2.sortIndex - v1.sortIndex;
+        else
+            return 0; // no sort index, vars are equal.
+
+        return result;
+
+    }
+
 }
 
