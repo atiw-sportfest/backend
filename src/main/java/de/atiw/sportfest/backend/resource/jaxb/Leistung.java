@@ -5,6 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+<<<<<<< HEAD
+=======
+import java.sql.Timestamp;
+>>>>>>> 1ee09b5122d44a178952093ba7cd390acae29959
 import java.sql.Types;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -231,7 +235,11 @@ public class Leistung {
                 prep.setInt(i++, ls.sid);
             }
             prep.setNull(i++, Types.TIMESTAMP);
-            prep.setInt(i++, ls.versus);
+
+            if(ls.versus == null)
+                prep.setNull(i++, Types.INTEGER);
+            else
+                prep.setInt(i++, ls.versus);
 
             rs = prep.executeQuery();
 
