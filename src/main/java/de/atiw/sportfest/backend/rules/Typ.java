@@ -40,6 +40,8 @@ public class Typ {
     @XmlElement
     private String convertMethod;
 
+    public static Typ Int = new Typ(int.class);
+
     public Typ() {
     }
 
