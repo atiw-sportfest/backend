@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -18,7 +21,7 @@ import javax.validation.constraints.*;
 
 
 @NamedQueries({
-@NamedQuery(name="disziplin.list", query="SELECT d FROM Disziplin d")
+@NamedQuery(name="disziplin.list", query="SELECT d FROM Disziplin d JOIN FETCH d.variablen")
 })
 @Entity
 public class Disziplin   {
@@ -30,7 +33,8 @@ public class Disziplin   {
   private String beschreibung = null;
   private Boolean team = null;
 
-  @OneToMany
+  @OneToMany(cascade=CascadeType.PERSIST)
+  @JoinColumn
   private List<Variable> variablen = new ArrayList<Variable>();
 
   @OneToMany

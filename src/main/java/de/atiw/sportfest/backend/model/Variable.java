@@ -3,6 +3,7 @@ package de.atiw.sportfest.backend.model;
 import java.util.Objects;
 import javax.annotation.Generated;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ public class Variable   {
   private Long id = null;
   private String name = null;
 
-  @OneToOne
+  @OneToOne(cascade=CascadeType.PERSIST)
   private Typ typ = null;
 
   /**
