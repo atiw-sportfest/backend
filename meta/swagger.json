@@ -297,6 +297,15 @@
         "consumes": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "disziplin",
+            "schema": {
+              "$ref": "#/definitions/Disziplin"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "$ref": "#/responses/Disziplin"
