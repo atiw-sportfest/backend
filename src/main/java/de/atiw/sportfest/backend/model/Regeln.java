@@ -1,14 +1,20 @@
 package de.atiw.sportfest.backend.model;
 
+import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 
-import io.swagger.annotations.*;
-import java.util.Objects;
-
-
+@Entity
 public class Regeln   {
   
+  @Id
+  @GeneratedValue
   private Long id = null;
   private String skript = null;
   private Boolean sonder = null;
@@ -105,3 +111,4 @@ public class Regeln   {
   }
 }
 
+// vim: set ts=2 sw=2 tw=0 et :

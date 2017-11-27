@@ -1,17 +1,27 @@
 package de.atiw.sportfest.backend.model;
 
+import java.util.Objects;
+import javax.annotation.Generated;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 import de.atiw.sportfest.backend.model.Typ;
+import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 
-import io.swagger.annotations.*;
-import java.util.Objects;
-
-
+@Entity
 public class Variable   {
   
+  @Id
+  @GeneratedValue
   private Long id = null;
   private String name = null;
+
+  @OneToOne
   private Typ typ = null;
 
   /**
@@ -106,3 +116,4 @@ public class Variable   {
   }
 }
 
+// vim: set ts=2 sw=2 tw=0 et :
