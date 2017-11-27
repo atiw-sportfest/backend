@@ -25,6 +25,15 @@ repositories {
     }
 }
 
+sourceSets {
+    main {
+        java {
+            exclude 'de/atiw/sportfest/backend/resource'
+            exclude 'de/atiw/sportfest/backend/rules'
+        }
+    }
+}
+
 dependencies {
 
     // Java EE
