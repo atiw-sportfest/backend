@@ -71,7 +71,7 @@
     "sid": {
       "in": "path",
       "name": "sid",
-      "description": "Schüler-ID",
+      "description": "Schueler-ID",
       "required": true,
       "type": "integer",
       "format": "int64"
@@ -87,7 +87,7 @@
     "type_teiln": {
       "in": "path",
       "name": "typ",
-      "description": "Schüler- oder Klassenleistung",
+      "description": "Schueler- oder Klassenleistung",
       "required": true,
       "type": "string",
       "enum": [
@@ -163,18 +163,18 @@
         }
       }
     },
-    "Schüler": {
-      "description": "Schüler",
+    "Schueler": {
+      "description": "Schueler",
       "schema": {
-        "$ref": "#/definitions/Schüler"
+        "$ref": "#/definitions/Schueler"
       }
     },
-    "Schüler_pl": {
-      "description": "Schüler_pl",
+    "Schueler_pl": {
+      "description": "Schueler_pl",
       "schema": {
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Schüler"
+          "$ref": "#/definitions/Schueler"
         }
       }
     }
@@ -405,9 +405,14 @@
             "name": "teilnehmer",
             "required": true,
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "integer"
+              "type": "object",
+              "properties": {
+                "teilnehmer": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
               }
             }
           }
@@ -463,7 +468,7 @@
         }
       },
       "post": {
-        "summary": "Leistungen für eine Disziplin anzeigen",
+        "summary": "Leistungen fuer eine Disziplin anzeigen",
         "tags": [
           "Disziplin",
           "Ergebnis"
@@ -665,7 +670,7 @@
     },
     "/klasse/{kid}/ergebnisse/{did}": {
       "get": {
-        "summary": "Ergebnisse einer Klasse für eine Disziplin anzeigen",
+        "summary": "Ergebnisse einer Klasse fuer eine Disziplin anzeigen",
         "tags": [
           "Teilnehmer"
         ],
@@ -687,9 +692,9 @@
         }
       }
     },
-    "/klasse/{kid}/schüler": {
+    "/klasse/{kid}/schueler": {
       "get": {
-        "summary": "Schüler einer Klasse anzuzeigen",
+        "summary": "Schueler einer Klasse anzuzeigen",
         "tags": [
           "Teilnehmer"
         ],
@@ -703,7 +708,7 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/Schüler_pl"
+            "$ref": "#/responses/Schueler_pl"
           }
         }
       }
@@ -790,9 +795,9 @@
         }
       }
     },
-    "/schüler": {
+    "/schueler": {
       "get": {
-        "summary": "Schüler auflisten",
+        "summary": "Schueler auflisten",
         "tags": [
           "Teilnehmer"
         ],
@@ -801,14 +806,14 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/Schüler_pl"
+            "$ref": "#/responses/Schueler_pl"
           }
         }
       }
     },
-    "/schüler/{sid}/": {
+    "/schueler/{sid}/": {
       "get": {
-        "summary": "Schüler abrufen",
+        "summary": "Schueler abrufen",
         "tags": [
           "Teilnehmer"
         ],
@@ -822,12 +827,12 @@
         ],
         "responses": {
           "200": {
-            "$ref": "#/responses/Schüler"
+            "$ref": "#/responses/Schueler"
           }
         }
       },
       "delete": {
-        "summary": "Schüler löschen",
+        "summary": "Schueler löschen",
         "tags": [
           "Teilnehmer"
         ],
@@ -838,14 +843,14 @@
         ],
         "responses": {
           "204": {
-            "description": "Schüler gelöscht."
+            "description": "Schueler gelöscht."
           }
         }
       }
     },
-    "/schüler/{sid}/anmeldungen": {
+    "/schueler/{sid}/anmeldungen": {
       "get": {
-        "summary": "Anmeldungen eines Schülers anzuzeigen",
+        "summary": "Anmeldungen eines Schuelers anzuzeigen",
         "tags": [
           "Anmeldung"
         ],
@@ -864,9 +869,9 @@
         }
       }
     },
-    "/schüler/{sid}/ergebnisse": {
+    "/schueler/{sid}/ergebnisse": {
       "get": {
-        "summary": "Ergebnisse eines Schülers anzuzeigen",
+        "summary": "Ergebnisse eines Schuelers anzuzeigen",
         "tags": [
           "Teilnehmer"
         ],
@@ -885,9 +890,9 @@
         }
       }
     },
-    "/schüler/{sid}/ergebnisse/{did}": {
+    "/schueler/{sid}/ergebnisse/{did}": {
       "get": {
-        "summary": "Ergebnisse eines Schülers für eine Disziplin anzeigen",
+        "summary": "Ergebnisse eines Schuelers fuer eine Disziplin anzeigen",
         "tags": [
           "Teilnehmer"
         ],
@@ -967,8 +972,8 @@
         "disziplin": {
           "$ref": "#/definitions/Disziplin"
         },
-        "schüler": {
-          "$ref": "#/definitions/Schüler"
+        "schueler": {
+          "$ref": "#/definitions/Schueler"
         }
       }
     },
@@ -1021,8 +1026,8 @@
         "klasse": {
           "$ref": "#/definitions/Klasse"
         },
-        "schüler": {
-          "$ref": "#/definitions/Schüler"
+        "schueler": {
+          "$ref": "#/definitions/Schueler"
         },
         "disziplin": {
           "$ref": "#/definitions/Disziplin"
@@ -1071,7 +1076,7 @@
         }
       }
     },
-    "Schüler": {
+    "Schueler": {
       "type": "object",
       "properties": {
         "id": {
