@@ -1,0 +1,1135 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Sportfest backend",
+    "version": "1.0.0",
+    "title": "Sportfest Backend",
+    "contact": {
+      "url": "https://github.com/atiw-sportfest"
+    }
+  },
+  "host": "sportfest.atiw.de",
+  "basePath": "/backend",
+  "tags": [
+    {
+      "name": "Teilnehmer"
+    },
+    {
+      "name": "Disziplin"
+    },
+    {
+      "name": "Ergebnis"
+    },
+    {
+      "name": "Anmeldung"
+    },
+    {
+      "name": "Meta"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "parameters": {
+    "aid": {
+      "in": "path",
+      "name": "aid",
+      "description": "Anmeldungs-ID",
+      "required": true,
+      "type": "integer"
+    },
+    "did": {
+      "in": "path",
+      "name": "did",
+      "description": "Disziplin-ID",
+      "required": true,
+      "type": "integer"
+    },
+    "eid": {
+      "in": "path",
+      "name": "eid",
+      "description": "Ergebnis-ID",
+      "required": true,
+      "type": "integer"
+    },
+    "kid": {
+      "in": "path",
+      "name": "kid",
+      "description": "Klassen-ID",
+      "required": true,
+      "type": "integer",
+      "format": "int64"
+    },
+    "lid": {
+      "in": "path",
+      "name": "lid",
+      "description": "Leistungs-ID",
+      "required": true,
+      "type": "integer",
+      "format": "int64"
+    },
+    "sid": {
+      "in": "path",
+      "name": "sid",
+      "description": "Schüler-ID",
+      "required": true,
+      "type": "integer",
+      "format": "int64"
+    },
+    "versusid": {
+      "in": "path",
+      "name": "vid",
+      "description": "Versus-ID",
+      "required": true,
+      "type": "integer",
+      "format": "int64"
+    },
+    "type_teiln": {
+      "in": "path",
+      "name": "typ",
+      "description": "Schüler- oder Klassenleistung",
+      "required": true,
+      "type": "string",
+      "enum": [
+        "klasse",
+        "schueler"
+      ]
+    }
+  },
+  "responses": {
+    "Anmeldung": {
+      "description": "Anmeldung",
+      "schema": {
+        "$ref": "#/definitions/Anmeldung"
+      }
+    },
+    "Anmeldungen": {
+      "description": "Anmeldungen",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Anmeldung"
+        }
+      }
+    },
+    "Disziplin": {
+      "description": "Disziplin erfolgreich erstellt",
+      "schema": {
+        "$ref": "#/definitions/Disziplin"
+      }
+    },
+    "Ergebnis": {
+      "description": "Ergebnis",
+      "schema": {
+        "$ref": "#/definitions/Ergebnis"
+      }
+    },
+    "Ergebnisse": {
+      "description": "Ergebnisse",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Ergebnis"
+        }
+      }
+    },
+    "Leistung": {
+      "description": "Leistung",
+      "schema": {
+        "$ref": "#/definitions/Leistung"
+      }
+    },
+    "Leistungen": {
+      "description": "Leistungen",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Leistung"
+        }
+      }
+    },
+    "Klasse": {
+      "description": "Klasse",
+      "schema": {
+        "$ref": "#/definitions/Klasse"
+      }
+    },
+    "Klassen": {
+      "description": "Klassen",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Klasse"
+        }
+      }
+    },
+    "Schüler": {
+      "description": "Schüler",
+      "schema": {
+        "$ref": "#/definitions/Schüler"
+      }
+    },
+    "Schüler_pl": {
+      "description": "Schüler_pl",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Schüler"
+        }
+      }
+    }
+  },
+  "paths": {
+    "/anmeldung": {
+      "get": {
+        "summary": "Anmeldungen anzeigen",
+        "tags": [
+          "Anmeldung"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Anmeldungen",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Anmeldung"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/anmeldung/{aid}": {
+      "get": {
+        "summary": "Anmeldung anzeigen",
+        "tags": [
+          "Anmeldung"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/aid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Anmeldung"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Anmeldung löschen",
+        "tags": [
+          "Anmeldung"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/aid"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Anmeldung gelöscht"
+          }
+        }
+      }
+    },
+    "/anmeldung/upload": {
+      "post": {
+        "summary": "Anmeldungen hochladen",
+        "tags": [
+          "Anmeldung"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "file",
+            "description": "Anmeldung als Excel-Datei",
+            "required": true,
+            "type": "file",
+            "x-mimetype": "application/vnd.ms-excel"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Anmeldungen erstellt"
+          }
+        }
+      }
+    },
+    "/disziplin": {
+      "get": {
+        "summary": "Disziplinen auflisten",
+        "tags": [
+          "Disziplin"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Disziplin"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Disziplin anlegen",
+        "tags": [
+          "Disziplin"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Disziplin"
+          }
+        }
+      }
+    },
+    "/disziplin/{did}": {
+      "get": {
+        "summary": "Disziplin anzeigen",
+        "tags": [
+          "Disziplin"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Disziplin"
+          }
+        }
+      },
+      "post": {
+        "summary": "Disziplin bearbeiten",
+        "tags": [
+          "Disziplin"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Neue Disziplin",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Disziplin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Disziplin"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Disziplin löschen",
+        "tags": [
+          "Disziplin"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Disziplin gelöscht"
+          }
+        }
+      }
+    },
+    "/disziplin/{did}/ergebnisse": {
+      "get": {
+        "summary": "Ergebnisse einer Disziplin anzeigen",
+        "tags": [
+          "Disziplin",
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ergebnisse"
+          }
+        }
+      },
+      "post": {
+        "summary": "Ergebnis-Leistungen auswerten",
+        "tags": [
+          "Disziplin",
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "teilnehmer",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ergebnisse"
+          }
+        }
+      }
+    },
+    "/disziplin/{did}/anmeldungen": {
+      "get": {
+        "summary": "Anmeldungen einer Disziplin anzeigen",
+        "tags": [
+          "Disziplin",
+          "Anmeldung"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Anmeldungen"
+          }
+        }
+      }
+    },
+    "/disziplin/{did}/leistungen": {
+      "get": {
+        "summary": "Leistungen einer Disziplin anzeigen",
+        "tags": [
+          "Disziplin",
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Leistungen"
+          }
+        }
+      },
+      "post": {
+        "summary": "Leistungen für eine Disziplin anzeigen",
+        "tags": [
+          "Disziplin",
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          },
+          {
+            "in": "body",
+            "name": "leistung",
+            "description": "Zu erstellende Leistungen",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Leistung"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Leistungen"
+          }
+        }
+      }
+    },
+    "/ergebnis": {
+      "get": {
+        "summary": "Ergebnisse abrufen",
+        "tags": [
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ergebnisse"
+          }
+        }
+      }
+    },
+    "/ergebnis/{eid}": {
+      "get": {
+        "summary": "Ergebnis anzeigen",
+        "tags": [
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/eid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ergebnis"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Ergebnis löschen",
+        "tags": [
+          "Ergebnis"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/eid"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ergebnis gelöscht"
+          }
+        }
+      }
+    },
+    "/ergebnis/versus/{vid}": {
+      "get": {
+        "summary": "Ergebnisse eines Versus anzeigen",
+        "tags": [
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/versusid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ergebnisse"
+          }
+        }
+      }
+    },
+    "/klasse": {
+      "get": {
+        "summary": "Klassen auflisten",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Klassen"
+          }
+        }
+      }
+    },
+    "/klasse/{kid}": {
+      "get": {
+        "summary": "Klasse abrufen",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/kid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Klasse"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Klasse löschen",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/kid"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Gelöscht."
+          }
+        }
+      }
+    },
+    "/klasse/{kid}/anmeldungen": {
+      "get": {
+        "summary": "Anmeldungen einer Klasse anzuzeigen",
+        "tags": [
+          "Anmeldung"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/kid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Anmeldungen"
+          }
+        }
+      }
+    },
+    "/klasse/{kid}/ergebnisse": {
+      "get": {
+        "summary": "Ergebnisse einer Klasse anzuzeigen",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/kid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ergebnisse"
+          }
+        }
+      }
+    },
+    "/klasse/{kid}/ergebnisse/{did}": {
+      "get": {
+        "summary": "Ergebnisse einer Klasse für eine Disziplin anzeigen",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          },
+          {
+            "$ref": "#/parameters/kid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ergebnisse"
+          }
+        }
+      }
+    },
+    "/klasse/{kid}/schüler": {
+      "get": {
+        "summary": "Schüler einer Klasse anzuzeigen",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/kid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Schüler_pl"
+          }
+        }
+      }
+    },
+    "/leistung": {
+      "get": {
+        "summary": "Leistungen anzeigen",
+        "tags": [
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Leistungen"
+          }
+        }
+      }
+    },
+    "/leistung/{lid}": {
+      "get": {
+        "summary": "Leistung anzeigen",
+        "tags": [
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/lid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Leistung"
+          }
+        }
+      },
+      "post": {
+        "summary": "Leistung bearbeiten",
+        "tags": [
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/lid"
+          },
+          {
+            "in": "body",
+            "name": "leistung",
+            "schema": {
+              "$ref": "#/definitions/Leistung"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Leistung"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Leistung löschen",
+        "tags": [
+          "Ergebnis"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/lid"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Leistung gelöscht."
+          }
+        }
+      }
+    },
+    "/schüler": {
+      "get": {
+        "summary": "Schüler auflisten",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Schüler_pl"
+          }
+        }
+      }
+    },
+    "/schüler/{sid}/": {
+      "get": {
+        "summary": "Schüler abrufen",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/sid"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Schüler"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Schüler löschen",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/sid"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Schüler gelöscht."
+          }
+        }
+      }
+    },
+    "/schüler/{sid}/anmeldungen": {
+      "get": {
+        "summary": "Anmeldungen eines Schülers anzuzeigen",
+        "tags": [
+          "Anmeldung"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/sid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Anmeldungen"
+          }
+        }
+      }
+    },
+    "/schüler/{sid}/ergebnisse": {
+      "get": {
+        "summary": "Ergebnisse eines Schülers anzuzeigen",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/sid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ergebnisse"
+          }
+        }
+      }
+    },
+    "/schüler/{sid}/ergebnisse/{did}": {
+      "get": {
+        "summary": "Ergebnisse eines Schülers für eine Disziplin anzeigen",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          },
+          {
+            "$ref": "#/parameters/sid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ergebnisse"
+          }
+        }
+      }
+    },
+    "/authenticate": {
+      "get": {
+        "summary": "JWT Login",
+        "tags": [
+          "Meta"
+        ],
+        "produces": [
+          "text/plain"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "username",
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "password",
+            "type": "string",
+            "description": "SHA-1 Hash des Passworts"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JWT Token",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "403": {
+            "description": "Wrong credentials"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "jwt": {
+      "description": "JWT Bearer-Authentication",
+      "type": "apiKey",
+      "name": "HTTP-Authorization",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Anmeldung": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "disziplin": {
+          "$ref": "#/definitions/Disziplin"
+        },
+        "schüler": {
+          "$ref": "#/definitions/Schüler"
+        }
+      }
+    },
+    "Disziplin": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "bezeichnung": {
+          "type": "string"
+        },
+        "beschreibung": {
+          "type": "string"
+        },
+        "team": {
+          "type": "boolean"
+        },
+        "variablen": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Variable"
+          }
+        },
+        "regeln": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Regeln"
+          }
+        }
+      }
+    },
+    "Ergebnis": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "punkte": {
+          "type": "integer"
+        },
+        "ergebnisse": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ergebnis"
+          }
+        },
+        "klasse": {
+          "$ref": "#/definitions/Klasse"
+        },
+        "schüler": {
+          "$ref": "#/definitions/Schüler"
+        },
+        "disziplin": {
+          "$ref": "#/definitions/Disziplin"
+        }
+      }
+    },
+    "Klasse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "bezeichnung": {
+          "type": "string"
+        }
+      }
+    },
+    "Leistung": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "wert": {
+          "type": "string"
+        },
+        "variable": {
+          "$ref": "#/definitions/Variable"
+        }
+      }
+    },
+    "Regeln": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "skript": {
+          "type": "string"
+        },
+        "sonder": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Schüler": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "vorname": {
+          "type": "string"
+        },
+        "nachname": {
+          "type": "string"
+        },
+        "geschlecht": {
+          "type": "string"
+        },
+        "klasse": {
+          "$ref": "#/definitions/Klasse"
+        }
+      }
+    },
+    "Typ": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Variable": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "typ": {
+          "$ref": "#/definitions/Typ"
+        }
+      }
+    },
+    "Versus": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ergebnisse": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ergebnis"
+          }
+        }
+      }
+    }
+  }
+}
