@@ -42,6 +42,9 @@ dependencies {
     // CXF JAX-RS, for File Upload
     providedCompile 'org.apache.cxf:cxf-rt-frontend-jaxrs:3.1.10'
 
+    // Swagger Annotations
+    compile 'io.swagger:swagger-annotations:1.5.15'
+
     // JWT
     compile 'io.jsonwebtoken:jjwt:0.7.0'
 
