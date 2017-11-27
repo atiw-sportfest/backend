@@ -1,17 +1,18 @@
 package de.atiw.sportfest.backend.api;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.ws.rs.core.Response;
+
 import de.atiw.sportfest.backend.model.Anmeldung;
 import de.atiw.sportfest.backend.model.Ergebnis;
 import de.atiw.sportfest.backend.model.Klasse;
 import de.atiw.sportfest.backend.model.Schueler;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-
 import io.swagger.annotations.*;
-
-import java.util.List;
 import javax.validation.constraints.*;
+import javax.ws.rs.*;
 
 @Path("/klasse")
 
@@ -22,15 +23,16 @@ import javax.validation.constraints.*;
 
 public class KlasseApi  {
 
+    @PersistenceContext
+    EntityManager em;
+
     @GET
-    
-    
     @Produces({ "application/json" })
     @ApiOperation(value = "Klassen auflisten", notes = "", response = Klasse.class, responseContainer = "List", tags={ "Teilnehmer",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Klassen", response = Klasse.class, responseContainer = "List") })
-    public Response klasseGet() {
-        return Response.ok().entity("magic!").build();
+    public List<Klasse> klasseGet() {
+        return em.createQuery("SELECT c FROM Klasse k", Klasse.class).getResultList();
     }
 
     @GET
@@ -100,3 +102,4 @@ public class KlasseApi  {
     }
 }
 
+// vim: set ts=4 sw=4 tw=0 et :
