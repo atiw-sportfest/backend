@@ -61,7 +61,7 @@ public class SchuelerApi  {
     @ApiOperation(value = "Ergebnisse eines Schuelers fuer eine Disziplin anzeigen", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Teilnehmer",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
-    public Response schuelerSidErgebnisseDidGet(@PathParam("did") @ApiParam("Disziplin-ID") Integer did,@PathParam("sid") @ApiParam("Schueler-ID") Long sid) {
+    public Response schuelerSidErgebnisseDidGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did,@PathParam("sid") @ApiParam("Schueler-ID") Long sid) {
         return Response.ok().entity("magic!").build();
     }
 

@@ -14,7 +14,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-import de.atiw.sportfest.backend.model.Regeln;
 import de.atiw.sportfest.backend.model.Variable;
 import io.swagger.annotations.*;
 import javax.validation.constraints.*;
@@ -32,13 +31,12 @@ public class Disziplin   {
   private String bezeichnung = null;
   private String beschreibung = null;
   private Boolean team = null;
+  private Boolean versus = null;
+  private String regeln = null;
 
   @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
   @JoinColumn
   private List<Variable> variablen = new ArrayList<Variable>();
-
-  @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE})
-  private List<Regeln> regeln = new ArrayList<Regeln>();
 
   /**
    **/
@@ -106,6 +104,22 @@ public class Disziplin   {
 
   /**
    **/
+  public Disziplin versus(Boolean versus) {
+    this.versus = versus;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "")
+  public Boolean getVersus() {
+    return versus;
+  }
+  public void setVersus(Boolean versus) {
+    this.versus = versus;
+  }
+
+  /**
+   **/
   public Disziplin variablen(List<Variable> variablen) {
     this.variablen = variablen;
     return this;
@@ -122,17 +136,17 @@ public class Disziplin   {
 
   /**
    **/
-  public Disziplin regeln(List<Regeln> regeln) {
+  public Disziplin regeln(String regeln) {
     this.regeln = regeln;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
-  public List<Regeln> getRegeln() {
+  public String getRegeln() {
     return regeln;
   }
-  public void setRegeln(List<Regeln> regeln) {
+  public void setRegeln(String regeln) {
     this.regeln = regeln;
   }
 
@@ -150,13 +164,14 @@ public class Disziplin   {
         Objects.equals(bezeichnung, disziplin.bezeichnung) &&
         Objects.equals(beschreibung, disziplin.beschreibung) &&
         Objects.equals(team, disziplin.team) &&
+        Objects.equals(versus, disziplin.versus) &&
         Objects.equals(variablen, disziplin.variablen) &&
         Objects.equals(regeln, disziplin.regeln);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, bezeichnung, beschreibung, team, variablen, regeln);
+    return Objects.hash(id, bezeichnung, beschreibung, team, versus, variablen, regeln);
   }
 
   @Override
@@ -168,6 +183,7 @@ public class Disziplin   {
     sb.append("    bezeichnung: ").append(toIndentedString(bezeichnung)).append("\n");
     sb.append("    beschreibung: ").append(toIndentedString(beschreibung)).append("\n");
     sb.append("    team: ").append(toIndentedString(team)).append("\n");
+    sb.append("    versus: ").append(toIndentedString(versus)).append("\n");
     sb.append("    variablen: ").append(toIndentedString(variablen)).append("\n");
     sb.append("    regeln: ").append(toIndentedString(regeln)).append("\n");
     sb.append("}");
