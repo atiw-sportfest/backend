@@ -36,21 +36,24 @@
       "name": "aid",
       "description": "Anmeldungs-ID",
       "required": true,
-      "type": "integer"
+      "type": "integer",
+      "format": "int64"
     },
     "did": {
       "in": "path",
       "name": "did",
       "description": "Disziplin-ID",
       "required": true,
-      "type": "integer"
+      "type": "integer",
+      "format": "int64"
     },
     "eid": {
       "in": "path",
       "name": "eid",
       "description": "Ergebnis-ID",
       "required": true,
-      "type": "integer"
+      "type": "integer",
+      "format": "int64"
     },
     "kid": {
       "in": "path",
@@ -94,6 +97,26 @@
         "klasse",
         "schueler"
       ]
+    },
+    "tid": {
+      "in": "path",
+      "name": "tid",
+      "description": "Schueler- oder Klassen-ID",
+      "required": true,
+      "type": "integer",
+      "format": "int64"
+    },
+    "leistungen": {
+      "in": "body",
+      "name": "leistungen",
+      "description": "Leistungen",
+      "required": true,
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Leistung"
+        }
+      }
     }
   },
   "responses": {
@@ -419,7 +442,8 @@
                 "teilnehmer": {
                   "type": "array",
                   "items": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "int64"
                   }
                 }
               }
@@ -475,9 +499,11 @@
             "$ref": "#/responses/Leistungen"
           }
         }
-      },
+      }
+    },
+    "/disziplin/{did}/leistungen/{tid}": {
       "post": {
-        "summary": "Leistungen fuer eine Disziplin anzeigen",
+        "summary": "Leistungen fuer eine Disziplin anlegen",
         "tags": [
           "Disziplin",
           "Ergebnis"
@@ -490,15 +516,10 @@
             "$ref": "#/parameters/did"
           },
           {
-            "in": "body",
-            "name": "leistung",
-            "description": "Zu erstellende Leistungen",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Leistung"
-              }
-            }
+            "$ref": "#/parameters/tid"
+          },
+          {
+            "$ref": "#/parameters/leistungen"
           }
         ],
         "responses": {
@@ -1002,6 +1023,9 @@
         "team": {
           "type": "boolean"
         },
+        "versus": {
+          "type": "boolean"
+        },
         "variablen": {
           "type": "array",
           "items": {
@@ -1009,10 +1033,7 @@
           }
         },
         "regeln": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Regeln"
-          }
+          "type": "string"
         }
       }
     },
@@ -1026,10 +1047,10 @@
         "punkte": {
           "type": "integer"
         },
-        "ergebnisse": {
+        "leistungen": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Ergebnis"
+            "$ref": "#/definitions/Leistung"
           }
         },
         "klasse": {
@@ -1070,21 +1091,6 @@
         }
       }
     },
-    "Regeln": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "skript": {
-          "type": "string"
-        },
-        "sonder": {
-          "type": "boolean"
-        }
-      }
-    },
     "Schueler": {
       "type": "object",
       "properties": {
@@ -1112,6 +1118,27 @@
         "id": {
           "type": "integer",
           "format": "int64"
+        },
+        "datentyp": {
+          "type": "string",
+          "enum": [
+            "string",
+            "int",
+            "float",
+            "long",
+            "double"
+          ]
+        },
+        "einheit": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string",
+          "description": "RegEx"
+        },
+        "bsp": {
+          "type": "string",
+          "description": "Beispiel"
         }
       }
     },
@@ -1122,7 +1149,7 @@
           "type": "integer",
           "format": "int64"
         },
-        "name": {
+        "bezeichnung": {
           "type": "string"
         },
         "typ": {
