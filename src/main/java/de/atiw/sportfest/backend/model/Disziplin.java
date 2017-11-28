@@ -33,11 +33,11 @@ public class Disziplin   {
   private String beschreibung = null;
   private Boolean team = null;
 
-  @OneToMany(cascade=CascadeType.PERSIST)
+  @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
   @JoinColumn
   private List<Variable> variablen = new ArrayList<Variable>();
 
-  @OneToMany
+  @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE})
   private List<Regeln> regeln = new ArrayList<Regeln>();
 
   /**

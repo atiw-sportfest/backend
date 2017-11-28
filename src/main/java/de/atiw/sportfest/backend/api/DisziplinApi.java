@@ -51,7 +51,14 @@ public class DisziplinApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Disziplin gelöscht", response = void.class) })
     public Response disziplinDidDelete(@PathParam("did") @ApiParam("Disziplin-ID") Integer did) {
-        return Response.ok().entity("magic!").build();
+
+        Disziplin d = em.find(Disziplin.class, did.longValue());
+
+        if(d != null){
+            em.remove(d);
+            return Response.status(204).build();
+        } else return Response.status(404).build();
+
     }
 
     @GET
@@ -83,8 +90,8 @@ public class DisziplinApi  {
     @ApiOperation(value = "Disziplin anzeigen", notes = "", response = Disziplin.class, tags={ "Disziplin",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Disziplin erfolgreich erstellt", response = Disziplin.class) })
-    public Response disziplinDidGet(@PathParam("did") @ApiParam("Disziplin-ID") Integer did) {
-        return Response.ok().entity("magic!").build();
+    public Disziplin disziplinDidGet(@PathParam("did") @ApiParam("Disziplin-ID") Integer did) {
+        return em.find(Disziplin.class, did.longValue());
     }
 
     @GET
@@ -116,8 +123,9 @@ public class DisziplinApi  {
     @ApiOperation(value = "Disziplin bearbeiten", notes = "", response = Disziplin.class, tags={ "Disziplin",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Disziplin erfolgreich erstellt", response = Disziplin.class) })
-    public Response disziplinDidPost(@PathParam("did") @ApiParam("Disziplin-ID") Integer did,Disziplin body) {
-        return Response.ok().entity("magic!").build();
+    public Disziplin disziplinDidPost(@PathParam("did") @ApiParam("Disziplin-ID") Integer did,Disziplin body) {
+        body.setId(did.longValue());
+        return em.merge(body);
     }
 
     @GET
@@ -139,8 +147,7 @@ public class DisziplinApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Disziplin erfolgreich erstellt", response = Disziplin.class) })
     public Disziplin disziplinPost(Disziplin disziplin) {
-        em.persist(disziplin);
-        return disziplin;
+        return em.merge(disziplin);
     }
 }
 

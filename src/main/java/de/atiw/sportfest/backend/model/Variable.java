@@ -5,8 +5,11 @@ import javax.annotation.Generated;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import de.atiw.sportfest.backend.model.Typ;
@@ -22,7 +25,8 @@ public class Variable   {
   private Long id = null;
   private String name = null;
 
-  @OneToOne(cascade=CascadeType.PERSIST)
+  @ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
+  @JoinColumn
   private Typ typ = null;
 
   /**
