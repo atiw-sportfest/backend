@@ -36,7 +36,9 @@ else
     cd $tgtdir
 
     git add src/main/java
-    git log swaggerimport.. -p src/main/java/de/atiw/sportfest/backend/{api,model} | git apply -3
+    git commit -m "Update Model"
+
+    git log swagger-import-anchor..@~ --reverse --patch src/main/java/de/atiw/sportfest/backend/{api,model} | git apply -3
 
     echo >&2 -e "\033[0;31mIf you want to abort, make sure you have cleared git rerere!\033[0;0m (Only if you use rerere.)"
 

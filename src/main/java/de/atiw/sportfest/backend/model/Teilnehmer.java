@@ -11,21 +11,21 @@ import java.util.Objects;
 
 public class Teilnehmer   {
   
-  private List<Integer> teilnehmer = new ArrayList<Integer>();
+  private List<Long> teilnehmer = new ArrayList<Long>();
 
   /**
    **/
-  public Teilnehmer teilnehmer(List<Integer> teilnehmer) {
+  public Teilnehmer teilnehmer(List<Long> teilnehmer) {
     this.teilnehmer = teilnehmer;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
-  public List<Integer> getTeilnehmer() {
+  public List<Long> getTeilnehmer() {
     return teilnehmer;
   }
-  public void setTeilnehmer(List<Integer> teilnehmer) {
+  public void setTeilnehmer(List<Long> teilnehmer) {
     this.teilnehmer = teilnehmer;
   }
 

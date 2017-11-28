@@ -23,7 +23,7 @@ public class Variable   {
   @Id
   @GeneratedValue
   private Long id = null;
-  private String name = null;
+  private String bezeichnung = null;
 
   @ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
   @JoinColumn
@@ -47,18 +47,18 @@ public class Variable   {
 
   /**
    **/
-  public Variable name(String name) {
-    this.name = name;
+  public Variable bezeichnung(String bezeichnung) {
+    this.bezeichnung = bezeichnung;
     return this;
   }
 
   
   @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
+  public String getBezeichnung() {
+    return bezeichnung;
   }
-  public void setName(String name) {
-    this.name = name;
+  public void setBezeichnung(String bezeichnung) {
+    this.bezeichnung = bezeichnung;
   }
 
   /**
@@ -88,13 +88,13 @@ public class Variable   {
     }
     Variable variable = (Variable) o;
     return Objects.equals(id, variable.id) &&
-        Objects.equals(name, variable.name) &&
+        Objects.equals(bezeichnung, variable.bezeichnung) &&
         Objects.equals(typ, variable.typ);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, typ);
+    return Objects.hash(id, bezeichnung, typ);
   }
 
   @Override
@@ -103,7 +103,7 @@ public class Variable   {
     sb.append("class Variable {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    bezeichnung: ").append(toIndentedString(bezeichnung)).append("\n");
     sb.append("    typ: ").append(toIndentedString(typ)).append("\n");
     sb.append("}");
     return sb.toString();
