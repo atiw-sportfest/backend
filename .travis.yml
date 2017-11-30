@@ -7,4 +7,4 @@ jdk:
 - oraclejdk8
 script:
 - './gradlew check'
-- 'test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master-new" && { git checkout gh-pages && git show master-new:meta/swagger.json >swagger.json && git commit -m "Update website swagger.json" swagger.json; } || true'
+- 'if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master-new" ]; then git fetch origin gh-pages && git checkout gh-pages && git show master-new:meta/swagger.json >swagger.json && git commit -m "Update website swagger.json" swagger.json; fi'
