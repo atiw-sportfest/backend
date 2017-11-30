@@ -1,0 +1,9 @@
+<resources>
+    <Resource id="jdbc/sportfest" type="javax.sql.DataSource">
+        JtaManaged=True
+    </Resource>
+
+    <Resource id="jdbc/sportfest-unmanaged" type="javax.sql.DataSource">
+        JtaManaged=False
+    </Resource>
+</resources>

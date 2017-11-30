@@ -1,14 +1,20 @@
 package de.atiw.sportfest.backend.model;
 
+import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 
-import io.swagger.annotations.*;
-import java.util.Objects;
-
-
+@Entity
 public class Typ   {
   
+  @Id
+  @GeneratedValue
   private Long id = null;
 
 public enum DatentypEnum {
@@ -176,3 +182,4 @@ public enum DatentypEnum {
   }
 }
 
+// vim: set ts=2 sw=2 tw=0 et :

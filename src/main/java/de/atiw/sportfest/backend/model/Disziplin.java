@@ -1,24 +1,43 @@
 package de.atiw.sportfest.backend.model;
 
-import de.atiw.sportfest.backend.model.Variable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
+import de.atiw.sportfest.backend.model.Regeln;
+import de.atiw.sportfest.backend.model.Variable;
+import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 
-import io.swagger.annotations.*;
-import java.util.Objects;
-
-
+@NamedQueries({
+@NamedQuery(name="disziplin.list", query="SELECT d FROM Disziplin d JOIN FETCH d.variablen")
+})
+@Entity
 public class Disziplin   {
   
+  @Id
+  @GeneratedValue
   private Long id = null;
   private String bezeichnung = null;
   private String beschreibung = null;
   private Boolean team = null;
   private Boolean versus = null;
-  private List<Variable> variablen = new ArrayList<Variable>();
   private String regeln = null;
+
+  @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
+  @JoinColumn
+  private List<Variable> variablen = new ArrayList<Variable>();
 
   /**
    **/
@@ -184,3 +203,4 @@ public class Disziplin   {
   }
 }
 
+// vim: set ts=2 sw=2 tw=0 et :

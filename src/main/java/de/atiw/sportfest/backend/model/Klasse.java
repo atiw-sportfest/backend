@@ -1,14 +1,18 @@
 package de.atiw.sportfest.backend.model;
 
-import javax.validation.constraints.*;
+import java.util.Objects;
 
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
 
 import io.swagger.annotations.*;
-import java.util.Objects;
+import javax.validation.constraints.*;
 
 
 public class Klasse   {
   
+  @Id
+  @GeneratedValue
   private Long id = null;
   private String bezeichnung = null;
 
@@ -86,3 +90,4 @@ public class Klasse   {
   }
 }
 
+// vim: set ts=2 sw=2 tw=0 et :

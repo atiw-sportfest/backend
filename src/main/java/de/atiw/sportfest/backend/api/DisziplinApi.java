@@ -1,19 +1,22 @@
 package de.atiw.sportfest.backend.api;
 
+import java.util.List;
+
+import javax.ejb.Lock;
+import javax.ejb.LockType;
+import javax.ejb.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.ws.rs.core.Response;
+
 import de.atiw.sportfest.backend.model.Anmeldung;
 import de.atiw.sportfest.backend.model.Disziplin;
 import de.atiw.sportfest.backend.model.Ergebnis;
 import de.atiw.sportfest.backend.model.Leistung;
-import java.util.List;
 import de.atiw.sportfest.backend.model.Teilnehmer;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-
 import io.swagger.annotations.*;
-
-import java.util.List;
 import javax.validation.constraints.*;
+import javax.ws.rs.*;
 
 @Path("/disziplin")
 
@@ -22,7 +25,12 @@ import javax.validation.constraints.*;
 
 
 
+@Lock(LockType.READ)
+@Singleton
 public class DisziplinApi  {
+
+    @PersistenceContext
+    EntityManager em;
 
     @GET
     @Path("/{did}/anmeldungen")
@@ -43,7 +51,14 @@ public class DisziplinApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Disziplin gelöscht", response = void.class) })
     public Response disziplinDidDelete(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
-        return Response.ok().entity("magic!").build();
+
+        Disziplin d = em.find(Disziplin.class, did.longValue());
+
+        if(d != null){
+            em.remove(d);
+            return Response.status(204).build();
+        } else return Response.status(404).build();
+
     }
 
     @GET
@@ -75,8 +90,8 @@ public class DisziplinApi  {
     @ApiOperation(value = "Disziplin anzeigen", notes = "", response = Disziplin.class, tags={ "Disziplin",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Disziplin erfolgreich erstellt", response = Disziplin.class) })
-    public Response disziplinDidGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
-        return Response.ok().entity("magic!").build();
+    public Disziplin disziplinDidGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
+        return em.find(Disziplin.class, did.longValue());
     }
 
     @GET
@@ -108,8 +123,9 @@ public class DisziplinApi  {
     @ApiOperation(value = "Disziplin bearbeiten", notes = "", response = Disziplin.class, tags={ "Disziplin",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Disziplin erfolgreich erstellt", response = Disziplin.class) })
-    public Response disziplinDidPost(@PathParam("did") @ApiParam("Disziplin-ID") Long did,Disziplin body) {
-        return Response.ok().entity("magic!").build();
+    public Disziplin disziplinDidPost(@PathParam("did") @ApiParam("Disziplin-ID") Long did,Disziplin body) {
+        body.setId(did.longValue());
+        return em.merge(body);
     }
 
     @GET
@@ -119,8 +135,8 @@ public class DisziplinApi  {
     @ApiOperation(value = "Disziplinen auflisten", notes = "", response = Disziplin.class, responseContainer = "List", tags={ "Disziplin",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Disziplin.class, responseContainer = "List") })
-    public Response disziplinGet() {
-        return Response.ok().entity("magic!").build();
+    public List<Disziplin> disziplinGet() {
+        return em.createNamedQuery("disziplin.list", Disziplin.class).getResultList();
     }
 
     @POST
@@ -130,8 +146,9 @@ public class DisziplinApi  {
     @ApiOperation(value = "Disziplin anlegen", notes = "", response = Disziplin.class, tags={ "Disziplin" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Disziplin erfolgreich erstellt", response = Disziplin.class) })
-    public Response disziplinPost(Disziplin disziplin) {
-        return Response.ok().entity("magic!").build();
+    public Disziplin disziplinPost(Disziplin disziplin) {
+        return em.merge(disziplin);
     }
 }
 
+// vim: set ts=4 sw=4 tw=0 et :

@@ -2,6 +2,7 @@ package de.atiw.sportfest.backend.api;
 
 import de.atiw.sportfest.backend.model.Anmeldung;
 import java.io.File;
+import java.io.InputStream;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -10,6 +11,8 @@ import io.swagger.annotations.*;
 
 import java.util.List;
 import javax.validation.constraints.*;
+
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 
 @Path("/anmeldung")
 

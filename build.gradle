@@ -35,6 +35,9 @@ dependencies {
     compile 'org.jboss.weld.servlet:weld-servlet:2.2.15.Final'
     compile 'org.glassfish.jersey.ext.cdi:jersey-weld2-se:2.26-b03'
 
+    // Swagger Annotations
+    compile 'io.swagger:swagger-annotations:1.5.15'
+
     // JWT
     compile 'io.jsonwebtoken:jjwt:0.7.0'
 
