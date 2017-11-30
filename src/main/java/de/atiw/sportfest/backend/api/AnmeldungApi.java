@@ -27,7 +27,7 @@ public class AnmeldungApi  {
     @ApiOperation(value = "Anmeldung löschen", notes = "", response = void.class, tags={ "Anmeldung",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Anmeldung gelöscht", response = void.class) })
-    public Response anmeldungAidDelete(@PathParam("aid") @ApiParam("Anmeldungs-ID") Integer aid) {
+    public Response anmeldungAidDelete(@PathParam("aid") @ApiParam("Anmeldungs-ID") Long aid) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -38,7 +38,7 @@ public class AnmeldungApi  {
     @ApiOperation(value = "Anmeldung anzeigen", notes = "", response = Anmeldung.class, tags={ "Anmeldung",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Anmeldung", response = Anmeldung.class) })
-    public Response anmeldungAidGet(@PathParam("aid") @ApiParam("Anmeldungs-ID") Integer aid) {
+    public Response anmeldungAidGet(@PathParam("aid") @ApiParam("Anmeldungs-ID") Long aid) {
         return Response.ok().entity("magic!").build();
     }
 

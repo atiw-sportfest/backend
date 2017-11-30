@@ -26,7 +26,7 @@ public class ErgebnisApi  {
     @ApiOperation(value = "Ergebnis löschen", notes = "", response = void.class, tags={ "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Ergebnis gelöscht", response = void.class) })
-    public Response ergebnisEidDelete(@PathParam("eid") @ApiParam("Ergebnis-ID") Integer eid) {
+    public Response ergebnisEidDelete(@PathParam("eid") @ApiParam("Ergebnis-ID") Long eid) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -37,7 +37,7 @@ public class ErgebnisApi  {
     @ApiOperation(value = "Ergebnis anzeigen", notes = "", response = Ergebnis.class, tags={ "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnis", response = Ergebnis.class) })
-    public Response ergebnisEidGet(@PathParam("eid") @ApiParam("Ergebnis-ID") Integer eid) {
+    public Response ergebnisEidGet(@PathParam("eid") @ApiParam("Ergebnis-ID") Long eid) {
         return Response.ok().entity("magic!").build();
     }
 

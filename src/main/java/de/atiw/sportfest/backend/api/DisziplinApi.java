@@ -31,7 +31,7 @@ public class DisziplinApi  {
     @ApiOperation(value = "Anmeldungen einer Disziplin anzeigen", notes = "", response = Anmeldung.class, responseContainer = "List", tags={ "Disziplin", "Anmeldung",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Anmeldungen", response = Anmeldung.class, responseContainer = "List") })
-    public Response disziplinDidAnmeldungenGet(@PathParam("did") @ApiParam("Disziplin-ID") Integer did) {
+    public Response disziplinDidAnmeldungenGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -42,7 +42,7 @@ public class DisziplinApi  {
     @ApiOperation(value = "Disziplin löschen", notes = "", response = void.class, tags={ "Disziplin",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Disziplin gelöscht", response = void.class) })
-    public Response disziplinDidDelete(@PathParam("did") @ApiParam("Disziplin-ID") Integer did) {
+    public Response disziplinDidDelete(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -53,7 +53,7 @@ public class DisziplinApi  {
     @ApiOperation(value = "Ergebnisse einer Disziplin anzeigen", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
-    public Response disziplinDidErgebnisseGet(@PathParam("did") @ApiParam("Disziplin-ID") Integer did) {
+    public Response disziplinDidErgebnisseGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -75,7 +75,7 @@ public class DisziplinApi  {
     @ApiOperation(value = "Disziplin anzeigen", notes = "", response = Disziplin.class, tags={ "Disziplin",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Disziplin erfolgreich erstellt", response = Disziplin.class) })
-    public Response disziplinDidGet(@PathParam("did") @ApiParam("Disziplin-ID") Integer did) {
+    public Response disziplinDidGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -86,18 +86,18 @@ public class DisziplinApi  {
     @ApiOperation(value = "Leistungen einer Disziplin anzeigen", notes = "", response = Leistung.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Leistungen", response = Leistung.class, responseContainer = "List") })
-    public Response disziplinDidLeistungenGet(@PathParam("did") @ApiParam("Disziplin-ID") Integer did) {
+    public Response disziplinDidLeistungenGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
         return Response.ok().entity("magic!").build();
     }
 
     @POST
-    @Path("/{did}/leistungen")
+    @Path("/{did}/leistungen/{tid}")
     
     @Produces({ "application/json" })
-    @ApiOperation(value = "Leistungen fuer eine Disziplin anzeigen", notes = "", response = Leistung.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
+    @ApiOperation(value = "Leistungen fuer eine Disziplin anlegen", notes = "", response = Leistung.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Leistungen", response = Leistung.class, responseContainer = "List") })
-    public Response disziplinDidLeistungenPost(@PathParam("did") @ApiParam("Disziplin-ID") Integer did,List<Leistung> leistung) {
+    public Response disziplinDidLeistungenTidPost(@PathParam("did") @ApiParam("Disziplin-ID") Long did,@PathParam("tid") @ApiParam("Schueler- oder Klassen-ID") Long tid,List<Leistung> leistungen) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -108,7 +108,7 @@ public class DisziplinApi  {
     @ApiOperation(value = "Disziplin bearbeiten", notes = "", response = Disziplin.class, tags={ "Disziplin",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Disziplin erfolgreich erstellt", response = Disziplin.class) })
-    public Response disziplinDidPost(@PathParam("did") @ApiParam("Disziplin-ID") Integer did,Disziplin body) {
+    public Response disziplinDidPost(@PathParam("did") @ApiParam("Disziplin-ID") Long did,Disziplin body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -130,7 +130,7 @@ public class DisziplinApi  {
     @ApiOperation(value = "Disziplin anlegen", notes = "", response = Disziplin.class, tags={ "Disziplin" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Disziplin erfolgreich erstellt", response = Disziplin.class) })
-    public Response disziplinPost() {
+    public Response disziplinPost(Disziplin disziplin) {
         return Response.ok().entity("magic!").build();
     }
 }
