@@ -43,4 +43,4 @@ You will need to change the types of the parameters of the methods that use mult
 [2]: https://dev.mysql.com/downloads/connector/j/
 [3]: https://tomcat.apache.org/tomcat-8.0-doc/jndi-resources-howto.html#JDBC_Data_Sources
 [4]: https://tomcat.apache.org/tomcat-8.0-doc/jndi-datasource-examples-howto.html#MySQL_DBCP_Example
-[5]: README.INSTALL.md
+[5]: README.INSTALL.MD
