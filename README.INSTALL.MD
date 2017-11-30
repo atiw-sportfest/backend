@@ -1,12 +1,18 @@
-# Install Local TomEE
+# Install Required Applications on Windows
 
-Download TomEE WebProfile.
+0. You will need an Git Bash for this.
+1. `git clone https://github.com/atiw-sportfest/tools.git` or download [`sportfest-setup.sh`][4] directly.
+2. Review the `sportfest-setup.sh` (it's in `install` in the repo)
+3. Execute it. This will install TomEE and MariaDB into `C:\sportfest`. (`C:\sportfest\tomee` resp. `C:\sportfest\mariadb`.)
+4. Unfortunately you will still need to configure TomEE manually, so continue below.
 
-In dem TomEE Ordner muss dann in die `conf/tomcat-users.xml` ein Nutzer eingefügt werden. Dazu das folgende Tag innerhalb von `<tomcat-users></tomcat-users>` hinzufügen:
+## Configure Local TomEE
+
+You will need to add an user to TomEE's `conf/tomcat-users.xml`. To do this, add the following in between `<tomcat-users></tomcat-users>`:
 
     <user username="tomcat" password="s3cret" roles="manager-gui,manager-script" />
 
-Die Datei sollte dann in etwa wie folgt aussehen (hier ohne Kommentare).
+The file should look like this afterwards: (comments ommitted)
 
     <?xml version="1.0" encoding="UTF-8"?>
 
@@ -19,29 +25,13 @@ Die Datei sollte dann in etwa wie folgt aussehen (hier ohne Kommentare).
 
     </tomcat-users>
 
-TomEE noch nicht starten, es muss noch die Datenbank, wie im normalen Readme beschrieben, konfiguriert werden. Danach kann TomEE dann gestartet werden.
+Do not start TomEE yet, wait for database configuration.
 
-# Datenbankverbindung einrichten
+## Database Connection
 
-Für die Datenbankverbindung muss der MySQL Datenbanktreiber zum TomEE hinzugefügt werden und die Verbindungsdaten angegeben werden.
+You will need to configure the JDBC connection to MariaDB.
 
-- MySQL Driver [MySQL Connector/J](https://dev.mysql.com/downloads/connector/j/) herunterladen
-- Aus der ZIP wird nur die `mysql-connector-java-x.xx.xx-bin.jar` in den `lib`-Ordner im Tomcat-Verzeichnis kopieren
-
-Folgendes zur `tomee/conf/context.xml` hinzufügen (`USER`, `PASSWORD`, `HOST` und `DATABASE` mit den entsprechenden Werten ersetzen):
-
-    <Resource name="jdbc/sportfest" auth="Container" type="javax.sql.DataSource"
-        maxTotal="100" maxIdle="30" maxWaitMillis="10000"
-        username="USER" password="PASSWORD" driverClassName="com.mysql.jdbc.Driver"
-        url="jdbc:mysql://HOST:3306/DATABASE"/>
-
-    <Resource name="jdbc/sportfest-unmanaged" auth="Container" type="javax.sql.DataSource"
-        maxTotal="100" maxIdle="30" maxWaitMillis="10000"
-        username="USER" password="PASSWORD" driverClassName="com.mysql.jdbc.Driver"
-        url="jdbc:mysql://HOST:3306/DATABASE"/>
-
-Außerdem müssen noch zwei weitere Resourcen in die `tomee/conf/tomee.xml` hinzugefügt werden.
-Sie sollte im Anschluss dann wie folgt aussehen (`USER` etc wieder ersetzen), es sollte aber eine andere Datenbank als oben verwendet werden!
+Make your TomEE's `conf/tomee.xml` look like the following (replace `USER`, `PASSWORD`, `HOST` and `DATABASE` with the corresponding credentials the setup gave you):
 
     <?xml version="1.0" encoding="UTF-8"?>
     <tomee>
@@ -63,10 +53,18 @@ Sie sollte im Anschluss dann wie folgt aussehen (`USER` etc wieder ersetzen), es
 
     </tomee>
 
-Im Anschluss müssen dann noch die folgenden Werte in die `conf/system.properties` hinzugefügt werden:
+Afterwards, add the follwing properties to TomEE's `conf/system.properties`.
 
     javax.persistence.jtaDataSource = jpaDS
     javax.persistence.nonJtaDataSource = jpaDS_unmanaged
-    # Die folgende Zeile solle nur im Enticklungsbetrieb auskommentiert sein!
-    #openjpa.jdbc.SynchronizeMappings=buildSchema(foreignKeys=true)
+    # Generate schemas. Not production-ready.
+    openjpa.jdbc.SynchronizeMappings=buildSchema(foreignKeys=true)
 
+## Starting the Applications
+
+You now can start TomEE and MariaDB by launching `C:\sportfest\sportfest_run.bat`. (Open via Windows Explorer.)
+
+[1]: http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.4/apache-tomee-7.0.4-webprofile.zip
+[2]: http://repo.maven.apache.org/maven2/org/apache/tomee/apache-tomee/7.0.4/apache-tomee-7.0.4-webprofile.tar.gz
+[3]: https://downloads.mariadb.org/connector-java/
+[4]: https://github.com/atiw-sportfest/tools/raw/master/install/sporfest_setup.sh
