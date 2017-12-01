@@ -117,6 +117,17 @@
           "$ref": "#/definitions/Leistung"
         }
       }
+    },
+    "ergebnisse": {
+      "in": "body",
+      "name": "ergebnisse",
+      "description": "Ergebnisse",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Ergebnis"
+        }
+      }
     }
   },
   "responses": {
@@ -402,6 +413,11 @@
       }
     },
     "/disziplin/{did}/ergebnisse": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/did"
+        }
+      ],
       "get": {
         "summary": "Ergebnisse einer Disziplin anzeigen",
         "tags": [
@@ -411,11 +427,6 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/did"
-          }
-        ],
         "responses": {
           "200": {
             "$ref": "#/responses/Ergebnisse"
@@ -423,7 +434,8 @@
         }
       },
       "post": {
-        "summary": "Ergebnis-Leistungen auswerten",
+        "summary": "Ergebnisse f\u00fcr eine Disziplin anlegen",
+        "description": "F\u00fcr die anzulegenden Ergebnisse wird die Disziplin-ID mit der im Pfad angegenen ID \u00fcberschrieben.",
         "tags": [
           "Disziplin",
           "Ergebnis"
@@ -433,21 +445,7 @@
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "teilnehmer",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "teilnehmer": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer",
-                    "format": "int64"
-                  }
-                }
-              }
-            }
+            "$ref": "#/parameters/ergebnisse"
           }
         ],
         "responses": {
