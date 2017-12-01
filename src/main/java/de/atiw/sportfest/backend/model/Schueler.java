@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 import de.atiw.sportfest.backend.model.Klasse;
 import io.swagger.annotations.*;
@@ -13,6 +15,9 @@ import javax.validation.constraints.*;
 
 
 @Entity
+@NamedQueries({
+@NamedQuery(name="schueler.list", query="SELECT s FROM Schueler s")
+})
 public class Schueler   {
   
   @Id
