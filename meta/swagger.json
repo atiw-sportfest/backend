@@ -246,7 +246,7 @@
         }
       },
       "delete": {
-        "summary": "Anmeldung löschen",
+        "summary": "Anmeldung l\u00f6schen",
         "tags": [
           "Anmeldung"
         ],
@@ -257,7 +257,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Anmeldung gelöscht"
+            "description": "Anmeldung gel\u00f6scht"
           }
         }
       }
@@ -385,7 +385,7 @@
         }
       },
       "delete": {
-        "summary": "Disziplin löschen",
+        "summary": "Disziplin l\u00f6schen",
         "tags": [
           "Disziplin"
         ],
@@ -396,7 +396,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Disziplin gelöscht"
+            "description": "Disziplin gel\u00f6scht"
           }
         }
       }
@@ -566,7 +566,7 @@
         }
       },
       "delete": {
-        "summary": "Ergebnis löschen",
+        "summary": "Ergebnis l\u00f6schen",
         "tags": [
           "Ergebnis"
         ],
@@ -577,7 +577,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Ergebnis gelöscht"
+            "description": "Ergebnis gel\u00f6scht"
           }
         }
       }
@@ -640,7 +640,7 @@
         }
       },
       "delete": {
-        "summary": "Klasse löschen",
+        "summary": "Klasse l\u00f6schen",
         "tags": [
           "Teilnehmer"
         ],
@@ -651,7 +651,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Gelöscht."
+            "description": "Gel\u00f6scht."
           }
         }
       }
@@ -809,7 +809,7 @@
         }
       },
       "delete": {
-        "summary": "Leistung löschen",
+        "summary": "Leistung l\u00f6schen",
         "tags": [
           "Ergebnis"
         ],
@@ -820,7 +820,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Leistung gelöscht."
+            "description": "Leistung gel\u00f6scht."
           }
         }
       }
@@ -862,7 +862,7 @@
         }
       },
       "delete": {
-        "summary": "Schueler löschen",
+        "summary": "Schueler l\u00f6schen",
         "tags": [
           "Teilnehmer"
         ],
@@ -873,7 +873,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Schueler gelöscht."
+            "description": "Schueler gel\u00f6scht."
           }
         }
       }
