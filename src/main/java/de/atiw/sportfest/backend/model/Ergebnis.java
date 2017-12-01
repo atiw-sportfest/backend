@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import de.atiw.sportfest.backend.model.Disziplin;
@@ -20,6 +22,9 @@ import javax.validation.constraints.*;
 
 
 @Entity
+@NamedQueries({
+@NamedQuery(name="ergebnis.listByDisziplin", query="SELECT e FROM Ergebnis e JOIN e.disziplin d JOIN FETCH e.leistungen WHERE d.id = :did"),
+})
 public class Ergebnis   {
 
   @Id
