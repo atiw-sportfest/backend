@@ -51,8 +51,9 @@ public class SchuelerApi  {
     @ApiOperation(value = "Schueler auflisten", notes = "", response = Schueler.class, responseContainer = "List", tags={ "Teilnehmer",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Schueler_pl", response = Schueler.class, responseContainer = "List") })
-    public Response schuelerGet() {
-        return Response.ok().entity("magic!").build();
+    @Lock(LockType.READ)
+    public List<Schueler> schuelerGet() {
+        return em.createNamedQuery("schueler.list", Schueler.class).getResultList();
     }
 
     @PUT
