@@ -5,7 +5,7 @@ dir=$(dirname $0)
 genlang="jaxrs-spec"
 ziptmp=$(mktemp)
 dirtmp=$(mktemp -d)
-tgtdir=$(cd $dir/.. && pwd)
+tgtdir=$(cd $dir/../src/main/java && pwd)
 
 if [ ! -z "$SWAGGER_CODEGEN_JAR" ]; then
     echo >&2 "Not yet supported."
@@ -27,7 +27,7 @@ else
 
     rm pom.xml swagger.json
 
-    cp -r * $tgtdir/src/main/java
+    cp -r * $tgtdir
 
     popd; popd
 
@@ -35,6 +35,6 @@ else
 
     cd $tgtdir
 
-    git commit -m "Update generated Model and Api" src/main/java
+    git commit -m "Update generated Model and Api" .
 
 fi
