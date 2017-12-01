@@ -1,19 +1,35 @@
 package de.atiw.sportfest.backend.api;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.ejb.Lock;
+import javax.ejb.LockType;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import javax.persistence.PersistenceContext;
 
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
+import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
 import de.atiw.sportfest.backend.model.Anmeldung;
 import de.atiw.sportfest.backend.model.Ergebnis;
+import de.atiw.sportfest.backend.model.Klasse;
 import de.atiw.sportfest.backend.model.Schueler;
 import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 import javax.ws.rs.*;
+import org.apache.commons.csv.*;
 
 @Path("/schueler")
 
@@ -22,7 +38,11 @@ import javax.ws.rs.*;
 
 
 
+@Stateless
 public class SchuelerApi  {
+
+    @PersistenceContext
+    EntityManager em;
 
     @GET
     
@@ -42,14 +62,43 @@ public class SchuelerApi  {
     @ApiOperation(value = "Schüler importieren", notes = "Schüler aus einer CSV-Datei importieren. Die Datei muss folgende Spalten in der angegebenen Reihenfolge enthalten: Nachname, Vorname, Klasse, Geschlecht.", response = Schueler.class, responseContainer = "List", tags={ "Teilnehmer",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Schueler_pl", response = Schueler.class, responseContainer = "List") })
-    public Response schuelerPut( @FormParam(value = "csv") InputStream csvInputStream,
-   @FormParam(value = "csv") Attachment csvDetail) {
-        return Response.ok().entity("magic!").build();
+    @Lock(LockType.WRITE)
+    public List<Schueler> schuelerPut(@Multipart("csv") Attachment csvDetail) throws IOException {
+
+        Map<String, Klasse> klassen = new HashMap<>();
+
+        return CSVFormat.DEFAULT
+            .parse(new InputStreamReader(csvDetail.getObject(InputStream.class))) // https://stackoverflow.com/a/26329902
+            .getRecords().stream()
+            .map(record -> {
+
+                if(record.size() == 4){
+
+                    String kName = record.get(2);
+                    Klasse k = klassen.get(kName);
+
+                    if(k == null) {
+                        try {
+                            k = em.createNamedQuery("klasse.findByName", Klasse.class).setParameter("name", kName).getSingleResult();
+                        } catch(NonUniqueResultException|NoResultException e){
+                            k = em.merge(new Klasse().bezeichnung(record.get(2)));
+                        }
+                        klassen.put(kName, k);
+                    }
+
+                    return em.merge(new Schueler()
+                            .nachname(record.get(0))
+                            .vorname(record.get(1))
+                            .klasse(k)
+                            .geschlecht(record.get(3)));
+                }
+                throw new BadRequestException("Zu wenig Spalten!");
+            }).collect(Collectors.toList());
     }
 
     @GET
     @Path("/{sid}/anmeldungen")
-    
+
     @Produces({ "application/json" })
     @ApiOperation(value = "Anmeldungen eines Schuelers anzuzeigen", notes = "", response = Anmeldung.class, responseContainer = "List", tags={ "Anmeldung",  })
     @ApiResponses(value = { 
