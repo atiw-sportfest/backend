@@ -1,19 +1,28 @@
 package de.atiw.sportfest.backend.model;
 
+import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 import de.atiw.sportfest.backend.model.Klasse;
+import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 
-import io.swagger.annotations.*;
-import java.util.Objects;
-
-
+@Entity
 public class Schueler   {
   
+  @Id
+  @GeneratedValue
   private Long id = null;
   private String vorname = null;
   private String nachname = null;
   private String geschlecht = null;
+
+  @ManyToOne
   private Klasse klasse = null;
 
   /**
