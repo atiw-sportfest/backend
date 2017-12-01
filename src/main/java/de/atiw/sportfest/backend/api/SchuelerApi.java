@@ -1,17 +1,19 @@
 package de.atiw.sportfest.backend.api;
 
-import de.atiw.sportfest.backend.model.Anmeldung;
-import de.atiw.sportfest.backend.model.Ergebnis;
 import java.io.File;
-import de.atiw.sportfest.backend.model.Schueler;
+import java.io.InputStream;
+import java.util.List;
 
-import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
-import io.swagger.annotations.*;
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 
-import java.util.List;
+import de.atiw.sportfest.backend.model.Anmeldung;
+import de.atiw.sportfest.backend.model.Ergebnis;
+import de.atiw.sportfest.backend.model.Schueler;
+import io.swagger.annotations.*;
 import javax.validation.constraints.*;
+import javax.ws.rs.*;
 
 @Path("/schueler")
 
