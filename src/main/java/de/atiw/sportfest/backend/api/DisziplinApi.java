@@ -101,8 +101,19 @@ public class DisziplinApi  {
     @ApiOperation(value = "Ergebnisse für einen Teilnehmer einer Disziplin anzeigen", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
-    public Response disziplinDidErgebnisseTidGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did,@PathParam("tid") @ApiParam("Schueler- oder Klassen-ID") Long tid) {
-        return Response.ok().entity("magic!").build();
+    public List<Ergebnis> disziplinDidErgebnisseTidGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did,@PathParam("tid") @ApiParam("Schueler- oder Klassen-ID") Long tid) {
+
+        Disziplin d = em.find(Disziplin.class, did);
+
+        if(d == null)
+            throw new NotFoundException(String.format("Disziplin mit ID %d nicht gefunden!", did));
+
+        return em
+            .createNamedQuery(d.getTeam() ? "ergebnis.listByDisziplinAndKlasse" : "ergebnis.listByDisziplinAndSchueler", Ergebnis.class)
+            .setParameter("did", did)
+            .setParameter( d.getTeam() ? "kid" : "sid", tid)
+            .getResultList();
+
     }
 
     @GET
