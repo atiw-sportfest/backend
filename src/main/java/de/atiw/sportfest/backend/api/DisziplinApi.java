@@ -1,12 +1,14 @@
 package de.atiw.sportfest.backend.api;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import javax.ws.rs.core.Response;
 
 import de.atiw.sportfest.backend.model.Anmeldung;
@@ -67,8 +69,8 @@ public class DisziplinApi  {
     @ApiOperation(value = "Ergebnisse einer Disziplin anzeigen", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
-    public Response disziplinDidErgebnisseGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
-        return Response.ok().entity("magic!").build();
+    public List<Ergebnis> disziplinDidErgebnisseGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
+        return em.createNamedQuery("ergebnis.listByDisziplin", Ergebnis.class).setParameter("did", did).getResultList();
     }
 
     @POST
@@ -78,8 +80,40 @@ public class DisziplinApi  {
     @ApiOperation(value = "Ergebnisse für eine Disziplin anlegen", notes = "Für die anzulegenden Ergebnisse wird die Disziplin-ID mit der im Pfad angegenen ID überschrieben.", response = Ergebnis.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
-    public Response disziplinDidErgebnissePost(@PathParam("did") @ApiParam("Disziplin-ID") Long did,List<Ergebnis> ergebnisse) {
-        return Response.ok().entity("magic!").build();
+    public List<Ergebnis> disziplinDidErgebnissePost(@PathParam("did") @ApiParam("Disziplin-ID") Long did,List<Ergebnis> ergebnisse) {
+
+        return ergebnisse.stream().map(e -> {
+
+            if(e.getDisziplin() == null)
+                e.setDisziplin(new Disziplin());
+
+            e.getDisziplin().setId(did);
+
+            return em.merge(e);
+
+        }).collect(Collectors.toList());
+    }
+
+    @GET
+    @Path("/{did}/ergebnisse/{tid}")
+    
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Ergebnisse für einen Teilnehmer einer Disziplin anzeigen", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
+    public List<Ergebnis> disziplinDidErgebnisseTidGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did,@PathParam("tid") @ApiParam("Schueler- oder Klassen-ID") Long tid) {
+
+        Disziplin d = em.find(Disziplin.class, did);
+
+        if(d == null)
+            throw new NotFoundException(String.format("Disziplin mit ID %d nicht gefunden!", did));
+
+        return em
+            .createNamedQuery(d.getTeam() ? "ergebnis.listByDisziplinAndKlasse" : "ergebnis.listByDisziplinAndSchueler", Ergebnis.class)
+            .setParameter("did", did)
+            .setParameter( d.getTeam() ? "kid" : "sid", tid)
+            .getResultList();
+
     }
 
     @GET

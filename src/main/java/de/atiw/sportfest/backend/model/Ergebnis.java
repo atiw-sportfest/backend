@@ -1,25 +1,49 @@
 package de.atiw.sportfest.backend.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+
 import de.atiw.sportfest.backend.model.Disziplin;
 import de.atiw.sportfest.backend.model.Klasse;
 import de.atiw.sportfest.backend.model.Leistung;
 import de.atiw.sportfest.backend.model.Schueler;
-import java.util.ArrayList;
-import java.util.List;
+import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 
-import io.swagger.annotations.*;
-import java.util.Objects;
-
-
+@Entity
+@NamedQueries({
+@NamedQuery(name="ergebnis.listByDisziplin", query="SELECT e FROM Ergebnis e JOIN e.disziplin d JOIN FETCH e.leistungen WHERE d.id = :did"),
+@NamedQuery(name="ergebnis.listByDisziplinAndKlasse", query="SELECT e FROM Ergebnis e JOIN e.disziplin d JOIN e.klasse k JOIN FETCH e.leistungen WHERE d.id = :did AND k.id = :kid"),
+@NamedQuery(name="ergebnis.listByDisziplinAndSchueler", query="SELECT e FROM Ergebnis e JOIN e.disziplin d JOIN e.schueler s JOIN FETCH e.leistungen WHERE d.id = :did AND s.id = :sid")
+})
 public class Ergebnis   {
-  
+
+  @Id
+  @GeneratedValue
   private Long id = null;
   private Integer punkte = null;
+
+  @OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE})
   private List<Leistung> leistungen = new ArrayList<Leistung>();
+
+  @ManyToOne
   private Klasse klasse = null;
+
+  @ManyToOne
   private Schueler schueler = null;
+
+  @ManyToOne
   private Disziplin disziplin = null;
 
   /**
