@@ -862,6 +862,31 @@
             "$ref": "#/responses/Schueler_pl"
           }
         }
+      },
+      "put": {
+        "summary": "Sch\u00fcler importieren",
+        "description": "Sch\u00fcler aus einer CSV-Datei importieren.\nDie Datei muss folgende Spalten in der angegebenen Reihenfolge enthalten:\nNachname, Vorname, Klasse, Geschlecht.",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "csv",
+            "required": true,
+            "type": "file",
+            "description": "CSV-Datei",
+            "x-mimetype": "text/csv"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Schueler_pl"
+          }
+        }
       }
     },
     "/schueler/{sid}/": {
