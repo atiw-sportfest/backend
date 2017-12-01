@@ -5,7 +5,6 @@ import de.atiw.sportfest.backend.model.Disziplin;
 import de.atiw.sportfest.backend.model.Ergebnis;
 import de.atiw.sportfest.backend.model.Leistung;
 import java.util.List;
-import de.atiw.sportfest.backend.model.Teilnehmer;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -61,10 +60,10 @@ public class DisziplinApi  {
     @Path("/{did}/ergebnisse")
     
     @Produces({ "application/json" })
-    @ApiOperation(value = "Ergebnis-Leistungen auswerten", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
+    @ApiOperation(value = "Ergebnisse für eine Disziplin anlegen", notes = "Für die anzulegenden Ergebnisse wird die Disziplin-ID mit der im Pfad angegenen ID überschrieben.", response = Ergebnis.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
-    public Response disziplinDidErgebnissePost(Teilnehmer teilnehmer) {
+    public Response disziplinDidErgebnissePost(@PathParam("did") @ApiParam("Disziplin-ID") Long did,List<Ergebnis> ergebnisse) {
         return Response.ok().entity("magic!").build();
     }
 
