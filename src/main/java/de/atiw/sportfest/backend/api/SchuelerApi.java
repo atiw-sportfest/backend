@@ -2,6 +2,7 @@ package de.atiw.sportfest.backend.api;
 
 import de.atiw.sportfest.backend.model.Anmeldung;
 import de.atiw.sportfest.backend.model.Ergebnis;
+import java.io.File;
 import de.atiw.sportfest.backend.model.Schueler;
 
 import javax.ws.rs.*;
@@ -29,6 +30,18 @@ public class SchuelerApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Schueler_pl", response = Schueler.class, responseContainer = "List") })
     public Response schuelerGet() {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @PUT
+    
+    @Consumes({ "multipart/form-data" })
+    
+    @ApiOperation(value = "Schüler importieren", notes = "Schüler aus einer CSV-Datei importieren. Die Datei muss folgende Spalten in der angegebenen Reihenfolge enthalten: Nachname, Vorname, Klasse, Geschlecht.", response = Schueler.class, responseContainer = "List", tags={ "Teilnehmer",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Schueler_pl", response = Schueler.class, responseContainer = "List") })
+    public Response schuelerPut( @FormParam(value = "csv") InputStream csvInputStream,
+   @FormParam(value = "csv") Attachment csvDetail) {
         return Response.ok().entity("magic!").build();
     }
 
