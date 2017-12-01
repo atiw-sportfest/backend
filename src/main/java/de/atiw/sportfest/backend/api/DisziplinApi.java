@@ -95,6 +95,17 @@ public class DisziplinApi  {
     }
 
     @GET
+    @Path("/{did}/ergebnisse/{tid}")
+    
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Ergebnisse für einen Teilnehmer einer Disziplin anzeigen", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
+    public Response disziplinDidErgebnisseTidGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did,@PathParam("tid") @ApiParam("Schueler- oder Klassen-ID") Long tid) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @GET
     @Path("/{did}")
     
     @Produces({ "application/json" })

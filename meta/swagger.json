@@ -527,6 +527,31 @@
         }
       }
     },
+    "/disziplin/{did}/ergebnisse/{tid}": {
+      "get": {
+        "summary": "Ergebnisse f\u00fcr einen Teilnehmer einer Disziplin anzeigen",
+        "tags": [
+          "Disziplin",
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          },
+          {
+            "$ref": "#/parameters/tid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ergebnisse"
+          }
+        }
+      }
+    },
     "/ergebnis": {
       "get": {
         "summary": "Ergebnisse abrufen",
