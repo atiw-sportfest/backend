@@ -1,11 +1,9 @@
 {
-    "options": {
-        "hideGenerationTimestamp": true,
-        "java8": true,
-        "modelPackage": "de.atiw.sportfest.backend.model",
-        "apiPackage": "de.atiw.sportfest.backend.api",
-        "invokerPackage": "de.atiw.sportfest",
-        "title": "Sportfest Backend",
-        "sourceFolder": ""
-    }
+  "hideGenerationTimestamp": true,
+  "java8": true,
+  "modelPackage": "de.atiw.sportfest.backend.model",
+  "apiPackage": "de.atiw.sportfest.backend.api",
+  "invokerPackage": "de.atiw.sportfest",
+  "title": "Sportfest Backend",
+  "sourceFolder": ""
 }
