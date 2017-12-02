@@ -116,7 +116,8 @@ public class SchuelerApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Schueler gelöscht.", response = void.class) })
     public Response schuelerSidDelete(@PathParam("sid") @ApiParam("Schueler-ID") Long sid) {
-        return Response.ok().entity("magic!").build();
+        em.remove(schuelerSidGet(sid));
+        return Response.ok().build();
     }
 
     @GET
@@ -126,8 +127,8 @@ public class SchuelerApi  {
     @ApiOperation(value = "Ergebnisse eines Schuelers fuer eine Disziplin anzeigen", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Teilnehmer",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
-    public Response schuelerSidErgebnisseDidGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did,@PathParam("sid") @ApiParam("Schueler-ID") Long sid) {
-        return Response.ok().entity("magic!").build();
+    public List<Ergebnis> schuelerSidErgebnisseDidGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did,@PathParam("sid") @ApiParam("Schueler-ID") Long sid) {
+        return em.createNamedQuery("ergebnis.listByDisziplinAndSchueler", Ergebnis.class).setParameter("did", did).setParameter("sid", sid).getResultList();
     }
 
     @GET
@@ -137,8 +138,8 @@ public class SchuelerApi  {
     @ApiOperation(value = "Ergebnisse eines Schuelers anzuzeigen", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Teilnehmer",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
-    public Response schuelerSidErgebnisseGet(@PathParam("sid") @ApiParam("Schueler-ID") Long sid) {
-        return Response.ok().entity("magic!").build();
+    public List<Ergebnis> schuelerSidErgebnisseGet(@PathParam("sid") @ApiParam("Schueler-ID") Long sid) {
+        return em.createNamedQuery("ergebnis.listBySchueler", Ergebnis.class).setParameter("sid", sid).getResultList();
     }
 
     @GET
@@ -148,8 +149,13 @@ public class SchuelerApi  {
     @ApiOperation(value = "Schueler abrufen", notes = "", response = Schueler.class, tags={ "Teilnehmer" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Schueler", response = Schueler.class) })
-    public Response schuelerSidGet(@PathParam("sid") @ApiParam("Schueler-ID") Long sid) {
-        return Response.ok().entity("magic!").build();
+    public Schueler schuelerSidGet(@PathParam("sid") @ApiParam("Schueler-ID") Long sid) {
+        Schueler s = em.find(Schueler.class, sid);
+
+        if(s == null)
+            throw new NotFoundException();
+
+        return s;
     }
 }
 
