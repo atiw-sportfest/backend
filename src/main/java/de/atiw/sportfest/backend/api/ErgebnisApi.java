@@ -1,14 +1,17 @@
 package de.atiw.sportfest.backend.api;
 
-import de.atiw.sportfest.backend.model.Ergebnis;
+import java.util.List;
 
-import javax.ws.rs.*;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import javax.ws.rs.core.Response;
 
+import de.atiw.sportfest.backend.model.Ergebnis;
 import io.swagger.annotations.*;
-
-import java.util.List;
 import javax.validation.constraints.*;
+import javax.ws.rs.*;
 
 @Path("/ergebnis")
 
@@ -17,7 +20,11 @@ import javax.validation.constraints.*;
 
 
 
+@Stateless
 public class ErgebnisApi  {
+
+    @PersistenceContext
+    EntityManager em;
 
     @DELETE
     @Path("/{eid}")
@@ -27,7 +34,8 @@ public class ErgebnisApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Ergebnis gelöscht", response = void.class) })
     public Response ergebnisEidDelete(@PathParam("eid") @ApiParam("Ergebnis-ID") Long eid) {
-        return Response.ok().entity("magic!").build();
+        em.remove(ergebnisEidGet(eid));
+        return Response.ok().build();
     }
 
     @GET
@@ -37,8 +45,13 @@ public class ErgebnisApi  {
     @ApiOperation(value = "Ergebnis anzeigen", notes = "", response = Ergebnis.class, tags={ "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnis", response = Ergebnis.class) })
-    public Response ergebnisEidGet(@PathParam("eid") @ApiParam("Ergebnis-ID") Long eid) {
-        return Response.ok().entity("magic!").build();
+    public Ergebnis ergebnisEidGet(@PathParam("eid") @ApiParam("Ergebnis-ID") Long eid) {
+        Ergebnis e = em.find(Ergebnis.class, eid);
+
+        if(e == null)
+            throw new NotFoundException();
+
+        return e;
     }
 
     @GET
