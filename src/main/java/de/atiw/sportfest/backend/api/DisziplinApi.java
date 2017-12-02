@@ -82,7 +82,7 @@ public class DisziplinApi  {
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
     public List<Ergebnis> disziplinDidErgebnissePost(@PathParam("did") @ApiParam("Disziplin-ID") Long did,List<Ergebnis> ergebnisse) {
 
-        return ergebnisse.stream().map(e -> {
+        List<Ergebnis> result = ergebnisse.stream().map(e -> {
 
             if(e.getDisziplin() == null)
                 e.setDisziplin(new Disziplin());
@@ -92,6 +92,13 @@ public class DisziplinApi  {
             return em.merge(e);
 
         }).collect(Collectors.toList());
+
+        // Wasnt able to create a constraint that results can only have one achievement per variable
+        // So do this with a query. The query counts the achievements per variable per result.
+        if(!em.createNamedQuery("ergebnis.verify", Long.class).getResultList().stream().allMatch(c -> c == 1))
+            throw new BadRequestException("Ergebnisse können nur eine Leistung je Variable haben!"); // also rolls back transaction
+
+        return result;
     }
 
     @GET
