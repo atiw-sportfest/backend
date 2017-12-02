@@ -1,19 +1,20 @@
 package de.atiw.sportfest.backend.api;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import javax.ws.rs.core.Response;
 
 import de.atiw.sportfest.backend.model.Anmeldung;
 import de.atiw.sportfest.backend.model.Disziplin;
 import de.atiw.sportfest.backend.model.Ergebnis;
 import de.atiw.sportfest.backend.model.Leistung;
-import de.atiw.sportfest.backend.model.Teilnehmer;
 import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 import javax.ws.rs.*;
@@ -68,19 +69,58 @@ public class DisziplinApi  {
     @ApiOperation(value = "Ergebnisse einer Disziplin anzeigen", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
-    public Response disziplinDidErgebnisseGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
-        return Response.ok().entity("magic!").build();
+    public List<Ergebnis> disziplinDidErgebnisseGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
+        return em.createNamedQuery("ergebnis.listByDisziplin", Ergebnis.class).setParameter("did", did).getResultList();
     }
 
     @POST
     @Path("/{did}/ergebnisse")
     
     @Produces({ "application/json" })
-    @ApiOperation(value = "Ergebnis-Leistungen auswerten", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
+    @ApiOperation(value = "Ergebnisse für eine Disziplin anlegen", notes = "Für die anzulegenden Ergebnisse wird die Disziplin-ID mit der im Pfad angegenen ID überschrieben.", response = Ergebnis.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
-    public Response disziplinDidErgebnissePost(Teilnehmer teilnehmer) {
-        return Response.ok().entity("magic!").build();
+    public List<Ergebnis> disziplinDidErgebnissePost(@PathParam("did") @ApiParam("Disziplin-ID") Long did,List<Ergebnis> ergebnisse) {
+
+        List<Ergebnis> result = ergebnisse.stream().map(e -> {
+
+            if(e.getDisziplin() == null)
+                e.setDisziplin(new Disziplin());
+
+            e.getDisziplin().setId(did);
+
+            return em.merge(e);
+
+        }).collect(Collectors.toList());
+
+        // Wasnt able to create a constraint that results can only have one achievement per variable
+        // So do this with a query. The query counts the achievements per variable per result.
+        if(!em.createNamedQuery("ergebnis.verify", Long.class).getResultList().stream().allMatch(c -> c == 1))
+            throw new BadRequestException("Ergebnisse können nur eine Leistung je Variable haben!"); // also rolls back transaction
+
+        return result;
+    }
+
+    @GET
+    @Path("/{did}/ergebnisse/{tid}")
+    
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Ergebnisse für einen Teilnehmer einer Disziplin anzeigen", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
+    public List<Ergebnis> disziplinDidErgebnisseTidGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did,@PathParam("tid") @ApiParam("Schueler- oder Klassen-ID") Long tid) {
+
+        Disziplin d = em.find(Disziplin.class, did);
+
+        if(d == null)
+            throw new NotFoundException(String.format("Disziplin mit ID %d nicht gefunden!", did));
+
+        return em
+            .createNamedQuery(d.getTeam() ? "ergebnis.listByDisziplinAndKlasse" : "ergebnis.listByDisziplinAndSchueler", Ergebnis.class)
+            .setParameter("did", did)
+            .setParameter( d.getTeam() ? "kid" : "sid", tid)
+            .getResultList();
+
     }
 
     @GET

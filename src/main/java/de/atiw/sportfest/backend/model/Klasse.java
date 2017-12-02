@@ -2,13 +2,21 @@ package de.atiw.sportfest.backend.model;
 
 import java.util.Objects;
 
-import javax.persistence.Id;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 
+@Entity
+@NamedQueries({
+@NamedQuery(name="klasse.list", query="SELECT k FROM Klasse k"),
+@NamedQuery(name="klasse.findByName", query="SELECT k FROM Klasse k WHERE k.bezeichnung = :name")
+})
 public class Klasse   {
   
   @Id

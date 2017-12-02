@@ -5,13 +5,18 @@ dir=$(dirname $0)
 genlang="jaxrs-spec"
 ziptmp=$(mktemp)
 dirtmp=$(mktemp -d)
-tgtdir=$(cd $dir/.. && pwd)
+tgtdir=$(cd $dir/../src/main/java && pwd)
 
-if [ ! -z "$SWAGGER_CODEGEN_JAR" ]; then
-    echo >&2 "Not yet supported."
-    #java -jar "$SWAGGER_CODEGEN_JAR" generate -i swagger.yaml -l $genlang -o ../src/main/java -c swagger-codegen.config.json
+if [ ! -z "$SWAGGER_CODEGEN" ]; then
+
+    java -jar "$SWAGGER_CODEGEN" generate -i $dir/swagger.json -l $genlang -c $dir/swagger-codegen.config.json -o $tgtdir
+
+    pushd $tgtdir
+
+    rm -rf .swagger-codegen* swagger.json pom.xml
+
 else
-    options=$(jq ".[0].spec = .[1] | .[0]" -s $dir/swagger-codegen.config.json $dir/swagger.json) # Embed spec in options
+    options=$(jq -s '{ options: .[0], spec: .[1] }' $dir/swagger{-codegen.config,}.json)
     response=$(curl -k https://generator.swagger.io/api/gen/servers/${genlang} -d "$options" -H "Content-Type: application/json")
 
     link=$(echo $response | jq ".link" -r)
@@ -27,7 +32,7 @@ else
 
     rm pom.xml swagger.json
 
-    cp -r * $tgtdir/src/main/java
+    cp -r * $tgtdir
 
     popd; popd
 
@@ -35,11 +40,8 @@ else
 
     cd $tgtdir
 
-    git add src/main/java
-    git commit -m "Update Model"
-
-    git log swagger-import-anchor..@~ --reverse --patch src/main/java/de/atiw/sportfest/backend/{api,model} | git apply -3
-
-    echo >&2 -e "\033[0;31mIf you want to abort, make sure you have cleared git rerere!\033[0;0m (Only if you use rerere.)"
-
 fi
+
+git commit -m "Update generated Model and Api" .
+
+# vim: set ts=4 sw=4 tw=4 et :
