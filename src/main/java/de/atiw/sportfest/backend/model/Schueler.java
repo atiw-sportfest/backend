@@ -16,7 +16,8 @@ import javax.validation.constraints.*;
 
 @Entity
 @NamedQueries({
-@NamedQuery(name="schueler.list", query="SELECT s FROM Schueler s")
+@NamedQuery(name="schueler.list", query="SELECT s FROM Schueler s"),
+@NamedQuery(name="schueler.listByKlasse", query="SELECT s FROM Schueler s JOIN s.klasse k WHERE k.id = :kid")
 })
 public class Schueler   {
   
