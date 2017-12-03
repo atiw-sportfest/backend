@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import de.atiw.sportfest.backend.model.datentypen.*;
+
 import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
@@ -19,13 +21,22 @@ public class Typ   {
 
 public enum DatentypEnum {
 
-    STRING(String.valueOf("string")), INT(String.valueOf("int")), FLOAT(String.valueOf("float")), LONG(String.valueOf("long")), DOUBLE(String.valueOf("double"));
-
+    STRING(String.valueOf("string"), new StringTyp()),
+    INT(String.valueOf("int"), new IntegerTyp()),
+    FLOAT(String.valueOf("float"), new FloatTyp()),
+    LONG(String.valueOf("long"), new LongTyp()),
+    DOUBLE(String.valueOf("double"), new DoubleTyp());
 
     private String value;
+    private Datentyp<?> datentyp;
 
-    DatentypEnum (String v) {
+    DatentypEnum (String v, Datentyp<?> d) {
         value = v;
+        datentyp = d;
+    }
+
+    public Object load(String s){
+        return datentyp.load(s);
     }
 
     public String value() {
