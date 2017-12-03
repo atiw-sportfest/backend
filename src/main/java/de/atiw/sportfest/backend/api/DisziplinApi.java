@@ -19,6 +19,9 @@ import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 import javax.ws.rs.*;
 
+import de.atiw.sportfest.regeldsl.RulesDsl;
+import de.atiw.sportfest.regeldsl.RulesConfiguration;
+
 @Path("/disziplin")
 
 @Api(description = "the disziplin API")
@@ -82,23 +85,25 @@ public class DisziplinApi  {
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
     public List<Ergebnis> disziplinDidErgebnissePost(@PathParam("did") @ApiParam("Disziplin-ID") Long did,List<Ergebnis> ergebnisse) {
 
-        List<Ergebnis> result = ergebnisse.stream().map(e -> {
+        Disziplin d = disziplinDidGet(did);
 
-            if(e.getDisziplin() == null)
-                e.setDisziplin(new Disziplin());
+        RulesConfiguration rulesConfig = new RulesDsl().create(d.getRegeln());
 
-            e.getDisziplin().setId(did);
+        ergebnisse = ergebnisse.stream().map(e -> { return em.find(Ergebnis.class, em.merge(e.disziplin(d)).getId()); }).collect(Collectors.toList());
 
-            return em.merge(e);
+        if(d.getVersus() != null && d.getVersus() == true)
+            ergebnisse = rulesConfig.direktVersus(ergebnisse);
+        else
+            ergebnisse = rulesConfig.direktEinzelMulti(ergebnisse);
 
-        }).collect(Collectors.toList());
+        ergebnisse = ergebnisse.stream().map(e -> { return em.merge(e); }).collect(Collectors.toList());
 
         // Wasnt able to create a constraint that results can only have one achievement per variable
         // So do this with a query. The query counts the achievements per variable per result.
         if(!em.createNamedQuery("ergebnis.verify", Long.class).getResultList().stream().allMatch(c -> c == 1))
             throw new BadRequestException("Ergebnisse können nur eine Leistung je Variable haben!"); // also rolls back transaction
 
-        return result;
+        return ergebnisse;
     }
 
     @GET
