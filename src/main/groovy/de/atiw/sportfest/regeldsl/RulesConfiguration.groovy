@@ -36,7 +36,7 @@ class RulesConfiguration {
   }
 
   List<Ergebnis> direktEinzelMulti(List<Ergebnis> ergebnisse){
-    ergebnisse.stream().map({ erg -> eval(direkt, erg)});
+    ergebnisse.stream().map({ erg -> eval(direkt, erg)}).collect(Collectors.toList());
   }
 
   Ergebnis direktEinzel(Ergebnis ergebnis){
