@@ -117,6 +117,17 @@
           "$ref": "#/definitions/Leistung"
         }
       }
+    },
+    "ergebnisse": {
+      "in": "body",
+      "name": "ergebnisse",
+      "description": "Ergebnisse",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Ergebnis"
+        }
+      }
     }
   },
   "responses": {
@@ -246,7 +257,7 @@
         }
       },
       "delete": {
-        "summary": "Anmeldung löschen",
+        "summary": "Anmeldung l\u00f6schen",
         "tags": [
           "Anmeldung"
         ],
@@ -257,7 +268,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Anmeldung gelöscht"
+            "description": "Anmeldung gel\u00f6scht"
           }
         }
       }
@@ -385,7 +396,7 @@
         }
       },
       "delete": {
-        "summary": "Disziplin löschen",
+        "summary": "Disziplin l\u00f6schen",
         "tags": [
           "Disziplin"
         ],
@@ -396,12 +407,17 @@
         ],
         "responses": {
           "204": {
-            "description": "Disziplin gelöscht"
+            "description": "Disziplin gel\u00f6scht"
           }
         }
       }
     },
     "/disziplin/{did}/ergebnisse": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/did"
+        }
+      ],
       "get": {
         "summary": "Ergebnisse einer Disziplin anzeigen",
         "tags": [
@@ -411,11 +427,6 @@
         "produces": [
           "application/json"
         ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/did"
-          }
-        ],
         "responses": {
           "200": {
             "$ref": "#/responses/Ergebnisse"
@@ -423,7 +434,8 @@
         }
       },
       "post": {
-        "summary": "Ergebnis-Leistungen auswerten",
+        "summary": "Ergebnisse f\u00fcr eine Disziplin anlegen",
+        "description": "F\u00fcr die anzulegenden Ergebnisse wird die Disziplin-ID mit der im Pfad angegenen ID \u00fcberschrieben.",
         "tags": [
           "Disziplin",
           "Ergebnis"
@@ -433,21 +445,7 @@
         ],
         "parameters": [
           {
-            "in": "body",
-            "name": "teilnehmer",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "teilnehmer": {
-                  "type": "array",
-                  "items": {
-                    "type": "integer",
-                    "format": "int64"
-                  }
-                }
-              }
-            }
+            "$ref": "#/parameters/ergebnisse"
           }
         ],
         "responses": {
@@ -529,6 +527,31 @@
         }
       }
     },
+    "/disziplin/{did}/ergebnisse/{tid}": {
+      "get": {
+        "summary": "Ergebnisse f\u00fcr einen Teilnehmer einer Disziplin anzeigen",
+        "tags": [
+          "Disziplin",
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          },
+          {
+            "$ref": "#/parameters/tid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Ergebnisse"
+          }
+        }
+      }
+    },
     "/ergebnis": {
       "get": {
         "summary": "Ergebnisse abrufen",
@@ -566,7 +589,7 @@
         }
       },
       "delete": {
-        "summary": "Ergebnis löschen",
+        "summary": "Ergebnis l\u00f6schen",
         "tags": [
           "Ergebnis"
         ],
@@ -577,7 +600,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Ergebnis gelöscht"
+            "description": "Ergebnis gel\u00f6scht"
           }
         }
       }
@@ -640,7 +663,7 @@
         }
       },
       "delete": {
-        "summary": "Klasse löschen",
+        "summary": "Klasse l\u00f6schen",
         "tags": [
           "Teilnehmer"
         ],
@@ -651,7 +674,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Gelöscht."
+            "description": "Gel\u00f6scht."
           }
         }
       }
@@ -809,7 +832,7 @@
         }
       },
       "delete": {
-        "summary": "Leistung löschen",
+        "summary": "Leistung l\u00f6schen",
         "tags": [
           "Ergebnis"
         ],
@@ -820,7 +843,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Leistung gelöscht."
+            "description": "Leistung gel\u00f6scht."
           }
         }
       }
@@ -833,6 +856,31 @@
         ],
         "produces": [
           "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Schueler_pl"
+          }
+        }
+      },
+      "put": {
+        "summary": "Sch\u00fcler importieren",
+        "description": "Sch\u00fcler aus einer CSV-Datei importieren.\nDie Datei muss folgende Spalten in der angegebenen Reihenfolge enthalten:\nNachname, Vorname, Klasse, Geschlecht.",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "csv",
+            "required": true,
+            "type": "file",
+            "description": "CSV-Datei",
+            "x-mimetype": "text/csv"
+          }
         ],
         "responses": {
           "200": {
@@ -862,7 +910,7 @@
         }
       },
       "delete": {
-        "summary": "Schueler löschen",
+        "summary": "Schueler l\u00f6schen",
         "tags": [
           "Teilnehmer"
         ],
@@ -873,7 +921,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Schueler gelöscht."
+            "description": "Schueler gel\u00f6scht."
           }
         }
       }
