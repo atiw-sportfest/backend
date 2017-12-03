@@ -1,8 +1,12 @@
 plugins {
+    id "application"
+    id "groovy"
     id "war";
     id "com.scuilion.syntastic" version "0.3.8";
     id 'com.bmuschko.cargo' version "2.2.3";
 }
+
+mainClassName = "main.Main"
 
 repositories {
     jcenter();
@@ -13,9 +17,15 @@ repositories {
 
 sourceSets {
     main {
-        java {
+
+        groovy {
+            srcDir "src/main/java"
             exclude 'de/atiw/sportfest/backend/resource';
-            exclude 'de/atiw/sportfest/backend/rules'
+            exclude 'de/atiw/sportfest/backend/rules';
+        }
+
+        java {
+            srcDirs = []
         }
     }
 }
@@ -42,6 +52,9 @@ dependencies {
 
     // Schüler Import
     compile 'org.apache.commons:commons-csv:1.5';
+
+    // Regel DSL
+    compile 'org.codehaus.groovy:groovy-all:2.4.10'
 
 }
 
