@@ -6,10 +6,5 @@ public class IntegerTyp implements Datentyp<Integer> {
         return Integer.parseInt(s);
     }
 
-    public String save(Integer i){
-        return null;
-    }
-
-
 }
 

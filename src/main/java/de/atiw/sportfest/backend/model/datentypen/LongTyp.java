@@ -6,9 +6,5 @@ public class LongTyp implements Datentyp<Long> {
         return Long.parseLong(s);
     }
 
-    public String save(Long s){
-        return Long.toString(s);
-    }
-
 }
 

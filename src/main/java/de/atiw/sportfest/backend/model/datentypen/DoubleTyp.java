@@ -6,9 +6,5 @@ public class DoubleTyp implements Datentyp<Double> {
         return Double.parseDouble(s);
     }
 
-    public String save(Double d){
-        return Double.toString(d);
-    }
-
 }
 
