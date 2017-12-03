@@ -1,8 +1,12 @@
 plugins {
+    id "application"
+    id "groovy"
     id "war";
     id "com.scuilion.syntastic" version "0.3.8";
     id 'com.bmuschko.cargo' version "2.2.3";
 }
+
+mainClassName = "main.Main"
 
 repositories {
     jcenter();
@@ -42,6 +46,9 @@ dependencies {
 
     // Schüler Import
     compile 'org.apache.commons:commons-csv:1.5';
+
+    // Regel DSL
+    compile 'org.codehaus.groovy:groovy-all:2.4.10'
 
 }
 
