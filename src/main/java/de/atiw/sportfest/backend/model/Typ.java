@@ -3,6 +3,8 @@ package de.atiw.sportfest.backend.model;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
@@ -58,6 +60,7 @@ public enum DatentypEnum {
     }
 }
 
+  @Enumerated(EnumType.STRING)
   private DatentypEnum datentyp = null;
   private String einheit = null;
   private String format = null;
