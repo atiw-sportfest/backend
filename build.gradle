@@ -17,9 +17,15 @@ repositories {
 
 sourceSets {
     main {
-        java {
+
+        groovy {
+            srcDir "src/main/java"
             exclude 'de/atiw/sportfest/backend/resource';
-            exclude 'de/atiw/sportfest/backend/rules'
+            exclude 'de/atiw/sportfest/backend/rules';
+        }
+
+        java {
+            srcDirs = []
         }
     }
 }
