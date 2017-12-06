@@ -37,15 +37,15 @@ Make your TomEE's `conf/tomee.xml` look like the following (replace `USER`, `PAS
     <tomee>
 
       <Resource id="jpaDS" type="javax.sql.DataSource">
-          jdbcDriver = com.mysql.jdbc.Driver
-          jdbcUrl = jdbc:mysql://HOST:3306/DATABASE
+          jdbcDriver = org.mariadb.jdbc.Driver
+          jdbcUrl = jdbc:mariadb://HOST:3306/DATABASE
           userName = USER
           password = PASSWORD
       </Resource>
 
       <Resource id="jpaDS_unmanaged" type="javax.sql.DataSource">
-          jdbcDriver = com.mysql.jdbc.Driver
-          jdbcUrl = jdbc:mysql://HOST:3306/DATABASE
+          jdbcDriver = org.mariadb.jdbc.Driver
+          jdbcUrl = jdbc:mariadb://HOST:3306/DATABASE
           userName = USER 
           password = PASSWORD
           jtaManaged = false
