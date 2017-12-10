@@ -273,32 +273,6 @@
         }
       }
     },
-    "/anmeldung/upload": {
-      "post": {
-        "summary": "Anmeldungen hochladen",
-        "tags": [
-          "Anmeldung"
-        ],
-        "consumes": [
-          "multipart/form-data"
-        ],
-        "parameters": [
-          {
-            "in": "formData",
-            "name": "file",
-            "description": "Anmeldung als Excel-Datei",
-            "required": true,
-            "type": "file",
-            "x-mimetype": "application/vnd.ms-excel"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Anmeldungen erstellt"
-          }
-        }
-      }
-    },
     "/disziplin": {
       "get": {
         "summary": "Disziplinen auflisten",
@@ -696,6 +670,55 @@
         "responses": {
           "200": {
             "$ref": "#/responses/Anmeldungen"
+          }
+        }
+      }
+    },
+    "/klasse/{kid}/anmeldebogen": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/kid"
+        }
+      ],
+      "get": {
+        "summary": "Anmeldebogen f\u00fcr eine Klasse herunterladen",
+        "tags": [
+          "Anmeldung"
+        ],
+        "produces": [
+          "application/vnd.ms-excel"
+        ],
+        "responses": {
+          "200": {
+            "description": "Excel-Anmeldebogen",
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Anmeldebogen f\u00fcr eine Klasse hochladen",
+        "tags": [
+          "Anmeldung"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "file",
+            "description": "Anmeldung als Excel-Datei",
+            "required": true,
+            "type": "file",
+            "x-mimetype": "application/vnd.ms-excel"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Anmeldungen erstellt"
           }
         }
       }
