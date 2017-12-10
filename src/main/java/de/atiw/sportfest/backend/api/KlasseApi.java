@@ -10,11 +10,15 @@ import javax.ws.rs.core.Response;
 
 import de.atiw.sportfest.backend.model.Anmeldung;
 import de.atiw.sportfest.backend.model.Ergebnis;
+import java.io.File;
+import java.io.InputStream;
 import de.atiw.sportfest.backend.model.Klasse;
 import de.atiw.sportfest.backend.model.Schueler;
 import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 import javax.ws.rs.*;
+
+import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 
 @Path("/klasse")
 
@@ -36,6 +40,29 @@ public class KlasseApi  {
         @ApiResponse(code = 200, message = "Klassen", response = Klasse.class, responseContainer = "List") })
     public List<Klasse> klasseGet() {
         return em.createNamedQuery("klasse.list", Klasse.class).getResultList();
+    }
+
+    @GET
+    @Path("/{kid}/anmeldebogen")
+    
+    @Produces({ "application/vnd.ms-excel" })
+    @ApiOperation(value = "Anmeldebogen für eine Klasse herunterladen", notes = "", response = byte[].class, tags={ "Anmeldung",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Excel-Anmeldebogen", response = byte[].class) })
+    public Response klasseKidAnmeldebogenGet(@PathParam("kid") @ApiParam("Klassen-ID") Long kid) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/{kid}/anmeldebogen")
+    @Consumes({ "multipart/form-data" })
+    
+    @ApiOperation(value = "Anmeldebogen für eine Klasse hochladen", notes = "", response = void.class, tags={ "Anmeldung",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 204, message = "Anmeldungen erstellt", response = void.class) })
+    public Response klasseKidAnmeldebogenPost(@PathParam("kid") @ApiParam("Klassen-ID") Long kid, @FormParam(value = "file") InputStream fileInputStream,
+   @FormParam(value = "file") Attachment fileDetail) {
+        return Response.ok().entity("magic!").build();
     }
 
     @GET
