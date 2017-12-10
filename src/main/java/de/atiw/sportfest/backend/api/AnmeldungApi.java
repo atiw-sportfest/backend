@@ -1,7 +1,6 @@
 package de.atiw.sportfest.backend.api;
 
 import de.atiw.sportfest.backend.model.Anmeldung;
-import java.io.File;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -46,22 +45,10 @@ public class AnmeldungApi  {
     
     
     @Produces({ "application/json" })
-    @ApiOperation(value = "Anmeldungen anzeigen", notes = "", response = Anmeldung.class, responseContainer = "List", tags={ "Anmeldung",  })
+    @ApiOperation(value = "Anmeldungen anzeigen", notes = "", response = Anmeldung.class, responseContainer = "List", tags={ "Anmeldung" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Anmeldungen", response = Anmeldung.class, responseContainer = "List") })
     public Response anmeldungGet() {
-        return Response.ok().entity("magic!").build();
-    }
-
-    @POST
-    @Path("/upload")
-    @Consumes({ "multipart/form-data" })
-    
-    @ApiOperation(value = "Anmeldungen hochladen", notes = "", response = void.class, tags={ "Anmeldung" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 204, message = "Anmeldungen erstellt", response = void.class) })
-    public Response anmeldungUploadPost( @FormParam(value = "file") InputStream fileInputStream,
-   @FormParam(value = "file") Attachment fileDetail) {
         return Response.ok().entity("magic!").build();
     }
 }

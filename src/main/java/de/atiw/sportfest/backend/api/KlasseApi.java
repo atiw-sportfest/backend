@@ -2,6 +2,7 @@ package de.atiw.sportfest.backend.api;
 
 import de.atiw.sportfest.backend.model.Anmeldung;
 import de.atiw.sportfest.backend.model.Ergebnis;
+import java.io.File;
 import de.atiw.sportfest.backend.model.Klasse;
 import de.atiw.sportfest.backend.model.Schueler;
 
@@ -30,6 +31,29 @@ public class KlasseApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Klassen", response = Klasse.class, responseContainer = "List") })
     public Response klasseGet() {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @GET
+    @Path("/{kid}/anmeldebogen")
+    
+    @Produces({ "application/vnd.ms-excel" })
+    @ApiOperation(value = "Anmeldebogen für eine Klasse herunterladen", notes = "", response = byte[].class, tags={ "Anmeldung",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Excel-Anmeldebogen", response = byte[].class) })
+    public Response klasseKidAnmeldebogenGet(@PathParam("kid") @ApiParam("Klassen-ID") Long kid) {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/{kid}/anmeldebogen")
+    @Consumes({ "multipart/form-data" })
+    
+    @ApiOperation(value = "Anmeldebogen für eine Klasse hochladen", notes = "", response = void.class, tags={ "Anmeldung",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 204, message = "Anmeldungen erstellt", response = void.class) })
+    public Response klasseKidAnmeldebogenPost(@PathParam("kid") @ApiParam("Klassen-ID") Long kid, @FormParam(value = "file") InputStream fileInputStream,
+   @FormParam(value = "file") Attachment fileDetail) {
         return Response.ok().entity("magic!").build();
     }
 
