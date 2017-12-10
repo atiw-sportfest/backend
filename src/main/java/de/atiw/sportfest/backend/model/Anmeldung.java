@@ -1,18 +1,34 @@
 package de.atiw.sportfest.backend.model;
 
+import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+
 import de.atiw.sportfest.backend.model.Disziplin;
 import de.atiw.sportfest.backend.model.Schueler;
+import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 
-import io.swagger.annotations.*;
-import java.util.Objects;
-
-
+@Entity
+@NamedQueries({
+@NamedQuery(name="anmeldung.list", query="SELECT a FROM Anmeldung a JOIN FETCH a.schueler")
+})
 public class Anmeldung   {
   
+  @Id
+  @GeneratedValue
   private Long id = null;
+
+  @OneToOne
   private Disziplin disziplin = null;
+
+  @OneToOne
   private Schueler schueler = null;
 
   /**
