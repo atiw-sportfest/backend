@@ -28,6 +28,7 @@ import de.atiw.sportfest.backend.model.Anmeldung;
 import de.atiw.sportfest.backend.model.Disziplin;
 import de.atiw.sportfest.backend.model.Ergebnis;
 import de.atiw.sportfest.backend.model.Klasse;
+import de.atiw.sportfest.backend.model.KlasseMitPunkten;
 import de.atiw.sportfest.backend.model.Schueler;
 import io.swagger.annotations.*;
 import javax.validation.constraints.*;
@@ -172,11 +173,22 @@ public class KlasseApi  {
     @Path("/{kid}/schueler")
     
     @Produces({ "application/json" })
-    @ApiOperation(value = "Schueler einer Klasse anzuzeigen", notes = "", response = Schueler.class, responseContainer = "List", tags={ "Teilnehmer" })
+    @ApiOperation(value = "Schueler einer Klasse anzuzeigen", notes = "", response = Schueler.class, responseContainer = "List", tags={ "Teilnehmer",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Schueler_pl", response = Schueler.class, responseContainer = "List") })
     public List<Schueler> klasseKidSchuelerGet(@PathParam("kid") @ApiParam("Klassen-ID") Long kid) {
         return em.createNamedQuery("schueler.listByKlasse", Schueler.class).setParameter("kid", kid).getResultList();
+    }
+
+    @GET
+    @Path("/summary")
+    
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Alle Klassen mit Punkten auflisten", notes = "", response = KlasseMitPunkten.class, responseContainer = "List", tags={ "Teilnehmer" })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Klassen mit Punkten", response = KlasseMitPunkten.class, responseContainer = "List") })
+    public Response klasseSummaryGet() {
+        return Response.ok().entity(em.createNamedQuery("ergebnis.summaryKlasse").getResultList()).build();
     }
 }
 

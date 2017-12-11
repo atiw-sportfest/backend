@@ -29,6 +29,7 @@ import javax.validation.constraints.*;
 @NamedQuery(name="ergebnis.listByDisziplinAndSchueler", query="SELECT e FROM Ergebnis e JOIN e.disziplin d JOIN e.schueler s JOIN FETCH e.leistungen WHERE d.id = :did AND s.id = :sid"),
 @NamedQuery(name="ergebnis.listByKlasse", query="SELECT e FROM Ergebnis e JOIN e.klasse k JOIN FETCH e.leistungen WHERE k.id = :kid"),
 @NamedQuery(name="ergebnis.listBySchueler", query="SELECT e FROM Ergebnis e JOIN e.schueler s JOIN FETCH e.leistungen WHERE s.id = :sid"),
+@NamedQuery(name="ergebnis.summaryKlasse", query="SELECT NEW de.sportfest.atiw.backend.model.KlasseMitPunkten(e.klasse, SUM(e.punkte)) FROM Ergebnis e GROUP BY e.klasse"),
 @NamedQuery(name="ergebnis.verify", query="SELECT COUNT(v.id) FROM Ergebnis e JOIN e.leistungen l JOIN l.variable v GROUP BY e.id, v.id")
 })
 public class Ergebnis   {
