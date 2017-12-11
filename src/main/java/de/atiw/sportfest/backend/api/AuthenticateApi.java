@@ -1,6 +1,7 @@
 package de.atiw.sportfest.backend.api;
 
-import java.io.File;
+import de.atiw.sportfest.backend.model.Authentication;
+import de.atiw.sportfest.backend.model.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -19,15 +20,15 @@ import javax.validation.constraints.*;
 
 public class AuthenticateApi  {
 
-    @GET
+    @POST
     
-    @Consumes({ "application/x-www-form-urlencoded" })
-    @Produces({ "text/plain" })
-    @ApiOperation(value = "JWT Login", notes = "", response = File.class, tags={ "Meta" })
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @ApiOperation(value = "JWT Login", notes = "", response = Authentication.class, tags={ "Meta" })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "JWT Token", response = File.class),
-        @ApiResponse(code = 403, message = "Wrong credentials", response = File.class) })
-    public Response authenticateGet(@FormParam(value = "username")  String username,@FormParam(value = "password")  String password) {
+        @ApiResponse(code = 200, message = "Authentication", response = Authentication.class),
+        @ApiResponse(code = 403, message = "Authentication", response = Authentication.class) })
+    public Response authenticatePost(User user) {
         return Response.ok().entity("magic!").build();
     }
 }
