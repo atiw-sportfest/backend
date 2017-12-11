@@ -19,6 +19,9 @@ public class Disziplin   {
   private Boolean versus = null;
   private List<Variable> variablen = new ArrayList<Variable>();
   private String regeln = null;
+  private Boolean aktiviert = null;
+  private Integer anmeldungenMin = null;
+  private Integer anmeldungenMax = null;
 
   /**
    **/
@@ -132,6 +135,54 @@ public class Disziplin   {
     this.regeln = regeln;
   }
 
+  /**
+   **/
+  public Disziplin aktiviert(Boolean aktiviert) {
+    this.aktiviert = aktiviert;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "")
+  public Boolean getAktiviert() {
+    return aktiviert;
+  }
+  public void setAktiviert(Boolean aktiviert) {
+    this.aktiviert = aktiviert;
+  }
+
+  /**
+   **/
+  public Disziplin anmeldungenMin(Integer anmeldungenMin) {
+    this.anmeldungenMin = anmeldungenMin;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "")
+  public Integer getAnmeldungenMin() {
+    return anmeldungenMin;
+  }
+  public void setAnmeldungenMin(Integer anmeldungenMin) {
+    this.anmeldungenMin = anmeldungenMin;
+  }
+
+  /**
+   **/
+  public Disziplin anmeldungenMax(Integer anmeldungenMax) {
+    this.anmeldungenMax = anmeldungenMax;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "")
+  public Integer getAnmeldungenMax() {
+    return anmeldungenMax;
+  }
+  public void setAnmeldungenMax(Integer anmeldungenMax) {
+    this.anmeldungenMax = anmeldungenMax;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -148,12 +199,15 @@ public class Disziplin   {
         Objects.equals(team, disziplin.team) &&
         Objects.equals(versus, disziplin.versus) &&
         Objects.equals(variablen, disziplin.variablen) &&
-        Objects.equals(regeln, disziplin.regeln);
+        Objects.equals(regeln, disziplin.regeln) &&
+        Objects.equals(aktiviert, disziplin.aktiviert) &&
+        Objects.equals(anmeldungenMin, disziplin.anmeldungenMin) &&
+        Objects.equals(anmeldungenMax, disziplin.anmeldungenMax);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, bezeichnung, beschreibung, team, versus, variablen, regeln);
+    return Objects.hash(id, bezeichnung, beschreibung, team, versus, variablen, regeln, aktiviert, anmeldungenMin, anmeldungenMax);
   }
 
   @Override
@@ -168,6 +222,9 @@ public class Disziplin   {
     sb.append("    versus: ").append(toIndentedString(versus)).append("\n");
     sb.append("    variablen: ").append(toIndentedString(variablen)).append("\n");
     sb.append("    regeln: ").append(toIndentedString(regeln)).append("\n");
+    sb.append("    aktiviert: ").append(toIndentedString(aktiviert)).append("\n");
+    sb.append("    anmeldungenMin: ").append(toIndentedString(anmeldungenMin)).append("\n");
+    sb.append("    anmeldungenMax: ").append(toIndentedString(anmeldungenMax)).append("\n");
     sb.append("}");
     return sb.toString();
   }
