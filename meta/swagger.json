@@ -234,6 +234,15 @@
         "$ref": "#/definitions/User"
       }
     },
+    "Users": {
+      "description": "Users",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
     "Authentication": {
       "description": "Authentication",
       "schema": {
@@ -1091,6 +1100,20 @@
         "responses": {
           "200": {
             "$ref": "#/responses/User"
+          }
+        }
+      },
+      "get": {
+        "summary": "Nutzer auflisten",
+        "tags": [
+          "Nutzer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Users"
           }
         }
       }
