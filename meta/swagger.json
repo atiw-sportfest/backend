@@ -257,6 +257,12 @@
       "schema": {
         "$ref": "#/definitions/Authentication"
       }
+    },
+    "ValidationResult": {
+      "description": "Ergebniss der Syntaxpr\u00fcfung",
+      "schema": {
+        "$ref": "#/definitions/ValidationResult"
+      }
     }
   },
   "paths": {
@@ -1223,6 +1229,35 @@
           }
         }
       }
+    },
+    "/dsl/check/regel": {
+      "post": {
+        "description": "Syntax-Pr\u00fcfung der Regel-DSL",
+        "tags": [
+          "Meta"
+        ],
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "script",
+            "description": "DSL-Skript",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ValidationResult"
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -1478,6 +1513,17 @@
         "SCHIEDSRICHTER",
         "ADMIN"
       ]
+    },
+    "ValidationResult": {
+      "type": "object",
+      "properties": {
+        "pass": {
+          "type": "boolean"
+        },
+        "messages": {
+          "type": "string"
+        }
+      }
     }
   }
 }
