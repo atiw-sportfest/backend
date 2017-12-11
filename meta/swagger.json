@@ -213,6 +213,15 @@
         }
       }
     },
+    "KlassenMitPunkten": {
+      "description": "Klassen mit Punkten",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/KlasseMitPunkten"
+        }
+      }
+    },
     "Schueler": {
       "description": "Schueler",
       "schema": {
@@ -649,6 +658,22 @@
         "responses": {
           "200": {
             "$ref": "#/responses/Klassen"
+          }
+        }
+      }
+    },
+    "/klasse/summary": {
+      "get": {
+        "summary": "Alle Klassen mit Punkten auflisten",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/KlassenMitPunkten"
           }
         }
       }
@@ -1301,6 +1326,17 @@
         },
         "bezeichnung": {
           "type": "string"
+        }
+      }
+    },
+    "KlasseMitPunkten": {
+      "type": "object",
+      "properties": {
+        "klasse": {
+          "$ref": "#/definitions/Klasse"
+        },
+        "punkte": {
+          "type": "integer"
         }
       }
     },
