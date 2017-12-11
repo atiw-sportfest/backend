@@ -1,18 +1,29 @@
 package de.atiw.sportfest.backend.model;
 
+import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import de.atiw.sportfest.backend.model.Role;
+import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 
-import io.swagger.annotations.*;
-import java.util.Objects;
-
-
+@Entity
 public class User   {
   
+  @Id
+  @GeneratedValue
   private Long id = null;
+
   private String username = null;
   private String password = null;
+
+  @Enumerated(EnumType.STRING)
   private Role role = null;
 
   /**

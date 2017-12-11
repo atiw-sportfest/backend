@@ -1,14 +1,16 @@
 package de.atiw.sportfest.backend.api;
 
-import de.atiw.sportfest.backend.model.User;
+import java.util.List;
 
-import javax.ws.rs.*;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.core.Response;
 
+import de.atiw.sportfest.backend.model.User;
 import io.swagger.annotations.*;
-
-import java.util.List;
 import javax.validation.constraints.*;
+import javax.ws.rs.*;
 
 @Path("/user")
 
@@ -16,8 +18,11 @@ import javax.validation.constraints.*;
 
 
 
-
+@Stateless
 public class UserApi  {
+
+    @PersistenceContext
+    EntityManager em;
 
     @POST
     
@@ -26,8 +31,8 @@ public class UserApi  {
     @ApiOperation(value = "Nutzer anlegen", notes = "", response = User.class, tags={ "Nutzer",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "User", response = User.class) })
-    public Response userPost(User user) {
-        return Response.ok().entity("magic!").build();
+    public User userPost(User user) {
+        return em.merge(user);
     }
 
     @DELETE
@@ -38,7 +43,8 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Nutzer gelöscht.", response = void.class) })
     public Response userUidDelete(@PathParam("uid") @ApiParam("User-ID") Long uid) {
-        return Response.ok().entity("magic!").build();
+        em.remove(userUidGet(uid));
+        return Response.noContent().build();
     }
 
     @GET
@@ -48,8 +54,13 @@ public class UserApi  {
     @ApiOperation(value = "Nutzer anzeigen", notes = "", response = User.class, tags={ "Nutzer",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "User", response = User.class) })
-    public Response userUidGet(@PathParam("uid") @ApiParam("User-ID") Long uid) {
-        return Response.ok().entity("magic!").build();
+    public User userUidGet(@PathParam("uid") @ApiParam("User-ID") Long uid) {
+        User u = em.find(User.class, uid);
+
+        if(u == null)
+            throw new NotFoundException();
+
+        return u;
     }
 
     @POST
@@ -59,8 +70,9 @@ public class UserApi  {
     @ApiOperation(value = "Nutzer ändern", notes = "", response = User.class, tags={ "Nutzer" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "User", response = User.class) })
-    public Response userUidPost(@PathParam("uid") @ApiParam("User-ID") Long uid,User user) {
-        return Response.ok().entity("magic!").build();
+    public User userUidPost(@PathParam("uid") @ApiParam("User-ID") Long uid,User user) {
+        user.id(uid);
+        return em.merge(user);
     }
 }
 
