@@ -1174,6 +1174,30 @@
           }
         }
       }
+    },
+    "/sportfest": {
+      "post": {
+        "description": "Sportfest beenden",
+        "tags": [
+          "Meta"
+        ],
+        "responses": {
+          "204": {
+            "description": "Sportfest beendet"
+          }
+        }
+      },
+      "delete": {
+        "description": "Sportfest zur\u00fccksetzen",
+        "tags": [
+          "Meta"
+        ],
+        "responses": {
+          "204": {
+            "description": "Sportfest zur\u00fcckgesetzt"
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
