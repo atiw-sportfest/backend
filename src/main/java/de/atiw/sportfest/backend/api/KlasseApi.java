@@ -188,7 +188,7 @@ public class KlasseApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Klassen mit Punkten", response = KlasseMitPunkten.class, responseContainer = "List") })
     public Response klasseSummaryGet() {
-        return Response.ok().entity("magic!").build();
+        return Response.ok().entity(em.createNamedQuery("ergebnis.summaryKlasse").getResultList()).build();
     }
 }
 

@@ -13,6 +13,12 @@ public class KlasseMitPunkten   {
   private Klasse klasse = null;
   private Integer punkte = null;
 
+  public KlasseMitPunkten(){}
+
+  public KlasseMitPunkten(Klasse k, Long punkte){
+      klasse(k).punkte(punkte.intValue());
+  }
+
   /**
    **/
   public KlasseMitPunkten klasse(Klasse klasse) {
