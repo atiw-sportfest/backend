@@ -19,6 +19,17 @@ import javax.validation.constraints.*;
 
 public class UserApi  {
 
+    @GET
+    
+    
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Nutzer auflisten", notes = "", response = User.class, responseContainer = "List", tags={ "Nutzer",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Users", response = User.class, responseContainer = "List") })
+    public Response userGet() {
+        return Response.ok().entity("magic!").build();
+    }
+
     @POST
     
     @Consumes({ "application/json" })
