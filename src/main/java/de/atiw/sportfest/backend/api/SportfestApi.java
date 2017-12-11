@@ -26,7 +26,7 @@ public class SportfestApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Sportfest zurückgesetzt", response = void.class) })
     public Response sportfestDelete() {
-        return Response.ok().entity("magic!").build();
+        return Response.serverError().entity("Not implemented yet.").build();
     }
 
     @POST
@@ -37,7 +37,7 @@ public class SportfestApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Sportfest beendet", response = void.class) })
     public Response sportfestPost() {
-        return Response.ok().entity("magic!").build();
+        return Response.serverError().entity("Not implemented yet.").build();
     }
 }
 
