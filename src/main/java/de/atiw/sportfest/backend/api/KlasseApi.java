@@ -1,28 +1,12 @@
 package de.atiw.sportfest.backend.api;
 
-import excel.exports.DBToExcelDisziplin;
-import excel.exports.DBToExcelExporter;
-import excel.exports.DBToExcelSchueler;
-import excel.imports.ExcelToDBImporter;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
-
-import org.apache.cxf.jaxrs.ext.multipart.Attachment;
-import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
 import de.atiw.sportfest.backend.model.Anmeldung;
 import de.atiw.sportfest.backend.model.Disziplin;
@@ -53,54 +37,6 @@ public class KlasseApi  {
         @ApiResponse(code = 200, message = "Klassen", response = Klasse.class, responseContainer = "List") })
     public List<Klasse> klasseGet() {
         return em.createNamedQuery("klasse.list", Klasse.class).getResultList();
-    }
-
-    @GET
-    @Path("/{kid}/anmeldebogen")
-    
-    @Produces({ "application/vnd.ms-excel" })
-    @ApiOperation(value = "Anmeldebogen für eine Klasse herunterladen", notes = "", response = byte[].class, tags={ "Anmeldung",  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Excel-Anmeldebogen", response = byte[].class) })
-    public Response klasseKidAnmeldebogenGet(@PathParam("kid") @ApiParam("Klassen-ID") Long kid) {
-
-        List<DBToExcelDisziplin> disz = em.createNamedQuery("disziplin.list", Disziplin.class).getResultList().stream()
-            .map(d -> new DBToExcelDisziplin( d.getBezeichnung(), d.getId().intValue(), d.getTeam() == null ? false : d.getTeam(), 0, 5)) //TODO: Disziplin.{min,max}
-            .collect(Collectors.toList());
-
-        List<DBToExcelSchueler> schueler = em.createNamedQuery("schueler.listByKlasse", Schueler.class).setParameter("kid", kid).getResultList().stream()
-            .map(s -> new DBToExcelSchueler(s.getNachname(), s.getNachname(), s.getId().intValue()))
-            .collect(Collectors.toList());
-
-        Klasse k = em.find(Klasse.class, kid);
-
-        StreamingOutput stream = new StreamingOutput(){
-            public void write(OutputStream os) throws IOException, WebApplicationException {
-                DBToExcelExporter.export(os, k.getBezeichnung(), schueler, disz);
-                os.flush();
-            }
-        };
-
-        return Response.ok().entity(stream).header("Content-Disposition", String.format("attachment; filename=%s.xlsx", k.getBezeichnung())).build();
-    }
-
-    @POST
-    @Path("/{kid}/anmeldebogen")
-    @Consumes({ "multipart/form-data" })
-    
-    @ApiOperation(value = "Anmeldebogen für eine Klasse hochladen", notes = "", response = void.class, tags={ "Anmeldung",  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 204, message = "Anmeldungen erstellt", response = void.class) })
-    public Response klasseKidAnmeldebogenPost(@PathParam("kid") @ApiParam("Klassen-ID") Long kid, @Multipart(value = "file") InputStream fileInputStream,
-   @Multipart(value = "file") Attachment fileDetail) throws IOException {
-
-        ExcelToDBImporter.importTeilnahmen(fileInputStream).stream().forEach(t ->
-                em.merge(new Anmeldung()
-                    .disziplin(new Disziplin().id(new Integer(t.getDisziplinID()).longValue()))
-                    .schueler(new Schueler().id(new Integer(t.getSchuelerID()).longValue())))
-                );
-
-        return Response.noContent().build();
     }
 
     @GET
