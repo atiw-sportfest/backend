@@ -44,7 +44,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "User", response = User.class) })
     public User userPost(User user) {
-        return em.merge(user);
+        return em.merge(user).password(null);
     }
 
     @DELETE
@@ -72,7 +72,7 @@ public class UserApi  {
         if(u == null)
             throw new NotFoundException();
 
-        return u;
+        return u.password(null);
     }
 
     @POST
@@ -84,7 +84,7 @@ public class UserApi  {
         @ApiResponse(code = 200, message = "User", response = User.class) })
     public User userUidPost(@PathParam("uid") @ApiParam("User-ID") Long uid,User user) {
         user.id(uid);
-        return em.merge(user);
+        return em.merge(user).password(null);
     }
 }
 
