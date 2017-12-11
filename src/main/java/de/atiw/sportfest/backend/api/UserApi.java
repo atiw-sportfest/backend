@@ -1,6 +1,7 @@
 package de.atiw.sportfest.backend.api;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,8 +32,8 @@ public class UserApi  {
     @ApiOperation(value = "Nutzer auflisten", notes = "", response = User.class, responseContainer = "List", tags={ "Nutzer",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Users", response = User.class, responseContainer = "List") })
-    public Response userGet() {
-        return Response.ok().entity("magic!").build();
+    public List<User> userGet() {
+        return em.createNamedQuery("user.list", User.class).getResultList().stream().map(u -> u.password(null)).collect(Collectors.toList());
     }
 
     @POST
