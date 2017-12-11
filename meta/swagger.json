@@ -1105,6 +1105,17 @@
         },
         "regeln": {
           "type": "string"
+        },
+        "aktiviert": {
+          "type": "boolean"
+        },
+        "anmeldungenMin": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "anmeldungenMax": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
