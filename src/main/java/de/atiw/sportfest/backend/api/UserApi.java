@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.core.Response;
 
+import de.atiw.sportfest.backend.model.NewPassword;
 import de.atiw.sportfest.backend.model.User;
 import io.swagger.annotations.*;
 import javax.validation.constraints.*;
@@ -37,6 +38,18 @@ public class UserApi  {
         @ApiResponse(code = 200, message = "Users", response = User.class, responseContainer = "List") })
     public List<User> userGet() {
         return em.createNamedQuery("user.list", User.class).getResultList().stream().map(u -> u.password(null)).collect(Collectors.toList());
+    }
+
+    @POST
+    @Path("/password")
+    @Consumes({ "application/json" })
+    
+    @ApiOperation(value = "Passwort ändern", notes = "", response = void.class, tags={ "Nutzer",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 204, message = "Passwort erfolgreich geändert.", response = void.class),
+        @ApiResponse(code = 403, message = "Altes Passwort falsch.", response = void.class) })
+    public Response userPasswordPost(NewPassword newPassword) {
+        return Response.ok().entity("magic!").build();
     }
 
     @POST

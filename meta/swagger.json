@@ -152,6 +152,14 @@
       "schema": {
         "$ref": "#/definitions/Typ"
       }
+    },
+    "newPassword": {
+      "in": "body",
+      "name": "newPassword",
+      "description": "Passwort\u00e4nderung",
+      "schema": {
+        "$ref": "#/definitions/NewPassword"
+      }
     }
   },
   "responses": {
@@ -1087,6 +1095,30 @@
         }
       }
     },
+    "/user/password": {
+      "post": {
+        "summary": "Passwort \u00e4ndern",
+        "tags": [
+          "Nutzer"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/newPassword"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Passwort erfolgreich ge\u00e4ndert."
+          },
+          "403": {
+            "description": "Altes Passwort falsch."
+          }
+        }
+      }
+    },
     "/user/{uid}": {
       "parameters": [
         {
@@ -1548,6 +1580,17 @@
           "type": "boolean"
         },
         "messages": {
+          "type": "string"
+        }
+      }
+    },
+    "NewPassword": {
+      "type": "object",
+      "properties": {
+        "oldPassword": {
+          "type": "string"
+        },
+        "newPassword": {
           "type": "string"
         }
       }
