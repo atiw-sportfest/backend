@@ -111,6 +111,9 @@ public class DisziplinApi  {
         if(!em.createNamedQuery("ergebnis.verify", Long.class).getResultList().stream().allMatch(c -> c == 1))
             throw new BadRequestException("Ergebnisse können nur eine Leistung je Variable haben!"); // also rolls back transaction
 
+        if(d.getVersus() != null && d.getVersus())
+            em.merge(new Versus().ergebnisse(ergebnisse));
+
         return ergebnisse;
     }
 
@@ -188,8 +191,8 @@ public class DisziplinApi  {
     @ApiOperation(value = "Versus einer Disziplin anzeigen", notes = "", response = Versus.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Versus (pl.)", response = Versus.class, responseContainer = "List") })
-    public Response disziplinDidVersusGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
-        return Response.ok().entity("magic!").build();
+    public List<Versus> disziplinDidVersusGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
+        return em.createNamedQuery("versus.listByDisziplin", Versus.class).setParameter("did", did).getResultList();
     }
 
     @GET
