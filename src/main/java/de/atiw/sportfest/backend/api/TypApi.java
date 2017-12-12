@@ -1,14 +1,15 @@
 package de.atiw.sportfest.backend.api;
 
-import de.atiw.sportfest.backend.model.Typ;
+import java.util.List;
 
-import javax.ws.rs.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.core.Response;
 
+import de.atiw.sportfest.backend.model.Typ;
 import io.swagger.annotations.*;
-
-import java.util.List;
 import javax.validation.constraints.*;
+import javax.ws.rs.*;
 
 @Path("/typ")
 
@@ -19,6 +20,9 @@ import javax.validation.constraints.*;
 
 public class TypApi  {
 
+    @PersistenceContext
+    EntityManager em;
+
     @GET
     
     
@@ -26,8 +30,8 @@ public class TypApi  {
     @ApiOperation(value = "", notes = "Typen auflisten", response = Typ.class, responseContainer = "List", tags={ "Meta",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Typen", response = Typ.class, responseContainer = "List") })
-    public Response typGet() {
-        return Response.ok().entity("magic!").build();
+    public List<Typ> typGet() {
+        return em.createNamedQuery("typ.list", Typ.class).getResultList();
     }
 
     @POST
@@ -37,8 +41,8 @@ public class TypApi  {
     @ApiOperation(value = "", notes = "Typ anlegen", response = Typ.class, tags={ "Meta",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Typ", response = Typ.class) })
-    public Response typPost(Typ typ) {
-        return Response.ok().entity("magic!").build();
+    public Typ typPost(Typ typ) {
+        return em.merge(typ);
     }
 
     @GET
@@ -48,8 +52,13 @@ public class TypApi  {
     @ApiOperation(value = "", notes = "Typ abrufen", response = Typ.class, tags={ "Meta",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Typ", response = Typ.class) })
-    public Response typTypidGet(@PathParam("typid") @ApiParam("Typ-ID") Long typid) {
-        return Response.ok().entity("magic!").build();
+    public Typ typTypidGet(@PathParam("typid") @ApiParam("Typ-ID") Long typid) {
+        Typ t = em.find(Typ.class, typid);
+
+        if(t == null)
+            throw new NotFoundException();
+
+        return t;
     }
 
     @POST
@@ -59,8 +68,9 @@ public class TypApi  {
     @ApiOperation(value = "", notes = "Typ ändern", response = Typ.class, tags={ "Meta" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Typ", response = Typ.class) })
-    public Response typTypidPost(@PathParam("typid") @ApiParam("Typ-ID") Long typid,Typ typ) {
-        return Response.ok().entity("magic!").build();
+    public Typ typTypidPost(@PathParam("typid") @ApiParam("Typ-ID") Long typid,Typ typ) {
+        typ.id(typid);
+        return em.merge(typ);
     }
 }
 

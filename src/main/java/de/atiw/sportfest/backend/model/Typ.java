@@ -7,14 +7,18 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 import de.atiw.sportfest.backend.model.datentypen.*;
-
 import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 
 @Entity
+@NamedQueries({
+@NamedQuery(name="typ.list", query="SELECT t FROM Typ t")
+})
 public class Typ   {
   
   @Id
