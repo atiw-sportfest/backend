@@ -128,6 +128,22 @@
           "$ref": "#/definitions/Ergebnis"
         }
       }
+    },
+    "user": {
+      "in": "body",
+      "name": "user",
+      "description": "User",
+      "schema": {
+        "$ref": "#/definitions/User"
+      }
+    },
+    "uid": {
+      "in": "path",
+      "name": "uid",
+      "description": "User-ID",
+      "required": true,
+      "type": "integer",
+      "format": "int64"
     }
   },
   "responses": {
@@ -197,6 +213,15 @@
         }
       }
     },
+    "KlassenMitPunkten": {
+      "description": "Klassen mit Punkten",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/KlasseMitPunkten"
+        }
+      }
+    },
     "Schueler": {
       "description": "Schueler",
       "schema": {
@@ -210,6 +235,33 @@
         "items": {
           "$ref": "#/definitions/Schueler"
         }
+      }
+    },
+    "User": {
+      "description": "User",
+      "schema": {
+        "$ref": "#/definitions/User"
+      }
+    },
+    "Users": {
+      "description": "Users",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "Authentication": {
+      "description": "Authentication",
+      "schema": {
+        "$ref": "#/definitions/Authentication"
+      }
+    },
+    "ValidationResult": {
+      "description": "Ergebniss der Syntaxpr\u00fcfung",
+      "schema": {
+        "$ref": "#/definitions/ValidationResult"
       }
     }
   },
@@ -616,6 +668,22 @@
         }
       }
     },
+    "/klasse/summary": {
+      "get": {
+        "summary": "Alle Klassen mit Punkten auflisten",
+        "tags": [
+          "Teilnehmer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/KlassenMitPunkten"
+          }
+        }
+      }
+    },
     "/klasse/{kid}": {
       "get": {
         "summary": "Klasse abrufen",
@@ -1016,39 +1084,177 @@
       }
     },
     "/authenticate": {
-      "get": {
+      "post": {
         "summary": "JWT Login",
         "tags": [
           "Meta"
         ],
         "produces": [
-          "text/plain"
+          "application/json"
         ],
         "consumes": [
-          "application/x-www-form-urlencoded"
+          "application/json"
         ],
         "parameters": [
           {
-            "in": "formData",
-            "name": "username",
-            "type": "string"
-          },
-          {
-            "in": "formData",
-            "name": "password",
-            "type": "string",
-            "description": "SHA-1 Hash des Passworts"
+            "$ref": "#/parameters/user"
           }
         ],
         "responses": {
           "200": {
-            "description": "JWT Token",
-            "schema": {
-              "type": "file"
-            }
+            "$ref": "#/responses/Authentication"
           },
           "403": {
-            "description": "Wrong credentials"
+            "description": "Wrong credentials",
+            "$ref": "#/responses/Authentication"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "summary": "Nutzer anlegen",
+        "tags": [
+          "Nutzer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/User"
+          }
+        }
+      },
+      "get": {
+        "summary": "Nutzer auflisten",
+        "tags": [
+          "Nutzer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Users"
+          }
+        }
+      }
+    },
+    "/user/{uid}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/uid"
+        }
+      ],
+      "get": {
+        "summary": "Nutzer anzeigen",
+        "tags": [
+          "Nutzer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/User"
+          }
+        }
+      },
+      "post": {
+        "summary": "Nutzer \u00e4ndern",
+        "tags": [
+          "Nutzer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/User"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Nutzer l\u00f6schen",
+        "tags": [
+          "Nutzer"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "Nutzer gel\u00f6scht."
+          }
+        }
+      }
+    },
+    "/sportfest": {
+      "post": {
+        "description": "Sportfest beenden",
+        "tags": [
+          "Meta"
+        ],
+        "responses": {
+          "204": {
+            "description": "Sportfest beendet"
+          }
+        }
+      },
+      "delete": {
+        "description": "Sportfest zur\u00fccksetzen",
+        "tags": [
+          "Meta"
+        ],
+        "responses": {
+          "204": {
+            "description": "Sportfest zur\u00fcckgesetzt"
+          }
+        }
+      }
+    },
+    "/dsl/check/regel": {
+      "post": {
+        "description": "Syntax-Pr\u00fcfung der Regel-DSL",
+        "tags": [
+          "Meta"
+        ],
+        "consumes": [
+          "text/plain"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "script",
+            "description": "DSL-Skript",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/ValidationResult"
           }
         }
       }
@@ -1056,7 +1262,7 @@
   },
   "securityDefinitions": {
     "jwt": {
-      "description": "JWT Bearer-Authentication",
+      "description": "JWT Authentication, as `HTTP-Authorization: Bearer`-Token",
       "type": "apiKey",
       "name": "HTTP-Authorization",
       "in": "header"
@@ -1105,6 +1311,17 @@
         },
         "regeln": {
           "type": "string"
+        },
+        "aktiviert": {
+          "type": "boolean"
+        },
+        "anmeldungenMin": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "anmeldungenMax": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
@@ -1144,6 +1361,17 @@
         },
         "bezeichnung": {
           "type": "string"
+        }
+      }
+    },
+    "KlasseMitPunkten": {
+      "type": "object",
+      "properties": {
+        "klasse": {
+          "$ref": "#/definitions/Klasse"
+        },
+        "punkte": {
+          "type": "integer"
         }
       }
     },
@@ -1213,6 +1441,24 @@
         }
       }
     },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/definitions/Role"
+        }
+      }
+    },
     "Variable": {
       "type": "object",
       "properties": {
@@ -1240,6 +1486,42 @@
           "items": {
             "$ref": "#/definitions/Ergebnis"
           }
+        }
+      }
+    },
+    "Authentication": {
+      "type": "object",
+      "required": [
+        "success"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "intial": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "Role": {
+      "type": "string",
+      "enum": [
+        "GAST",
+        "SCHIEDSRICHTER",
+        "ADMIN"
+      ]
+    },
+    "ValidationResult": {
+      "type": "object",
+      "properties": {
+        "pass": {
+          "type": "boolean"
+        },
+        "messages": {
+          "type": "string"
         }
       }
     }
