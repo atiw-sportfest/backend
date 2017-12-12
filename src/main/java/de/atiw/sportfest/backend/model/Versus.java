@@ -1,18 +1,38 @@
 package de.atiw.sportfest.backend.model;
 
-import de.atiw.sportfest.backend.model.Ergebnis;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.constraints.*;
-
-
-import io.swagger.annotations.*;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 
+import de.atiw.sportfest.backend.model.Ergebnis;
+import io.swagger.annotations.*;
+import javax.validation.constraints.*;
+
+@Entity
+@NamedQueries({
+@NamedQuery(name="versus.list", query="SELECT v FROM Versus v"),
+// Disziplinen der Ergebnisse müssen im gleich sein, daher reicht der Vergleich der Disziplin des ersten Ergebnisses.
+@NamedQuery(name="versus.listByDisziplin", query="SELECT v FROM Versus v JOIN v.ergebnisse e WHERE e.disziplin.id = :did and INDEX(e) = 0"),
+})
 public class Versus   {
   
+  @Id
+  @GeneratedValue
   private Long id = null;
+
+  @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+  @OrderColumn
   private List<Ergebnis> ergebnisse = new ArrayList<Ergebnis>();
 
   /**

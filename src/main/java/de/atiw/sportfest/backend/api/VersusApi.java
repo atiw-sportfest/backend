@@ -1,13 +1,19 @@
 package de.atiw.sportfest.backend.api;
 
 
-import javax.ws.rs.*;
+import java.util.List;
+
+import javax.ejb.Lock;
+import javax.ejb.LockType;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.core.Response;
 
+import de.atiw.sportfest.backend.model.Versus;
 import io.swagger.annotations.*;
-
-import java.util.List;
 import javax.validation.constraints.*;
+import javax.ws.rs.*;
 
 @Path("/versus")
 
@@ -15,8 +21,12 @@ import javax.validation.constraints.*;
 
 
 
-
+@Stateless
+@Lock(LockType.READ)
 public class VersusApi  {
+
+    @PersistenceContext
+    EntityManager em;
 
     @DELETE
     @Path("/{vid}")
@@ -26,7 +36,14 @@ public class VersusApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Versus gelöscht.", response = void.class) })
     public Response versusVidDelete(@PathParam("vid") @ApiParam("Versus-ID") Long vid) {
-        return Response.ok().entity("magic!").build();
+        Versus v = em.find(Versus.class, vid);
+
+        if(v == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        em.remove(v);
+
+        return Response.noContent().build();
     }
 }
 
