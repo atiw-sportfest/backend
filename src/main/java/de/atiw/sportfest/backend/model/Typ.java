@@ -13,7 +13,7 @@ public class Typ   {
 
 public enum DatentypEnum {
 
-    STRING(String.valueOf("string")), INT(String.valueOf("int")), FLOAT(String.valueOf("float")), LONG(String.valueOf("long")), DOUBLE(String.valueOf("double"));
+    STRING(String.valueOf("STRING")), INT(String.valueOf("INT")), FLOAT(String.valueOf("FLOAT")), LONG(String.valueOf("LONG")), DOUBLE(String.valueOf("DOUBLE"));
 
 
     private String value;
