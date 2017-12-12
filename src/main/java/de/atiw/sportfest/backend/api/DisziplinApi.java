@@ -15,6 +15,7 @@ import de.atiw.sportfest.backend.model.Disziplin;
 import de.atiw.sportfest.backend.model.Ergebnis;
 import de.atiw.sportfest.backend.model.Leistung;
 import de.atiw.sportfest.backend.model.Schueler;
+import de.atiw.sportfest.backend.model.Versus;
 import de.atiw.sportfest.regeldsl.RulesConfiguration;
 import de.atiw.sportfest.regeldsl.RulesDsl;
 import io.swagger.annotations.*;
@@ -178,6 +179,17 @@ public class DisziplinApi  {
     public Disziplin disziplinDidPost(@PathParam("did") @ApiParam("Disziplin-ID") Long did,Disziplin body) {
         body.setId(did);
         return em.merge(body);
+    }
+
+    @GET
+    @Path("/{did}/versus")
+    
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Versus einer Disziplin anzeigen", notes = "", response = Versus.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Versus (pl.)", response = Versus.class, responseContainer = "List") })
+    public Response disziplinDidVersusGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
+        return Response.ok().entity("magic!").build();
     }
 
     @GET
