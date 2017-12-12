@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import de.atiw.sportfest.backend.model.Role;
 import io.swagger.annotations.*;
@@ -17,8 +19,10 @@ import javax.validation.constraints.*;
 
 @Entity
 @NamedQueries({
-@NamedQuery(name="user.list", query="SELECT u FROM User u")
+@NamedQuery(name="user.list", query="SELECT u FROM User u"),
+@NamedQuery(name="user.findByUsername", query="SELECT u FROM User u WHERE u.username = :username")
 })
+@Table(uniqueConstraints=@UniqueConstraint(columnNames={"username"}))
 public class User   {
   
   @Id
