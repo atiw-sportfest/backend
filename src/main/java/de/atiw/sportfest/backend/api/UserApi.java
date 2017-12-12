@@ -37,7 +37,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Users", response = User.class, responseContainer = "List") })
     public List<User> userGet() {
-        return em.createNamedQuery("user.list", User.class).getResultList().stream().map(u -> u.password(null)).collect(Collectors.toList());
+        return em.createNamedQuery("user.list", User.class).getResultList().stream().map(u -> { em.detach(u); return u.password(null); }).collect(Collectors.toList());
     }
 
     @POST
@@ -60,7 +60,9 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "User", response = User.class) })
     public User userPost(User user) {
-        return em.merge(user).password(null);
+        em.merge(user);
+        em.detach(user);
+        return user.password(null);
     }
 
     @DELETE
@@ -71,7 +73,7 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Nutzer gelöscht.", response = void.class) })
     public Response userUidDelete(@PathParam("uid") @ApiParam("User-ID") Long uid) {
-        em.remove(userUidGet(uid));
+        em.remove(em.find(User.class, uid));
         return Response.noContent().build();
     }
 
@@ -88,6 +90,8 @@ public class UserApi  {
         if(u == null)
             throw new NotFoundException();
 
+        em.detach(u);
+
         return u.password(null);
     }
 
@@ -100,7 +104,9 @@ public class UserApi  {
         @ApiResponse(code = 200, message = "User", response = User.class) })
     public User userUidPost(@PathParam("uid") @ApiParam("User-ID") Long uid,User user) {
         user.id(uid);
-        return em.merge(user).password(null);
+        em.merge(user);
+        em.detach(user);
+        return user.password(null);
     }
 }
 
