@@ -8,19 +8,18 @@ import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import javax.ws.rs.core.Response;
 
 import de.atiw.sportfest.backend.model.Anmeldung;
 import de.atiw.sportfest.backend.model.Disziplin;
 import de.atiw.sportfest.backend.model.Ergebnis;
 import de.atiw.sportfest.backend.model.Leistung;
+import de.atiw.sportfest.backend.model.Schueler;
+import de.atiw.sportfest.regeldsl.RulesConfiguration;
+import de.atiw.sportfest.regeldsl.RulesDsl;
 import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 import javax.ws.rs.*;
-
-import de.atiw.sportfest.regeldsl.RulesDsl;
-import de.atiw.sportfest.regeldsl.RulesConfiguration;
 
 @Path("/disziplin")
 
@@ -89,7 +88,15 @@ public class DisziplinApi  {
 
         RulesConfiguration rulesConfig = new RulesDsl().create(d.getRegeln());
 
-        ergebnisse = ergebnisse.stream().map(e -> { return em.find(Ergebnis.class, em.merge(e.disziplin(d)).getId()); }).collect(Collectors.toList());
+        ergebnisse = ergebnisse.stream().map(e -> {
+            return em.find(Ergebnis.class,
+                    em.merge(e
+                        // id from path
+                        .disziplin(d)
+                        // Klasse from Schueler, if unset. If Schueler is unset too, Bean validation will catch it.
+                        .klasse( e.getKlasse() == null && e.getSchueler() != null ? em.find(Schueler.class, e.getSchueler().getId()).getKlasse() : null))
+                    .getId());
+        }).collect(Collectors.toList());
 
         if(d.getVersus() != null && d.getVersus() == true)
             ergebnisse = rulesConfig.direktVersus(ergebnisse);

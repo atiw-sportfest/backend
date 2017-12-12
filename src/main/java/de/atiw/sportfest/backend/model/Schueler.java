@@ -29,6 +29,7 @@ public class Schueler   {
   private String geschlecht = null;
 
   @ManyToOne
+  @NotNull
   private Klasse klasse = null;
 
   /**

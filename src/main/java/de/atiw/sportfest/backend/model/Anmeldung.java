@@ -26,9 +26,11 @@ public class Anmeldung   {
   private Long id = null;
 
   @OneToOne
+  @NotNull
   private Disziplin disziplin = null;
 
   @OneToOne
+  @NotNull
   private Schueler schueler = null;
 
   /**

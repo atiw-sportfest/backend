@@ -43,6 +43,7 @@ public class Ergebnis   {
   private List<Leistung> leistungen = new ArrayList<Leistung>();
 
   @ManyToOne
+  @NotNull
   private Klasse klasse = null;
 
   @ManyToOne
