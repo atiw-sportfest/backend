@@ -1,9 +1,0 @@
-language: java
-cache:
-    directories:
-        - .gradle
-        - $HOME/.gradle
-jdk:
-- oraclejdk8
-notifications:
-  webhooks: https://fathomless-fjord-24024.herokuapp.com/notify
