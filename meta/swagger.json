@@ -1175,7 +1175,7 @@
           "Meta"
         ],
         "consumes": [
-          "text/plain"
+          "application/json"
         ],
         "produces": [
           "application/json"
