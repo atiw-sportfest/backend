@@ -53,7 +53,8 @@ public class TypApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Typ gelöscht", response = void.class) })
     public Response typTypidDelete(@PathParam("typid") @ApiParam("Typ-ID") Long typid) {
-        return Response.ok().entity("magic!").build();
+        em.remove(typTypidGet(typid));
+        return Response.noContent().build();
     }
 
     @GET
