@@ -16,7 +16,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
-
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
@@ -39,6 +38,7 @@ import org.apache.commons.csv.*;
 
 
 @Stateless
+@Lock(LockType.READ)
 public class SchuelerApi  {
 
     @PersistenceContext
