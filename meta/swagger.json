@@ -1242,6 +1242,7 @@
     "/dsl/check/regel": {
       "post": {
         "summary": "Syntax-Pr\u00fcfung der Regel-DSL",
+        "description": "Muss aufgrund eines Bugs im TypeScript-Generator als Objekt versendet werden.",
         "tags": [
           "Meta"
         ],
@@ -1257,7 +1258,12 @@
             "name": "script",
             "description": "DSL-Skript",
             "schema": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "script": {
+                  "type": "string"
+                }
+              }
             }
           }
         ],
