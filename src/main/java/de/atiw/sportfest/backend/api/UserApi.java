@@ -1,5 +1,6 @@
 package de.atiw.sportfest.backend.api;
 
+import de.atiw.sportfest.backend.model.NewPassword;
 import de.atiw.sportfest.backend.model.User;
 
 import javax.ws.rs.*;
@@ -27,6 +28,18 @@ public class UserApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Users", response = User.class, responseContainer = "List") })
     public Response userGet() {
+        return Response.ok().entity("magic!").build();
+    }
+
+    @POST
+    @Path("/password")
+    @Consumes({ "application/json" })
+    
+    @ApiOperation(value = "Passwort ändern", notes = "", response = void.class, tags={ "Nutzer",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 204, message = "Passwort erfolgreich geändert.", response = void.class),
+        @ApiResponse(code = 403, message = "Altes Passwort falsch.", response = void.class) })
+    public Response userPasswordPost(NewPassword newPassword) {
         return Response.ok().entity("magic!").build();
     }
 
