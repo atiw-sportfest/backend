@@ -63,14 +63,6 @@
       "type": "integer",
       "format": "int64"
     },
-    "lid": {
-      "in": "path",
-      "name": "lid",
-      "description": "Leistungs-ID",
-      "required": true,
-      "type": "integer",
-      "format": "int64"
-    },
     "sid": {
       "in": "path",
       "name": "sid",
@@ -882,88 +874,6 @@
         "responses": {
           "200": {
             "$ref": "#/responses/Schueler_pl"
-          }
-        }
-      }
-    },
-    "/leistung": {
-      "get": {
-        "summary": "Leistungen anzeigen",
-        "tags": [
-          "Ergebnis"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/Leistungen"
-          }
-        }
-      }
-    },
-    "/leistung/{lid}": {
-      "get": {
-        "summary": "Leistung anzeigen",
-        "tags": [
-          "Ergebnis"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/lid"
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/Leistung"
-          }
-        }
-      },
-      "post": {
-        "summary": "Leistung bearbeiten",
-        "tags": [
-          "Ergebnis"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/lid"
-          },
-          {
-            "in": "body",
-            "name": "leistung",
-            "schema": {
-              "$ref": "#/definitions/Leistung"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "$ref": "#/responses/Leistung"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Leistung l\u00f6schen",
-        "tags": [
-          "Ergebnis"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/parameters/lid"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Leistung gel\u00f6scht."
           }
         }
       }
