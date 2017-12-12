@@ -1369,6 +1369,14 @@
             "$ref": "#/responses/Typ"
           }
         }
+      },
+      "delete": {
+        "description": "Typ l\u00f6schen",
+        "responses": {
+          "204": {
+            "description": "Typ gel\u00f6scht"
+          }
+        }
       }
     }
   },
