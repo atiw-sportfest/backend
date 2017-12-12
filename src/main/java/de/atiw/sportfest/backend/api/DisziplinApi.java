@@ -94,7 +94,7 @@ public class DisziplinApi  {
                         // id from path
                         .disziplin(d)
                         // Klasse from Schueler, if unset. If Schueler is unset too, Bean validation will catch it.
-                        .klasse( e.getKlasse() == null && e.getSchueler() != null ? em.find(Schueler.class, e.getSchueler().getId()).getKlasse() : null))
+                        .klasse( e.getKlasse() == null && e.getSchueler() != null ? em.find(Schueler.class, e.getSchueler().getId()).getKlasse() : e.getKlasse()))
                     .getId());
         }).collect(Collectors.toList());
 
