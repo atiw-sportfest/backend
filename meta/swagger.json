@@ -294,6 +294,21 @@
           "$ref": "#/definitions/Typ"
         }
       }
+    },
+    "Versus": {
+      "description": "Versus",
+      "schema": {
+        "$ref": "#/definitions/Versus"
+      }
+    },
+    "Versus_pl": {
+      "description": "Versus (pl.)",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Versus"
+        }
+      }
     }
   },
   "paths": {
@@ -530,6 +545,28 @@
         "responses": {
           "200": {
             "$ref": "#/responses/Anmeldungen"
+          }
+        }
+      }
+    },
+    "/disziplin/{did}/versus": {
+      "get": {
+        "summary": "Versus einer Disziplin anzeigen",
+        "tags": [
+          "Disziplin",
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Versus_pl"
           }
         }
       }
@@ -1316,6 +1353,25 @@
         "responses": {
           "204": {
             "description": "Typ gel\u00f6scht"
+          }
+        }
+      }
+    },
+    "/versus/{vid}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/versusid"
+        }
+      ],
+      "delete": {
+        "summary": "Versus l\u00f6schen",
+        "description": "L\u00f6scht den Versus, inklusive seiner Ergebnisse.",
+        "tags": [
+          "Ergebnis"
+        ],
+        "responses": {
+          "204": {
+            "description": "Versus gel\u00f6scht."
           }
         }
       }
