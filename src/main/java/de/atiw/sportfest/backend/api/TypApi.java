@@ -32,7 +32,7 @@ public class TypApi  {
     
     
     @Produces({ "application/json" })
-    @ApiOperation(value = "", notes = "Typen auflisten", response = Typ.class, responseContainer = "List", tags={ "Meta",  })
+    @ApiOperation(value = "Typen auflisten", notes = "", response = Typ.class, responseContainer = "List", tags={ "Meta",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Typen", response = Typ.class, responseContainer = "List") })
     public List<Typ> typGet() {
@@ -43,7 +43,7 @@ public class TypApi  {
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "", notes = "Typ anlegen", response = Typ.class, tags={ "Meta",  })
+    @ApiOperation(value = "Typ anlegen", notes = "", response = Typ.class, tags={ "Meta",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Typ", response = Typ.class) })
     public Typ typPost(Typ typ) {
@@ -54,7 +54,7 @@ public class TypApi  {
     @Path("/{typid}")
     
     
-    @ApiOperation(value = "", notes = "Typ löschen", response = void.class, tags={  })
+    @ApiOperation(value = "Typ löschen", notes = "", response = void.class, tags={ "Meta",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Typ gelöscht", response = void.class) })
     public Response typTypidDelete(@PathParam("typid") @ApiParam("Typ-ID") Long typid) {
@@ -66,7 +66,7 @@ public class TypApi  {
     @Path("/{typid}")
     
     @Produces({ "application/json" })
-    @ApiOperation(value = "", notes = "Typ abrufen", response = Typ.class, tags={ "Meta",  })
+    @ApiOperation(value = "Typ abrufen", notes = "", response = Typ.class, tags={ "Meta",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Typ", response = Typ.class) })
     public Typ typTypidGet(@PathParam("typid") @ApiParam("Typ-ID") Long typid) {
@@ -82,7 +82,7 @@ public class TypApi  {
     @Path("/{typid}")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "", notes = "Typ ändern", response = Typ.class, tags={ "Meta" })
+    @ApiOperation(value = "Typ ändern", notes = "", response = Typ.class, tags={ "Meta" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Typ", response = Typ.class) })
     public Typ typTypidPost(@PathParam("typid") @ApiParam("Typ-ID") Long typid,Typ typ) {
