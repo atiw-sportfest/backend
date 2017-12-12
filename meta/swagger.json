@@ -152,6 +152,14 @@
       "required": true,
       "type": "integer",
       "format": "int64"
+    },
+    "typ": {
+      "in": "body",
+      "name": "typ",
+      "description": "Typ",
+      "schema": {
+        "$ref": "#/definitions/Typ"
+      }
     }
   },
   "responses": {
@@ -1308,6 +1316,11 @@
         "consumes": [
           "application/json"
         ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/typ"
+          }
+        ],
         "responses": {
           "200": {
             "$ref": "#/responses/Typ"
@@ -1342,6 +1355,14 @@
         ],
         "produces": [
           "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/typ"
+          }
         ],
         "responses": {
           "200": {
