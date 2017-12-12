@@ -22,7 +22,7 @@ public class SportfestApi  {
     
     
     
-    @ApiOperation(value = "", notes = "Sportfest zurücksetzen", response = void.class, tags={ "Meta",  })
+    @ApiOperation(value = "Sportfest zurücksetzen", notes = "", response = void.class, tags={ "Meta",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Sportfest zurückgesetzt", response = void.class) })
     public Response sportfestDelete() {
@@ -33,7 +33,7 @@ public class SportfestApi  {
     
     
     
-    @ApiOperation(value = "", notes = "Sportfest beenden", response = void.class, tags={ "Meta" })
+    @ApiOperation(value = "Sportfest beenden", notes = "", response = void.class, tags={ "Meta" })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Sportfest beendet", response = void.class) })
     public Response sportfestPost() {
