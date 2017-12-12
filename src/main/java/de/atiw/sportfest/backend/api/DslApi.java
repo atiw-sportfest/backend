@@ -21,7 +21,7 @@ public class DslApi  {
 
     @POST
     @Path("/check/regel")
-    @Consumes({ "text/plain" })
+    @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @ApiOperation(value = "", notes = "Syntax-Prüfung der Regel-DSL", response = ValidationResult.class, tags={ "Meta" })
     @ApiResponses(value = { 
