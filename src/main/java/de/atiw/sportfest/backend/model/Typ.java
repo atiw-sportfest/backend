@@ -27,11 +27,11 @@ public class Typ   {
 
 public enum DatentypEnum {
 
-    STRING(String.valueOf("string"), new StringTyp()),
-    INT(String.valueOf("int"), new IntegerTyp()),
-    FLOAT(String.valueOf("float"), new FloatTyp()),
-    LONG(String.valueOf("long"), new LongTyp()),
-    DOUBLE(String.valueOf("double"), new DoubleTyp());
+    STRING(String.valueOf("STRING"), new StringTyp()),
+    INT(String.valueOf("INT"), new IntegerTyp()),
+    FLOAT(String.valueOf("FLOAT"), new FloatTyp()),
+    LONG(String.valueOf("LONG"), new LongTyp()),
+    DOUBLE(String.valueOf("DOUBLE"), new DoubleTyp());
 
     private String value;
     private Datentyp<?> datentyp;

@@ -1448,11 +1448,11 @@
         "datentyp": {
           "type": "string",
           "enum": [
-            "string",
-            "int",
-            "float",
-            "long",
-            "double"
+            "STRING",
+            "INT",
+            "FLOAT",
+            "LONG",
+            "DOUBLE"
           ]
         },
         "einheit": {
