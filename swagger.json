@@ -294,6 +294,21 @@
           "$ref": "#/definitions/Typ"
         }
       }
+    },
+    "Versus": {
+      "description": "Versus",
+      "schema": {
+        "$ref": "#/definitions/Versus"
+      }
+    },
+    "Versus_pl": {
+      "description": "Versus (pl.)",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Versus"
+        }
+      }
     }
   },
   "paths": {
@@ -577,6 +592,28 @@
         "responses": {
           "200": {
             "$ref": "#/responses/Anmeldungen"
+          }
+        }
+      }
+    },
+    "/disziplin/{did}/versus": {
+      "get": {
+        "summary": "Versus einer Disziplin anzeigen",
+        "tags": [
+          "Disziplin",
+          "Ergebnis"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/did"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Versus_pl"
           }
         }
       }
@@ -1178,7 +1215,7 @@
     },
     "/sportfest": {
       "post": {
-        "description": "Sportfest beenden",
+        "summary": "Sportfest beenden",
         "tags": [
           "Meta"
         ],
@@ -1189,7 +1226,7 @@
         }
       },
       "delete": {
-        "description": "Sportfest zur\u00fccksetzen",
+        "summary": "Sportfest zur\u00fccksetzen",
         "tags": [
           "Meta"
         ],
@@ -1202,7 +1239,7 @@
     },
     "/dsl/check/regel": {
       "post": {
-        "description": "Syntax-Pr\u00fcfung der Regel-DSL",
+        "summary": "Syntax-Pr\u00fcfung der Regel-DSL",
         "tags": [
           "Meta"
         ],
@@ -1231,7 +1268,7 @@
     },
     "/typ": {
       "get": {
-        "description": "Typen auflisten",
+        "summary": "Typen auflisten",
         "tags": [
           "Meta"
         ],
@@ -1245,7 +1282,7 @@
         }
       },
       "post": {
-        "description": "Typ anlegen",
+        "summary": "Typ anlegen",
         "tags": [
           "Meta"
         ],
@@ -1274,7 +1311,7 @@
         }
       ],
       "get": {
-        "description": "Typ abrufen",
+        "summary": "Typ abrufen",
         "tags": [
           "Meta"
         ],
@@ -1288,7 +1325,7 @@
         }
       },
       "post": {
-        "description": "Typ \u00e4ndern",
+        "summary": "Typ \u00e4ndern",
         "tags": [
           "Meta"
         ],
@@ -1310,10 +1347,29 @@
         }
       },
       "delete": {
-        "description": "Typ l\u00f6schen",
+        "summary": "Typ l\u00f6schen",
         "responses": {
           "204": {
             "description": "Typ gel\u00f6scht"
+          }
+        }
+      }
+    },
+    "/versus/{vid}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/versusid"
+        }
+      ],
+      "delete": {
+        "summary": "Versus l\u00f6schen",
+        "description": "L\u00f6scht den Versus, inklusive seiner Ergebnisse.",
+        "tags": [
+          "Ergebnis"
+        ],
+        "responses": {
+          "204": {
+            "description": "Versus gel\u00f6scht."
           }
         }
       }
