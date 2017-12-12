@@ -17,7 +17,8 @@ import javax.validation.constraints.*;
 
 @Entity
 @NamedQueries({
-@NamedQuery(name="user.list", query="SELECT u FROM User u")
+@NamedQuery(name="user.list", query="SELECT u FROM User u"),
+@NamedQuery(name="user.findByUsername", query="SELECT u FROM User u WHERE u.username = :username")
 })
 public class User   {
   
