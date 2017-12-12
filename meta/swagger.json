@@ -1350,6 +1350,9 @@
       },
       "delete": {
         "summary": "Typ l\u00f6schen",
+        "tags": [
+          "Meta"
+        ],
         "responses": {
           "204": {
             "description": "Typ gel\u00f6scht"
