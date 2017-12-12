@@ -15,6 +15,7 @@ import de.atiw.sportfest.backend.model.Disziplin;
 import de.atiw.sportfest.backend.model.Ergebnis;
 import de.atiw.sportfest.backend.model.Leistung;
 import de.atiw.sportfest.backend.model.Schueler;
+import de.atiw.sportfest.backend.model.Versus;
 import de.atiw.sportfest.regeldsl.RulesConfiguration;
 import de.atiw.sportfest.regeldsl.RulesDsl;
 import io.swagger.annotations.*;
@@ -110,6 +111,9 @@ public class DisziplinApi  {
         if(!em.createNamedQuery("ergebnis.verify", Long.class).getResultList().stream().allMatch(c -> c == 1))
             throw new BadRequestException("Ergebnisse können nur eine Leistung je Variable haben!"); // also rolls back transaction
 
+        if(d.getVersus() != null && d.getVersus())
+            em.merge(new Versus().ergebnisse(ergebnisse));
+
         return ergebnisse;
     }
 
@@ -178,6 +182,17 @@ public class DisziplinApi  {
     public Disziplin disziplinDidPost(@PathParam("did") @ApiParam("Disziplin-ID") Long did,Disziplin body) {
         body.setId(did);
         return em.merge(body);
+    }
+
+    @GET
+    @Path("/{did}/versus")
+    
+    @Produces({ "application/json" })
+    @ApiOperation(value = "Versus einer Disziplin anzeigen", notes = "", response = Versus.class, responseContainer = "List", tags={ "Disziplin", "Ergebnis",  })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Versus (pl.)", response = Versus.class, responseContainer = "List") })
+    public List<Versus> disziplinDidVersusGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
+        return em.createNamedQuery("versus.listByDisziplin", Versus.class).setParameter("did", did).getResultList();
     }
 
     @GET
