@@ -1217,7 +1217,7 @@
     },
     "/sportfest": {
       "post": {
-        "description": "Sportfest beenden",
+        "summary": "Sportfest beenden",
         "tags": [
           "Meta"
         ],
@@ -1228,7 +1228,7 @@
         }
       },
       "delete": {
-        "description": "Sportfest zur\u00fccksetzen",
+        "summary": "Sportfest zur\u00fccksetzen",
         "tags": [
           "Meta"
         ],
@@ -1241,7 +1241,7 @@
     },
     "/dsl/check/regel": {
       "post": {
-        "description": "Syntax-Pr\u00fcfung der Regel-DSL",
+        "summary": "Syntax-Pr\u00fcfung der Regel-DSL",
         "tags": [
           "Meta"
         ],
@@ -1270,7 +1270,7 @@
     },
     "/typ": {
       "get": {
-        "description": "Typen auflisten",
+        "summary": "Typen auflisten",
         "tags": [
           "Meta"
         ],
@@ -1284,7 +1284,7 @@
         }
       },
       "post": {
-        "description": "Typ anlegen",
+        "summary": "Typ anlegen",
         "tags": [
           "Meta"
         ],
@@ -1313,7 +1313,7 @@
         }
       ],
       "get": {
-        "description": "Typ abrufen",
+        "summary": "Typ abrufen",
         "tags": [
           "Meta"
         ],
@@ -1327,7 +1327,7 @@
         }
       },
       "post": {
-        "description": "Typ \u00e4ndern",
+        "summary": "Typ \u00e4ndern",
         "tags": [
           "Meta"
         ],
@@ -1349,7 +1349,7 @@
         }
       },
       "delete": {
-        "description": "Typ l\u00f6schen",
+        "summary": "Typ l\u00f6schen",
         "responses": {
           "204": {
             "description": "Typ gel\u00f6scht"
