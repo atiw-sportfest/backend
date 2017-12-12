@@ -2,6 +2,8 @@ package de.atiw.sportfest.backend.api;
 
 import java.util.List;
 
+import javax.ejb.Lock;
+import javax.ejb.LockType;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +28,7 @@ import javax.ws.rs.*;
 
 
 @Stateless
+@Lock(LockType.READ)
 public class KlasseApi  {
 
     @PersistenceContext
