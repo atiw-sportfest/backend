@@ -37,7 +37,7 @@ public class TypApi  {
     @ApiOperation(value = "", notes = "Typ anlegen", response = Typ.class, tags={ "Meta",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Typ", response = Typ.class) })
-    public Response typPost() {
+    public Response typPost(Typ typ) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -54,12 +54,12 @@ public class TypApi  {
 
     @POST
     @Path("/{typid}")
-    
+    @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @ApiOperation(value = "", notes = "Typ ändern", response = Typ.class, tags={ "Meta" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Typ", response = Typ.class) })
-    public Response typTypidPost(@PathParam("typid") @ApiParam("Typ-ID") Long typid) {
+    public Response typTypidPost(@PathParam("typid") @ApiParam("Typ-ID") Long typid,Typ typ) {
         return Response.ok().entity("magic!").build();
     }
 }
