@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.ws.rs.core.Response;
 
 import de.atiw.sportfest.backend.model.Ergebnis;
+import de.atiw.sportfest.backend.model.Versus;
 import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 import javax.ws.rs.*;
@@ -75,7 +76,12 @@ public class ErgebnisApi  {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
     public Response ergebnisVersusVidGet(@PathParam("vid") @ApiParam("Versus-ID") Long vid) {
-        return Response.ok().entity("magic!").build();
+        Versus v = em.find(Versus.class, vid);
+
+        if(v == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        return Response.ok().entity(v.getErgebnisse()).build();
     }
 }
 
