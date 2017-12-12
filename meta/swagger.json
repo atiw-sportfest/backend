@@ -1136,7 +1136,6 @@
             "$ref": "#/responses/Authentication"
           },
           "403": {
-            "description": "Wrong credentials",
             "$ref": "#/responses/Authentication"
           }
         }
