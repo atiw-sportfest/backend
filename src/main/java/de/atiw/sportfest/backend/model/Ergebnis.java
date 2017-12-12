@@ -24,6 +24,7 @@ import javax.validation.constraints.*;
 
 @Entity
 @NamedQueries({
+@NamedQuery(name="ergebnis.list", query="SELECT e FROM Ergebnis e"),
 @NamedQuery(name="ergebnis.listByDisziplin", query="SELECT e FROM Ergebnis e JOIN e.disziplin d JOIN FETCH e.leistungen WHERE d.id = :did"),
 @NamedQuery(name="ergebnis.listByDisziplinAndKlasse", query="SELECT e FROM Ergebnis e JOIN e.disziplin d JOIN e.klasse k JOIN FETCH e.leistungen WHERE d.id = :did AND k.id = :kid"),
 @NamedQuery(name="ergebnis.listByDisziplinAndSchueler", query="SELECT e FROM Ergebnis e JOIN e.disziplin d JOIN e.schueler s JOIN FETCH e.leistungen WHERE d.id = :did AND s.id = :sid"),
