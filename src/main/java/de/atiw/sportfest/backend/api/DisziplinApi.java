@@ -42,8 +42,8 @@ public class DisziplinApi  {
     @ApiOperation(value = "Anmeldungen einer Disziplin anzeigen", notes = "", response = Anmeldung.class, responseContainer = "List", tags={ "Disziplin", "Anmeldung",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Anmeldungen", response = Anmeldung.class, responseContainer = "List") })
-    public Response disziplinDidAnmeldungenGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
-        return Response.ok().entity("magic!").build();
+    public List<Anmeldung> disziplinDidAnmeldungenGet(@PathParam("did") @ApiParam("Disziplin-ID") Long did) {
+        return em.createNamedQuery("anmeldung.listByDisziplin", Anmeldung.class).setParameter("did", did).getResultList();
     }
 
     @DELETE
