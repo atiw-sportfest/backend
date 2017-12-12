@@ -63,8 +63,8 @@ public class ErgebnisApi  {
     @ApiOperation(value = "Ergebnisse abrufen", notes = "", response = Ergebnis.class, responseContainer = "List", tags={ "Ergebnis",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Ergebnisse", response = Ergebnis.class, responseContainer = "List") })
-    public Response ergebnisGet() {
-        return Response.ok().entity("magic!").build();
+    public List<Ergebnis> ergebnisGet() {
+        return em.createNamedQuery("ergebnis.list", Ergebnis.class).getResultList();
     }
 
     @GET
