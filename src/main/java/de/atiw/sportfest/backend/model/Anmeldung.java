@@ -17,7 +17,10 @@ import javax.validation.constraints.*;
 
 @Entity
 @NamedQueries({
-@NamedQuery(name="anmeldung.list", query="SELECT a FROM Anmeldung a JOIN FETCH a.schueler")
+@NamedQuery(name="anmeldung.list", query="SELECT a FROM Anmeldung a JOIN FETCH a.schueler"),
+@NamedQuery(name="anmeldung.listByKlasse", query="SELECT a FROM Anmeldung a WHERE a.schueler.klasse.id = :kid"),
+@NamedQuery(name="anmeldung.listBySchueler", query="SELECT a FROM Anmeldung a WHERE a.schueler.id = :sid"),
+@NamedQuery(name="anmeldung.listByDisziplin", query="SELECT a FROM Anmeldung a WHERE a.disziplin.id = :did")
 })
 public class Anmeldung   {
   

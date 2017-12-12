@@ -50,8 +50,8 @@ public class KlasseApi  {
     @ApiOperation(value = "Anmeldungen einer Klasse anzuzeigen", notes = "", response = Anmeldung.class, responseContainer = "List", tags={ "Anmeldung",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Anmeldungen", response = Anmeldung.class, responseContainer = "List") })
-    public Response klasseKidAnmeldungenGet(@PathParam("kid") @ApiParam("Klassen-ID") Long kid) {
-        return Response.ok().entity("magic!").build();
+    public List<Anmeldung> klasseKidAnmeldungenGet(@PathParam("kid") @ApiParam("Klassen-ID") Long kid) {
+        return em.createNamedQuery("anmeldung.listByKlasse", Anmeldung.class).setParameter("kid", kid).getResultList();
     }
 
     @DELETE
