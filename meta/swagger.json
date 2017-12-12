@@ -106,6 +106,14 @@
       "type": "integer",
       "format": "int64"
     },
+    "typid": {
+      "in": "path",
+      "name": "typid",
+      "description": "Typ-ID",
+      "required": true,
+      "type": "integer",
+      "format": "int64"
+    },
     "leistungen": {
       "in": "body",
       "name": "leistungen",
@@ -262,6 +270,21 @@
       "description": "Ergebniss der Syntaxpr\u00fcfung",
       "schema": {
         "$ref": "#/definitions/ValidationResult"
+      }
+    },
+    "Typ": {
+      "description": "Typ",
+      "schema": {
+        "$ref": "#/definitions/Typ"
+      }
+    },
+    "Typen": {
+      "description": "Typen",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Typ"
+        }
       }
     }
   },
@@ -1255,6 +1278,74 @@
         "responses": {
           "200": {
             "$ref": "#/responses/ValidationResult"
+          }
+        }
+      }
+    },
+    "/typ": {
+      "get": {
+        "description": "Typen auflisten",
+        "tags": [
+          "Meta"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Typen"
+          }
+        }
+      },
+      "post": {
+        "description": "Typ anlegen",
+        "tags": [
+          "Meta"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Typ"
+          }
+        }
+      }
+    },
+    "/typ/{typid}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/typid"
+        }
+      ],
+      "get": {
+        "description": "Typ abrufen",
+        "tags": [
+          "Meta"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Typ"
+          }
+        }
+      },
+      "post": {
+        "description": "Typ \u00e4ndern",
+        "tags": [
+          "Meta"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/Typ"
           }
         }
       }
