@@ -414,6 +414,9 @@
         "responses": {
           "200": {
             "description": "Excel-Anmeldebogen"
+            "schema": {
+                "type": "file"
+            }
           }
         }
       }
